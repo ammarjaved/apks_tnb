@@ -42,13 +42,16 @@
     </style>
 @endsection
 @section('content')
-    @if (Auth::user()->ba == '')
+
         <div class=" px-4  mt-2  from-input  ">
             <div class="card p-0 mb-3">
                 <div class="card-body row">
 
                     <div class=" col-md-3">
                         <label for="excelZone">Zone :</label>
+                        @if(Auth::user()->ba!='')
+                        <input type="text" name="excelZone" id="excelZone" class="form-control" value="{{Auth::user()->zone}}" disabled>
+                        @else
                         <select name="excelZone" id="excelZone" class="form-control" onchange="getBa(this.value)">
                             <option value="" hidden>
                                 Select Zone
@@ -60,13 +63,18 @@
                             <option value="B4">B4</option>
 
                         </select>
+                        @endif
                     </div>
                     <div class=" col-md-3">
                         <label for="excelBa">BA :</label>
+                        @if(Auth::user()->ba!='')
+                        <input type="text" name="excelBa" id="excelBa" class="form-control" value="{{Auth::user()->ba}}" disabled>
+                        @else
                         <select name="excelBa" id="excelBa" class="form-control" onchange="onChangeBA(this.value)">
 
 
                         </select>
+                        @endif
                     </div>
                     <div class=" col-md-2 form-input">
                         <label for="excel_from_date">From Date : </label>
@@ -127,7 +135,7 @@
                 </div>
             </div>
         </div>
-    @endif
+
     <div class=" px-4 mt-2">
         <div class="row dashboard-counts">
             {{-- <div class="col-md-2">
@@ -817,9 +825,9 @@
 
         $(function() {
             // $('#stats_table').DataTable()
-            if ('{{ Auth::user()->ba }}' == '') {
+           // if ('{{ Auth::user()->ba }}' == '') {
                 getAllStats()
-            }
+           // }
 
             $('#excel_from_date , #excel_to_date').on('change', function() {
                 var ff_ba = $('#excelBa').val() ?? '';

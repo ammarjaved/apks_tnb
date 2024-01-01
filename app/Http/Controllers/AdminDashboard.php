@@ -26,7 +26,7 @@ class AdminDashboard extends Controller
         return view('admin-dashboard');
 
         }
-        return view('dashboard');
+        return view('admin-dashboard');
     }
 
 

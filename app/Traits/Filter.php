@@ -44,10 +44,10 @@ trait Filter
         }
 
         // if auth ba is empty then add two more conditions
-        if (Auth::user()->ba == '') {
+       // if (Auth::user()->ba == '') {
             $model->where('qa_status', 'Accept');
             // $model->whereNotNull($column);
-        }
+      //  }
 
         // if request has status
         if ($request->filled('status')) {

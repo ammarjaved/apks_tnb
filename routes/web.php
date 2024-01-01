@@ -106,7 +106,7 @@ Route::group(
                 Route::get('/get-tiang-edit/{id}', [TiangMapController::class, 'editMap'])->name('get-tiang-edit');
                 Route::post('/tiang-talian-vt-and-vr-map-edit/{id}', [TiangMapController::class, 'editMapStore'])->name('tiang-talian-vt-and-vr-map-edit');
                 Route::get('/tiang-talian-vt-and-vr-update-QA-Status', [TiangContoller::class, 'updateQAStatus'])->name('tiang-talian-vt-and-vr-update-QA-Status');
-        
+
 
 
                 //// Link Box
@@ -146,6 +146,8 @@ Route::group(
                 Route::get('/search/find-substation/{q}', [SubstationMapController::class, 'seacrh'])->name('subsation-search');
                 Route::get('/search/find-substation-cordinated/{q}', [SubstationMapController::class, 'seacrhCoordinated'])->name('subsation-coordinated');
                 Route::get('/substation-update-QA-Status', [SubstationController::class, 'updateQAStatus'])->name('substation-update-QA-Status');
+                Route::get('/get_defect_data', [SubstationController::class, 'get_defects_data'])->name('substation.get_defect_data');
+
 
                 ////feeder-piller routes
                 Route::resource('feeder-pillar', FPController::class);

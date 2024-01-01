@@ -2,6 +2,7 @@
     .row{
         border: 0px;
     }
+    .body{background: #00B4DB;background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);background: linear-gradient(to right, #0083B0, #00B4DB);color: #514B64;min-height: 100vh}
 </style>
 
 <div class="col-12">
@@ -34,7 +35,7 @@
                         </select>
                     </div>
 
-                     @if (Auth::user()->ba != '' && $url !='generate-third-party-digging-excel')
+                     {{-- @if (Auth::user()->ba != '' && $url !='generate-third-party-digging-excel')
                     <div class=" col-md-2">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
@@ -57,7 +58,7 @@
 
                         </select>
                     </div>
-                    @endif
+                    @endif --}}
 
 
                     <div class=" col-md-2">
@@ -83,10 +84,26 @@
                     </div>
                     @endisset
 
-
-
-
             </form>
+
+            <div class="row d-flex justify-content-center mt-100" >
+                <label for="excelZone">Filter Defects :</label>
+                <div class="col-md-12"> <select id="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                        <option value="grass">grass</option>
+                        <option value="treebranches">tree_branches_status</option>
+                        <option value="gate_loc">gate_loc</option>
+                        <option value="gate_damage">gate_demage</option>
+                        <option value="gate_other">gate_other</option>
+                        <option value="broken_gutter">broken_gutter</option>
+                        <option value="broken_roof">broken_roof</option>
+                        <option value="broken_base">broken_base</option>
+                        <option value="building_other">building_others</option>
+                        <option value="poster_status">poster_status</option>
+                    </select>
+                </div>
+                <button type="button" class="btn text-white btn-sm mt-4 "  onclick="filter_data_withDefects()" class="form-control"
+                style="background-color: #708090">Filter </button>
+            </div>
         </div>
     </div>
 </div>

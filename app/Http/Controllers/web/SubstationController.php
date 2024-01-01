@@ -23,6 +23,26 @@ class SubstationController extends Controller
     {
         $this->substationRepository = $substationRepository;
     }
+
+
+
+     public function get_defects_data(Request $request){
+
+        $input_req=explode(',',$request->arr);
+
+        $result = DB::table('substation_all_defects');
+
+        foreach($input_req as $res){
+
+            $result->orWhere($res,'Yes');
+
+       }
+
+       return $result->select('id')->get();
+
+     }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -40,15 +60,15 @@ class SubstationController extends Controller
             });
 
             return datatables()
-                ->of($result->get())  
+                ->of($result->get())
                 ->make(true);
 
                 // $result->orderBy('visit_date', 'desc');
- 
+
 
                 // $result->orderBy('created_at', 'desc');
                 // $dataTable = new DataTables;
-    
+
                 // $dataTable = $dataTable->eloquent($result)
                 //     ->make(true);
                 //     return $dataTable;
@@ -109,7 +129,7 @@ class SubstationController extends Controller
     public function show($language, $id)
     {
         $data = $this->substationRepository->getSubstation($id );
-       
+
         if ($data) {
             return view('substation.show', ['data' => $data, 'disabled' => true]);
         }
@@ -148,10 +168,10 @@ class SubstationController extends Controller
             if (!$data) {
                return abort(404);
             }
-        
+
             $user = Auth::user()->id;
             $data->updated_by = $user;
-           
+
             $res = $this->substationRepository->store($data, $request);
             $res->update();
         Session::flash('success', 'Request Success');

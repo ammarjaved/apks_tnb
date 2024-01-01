@@ -94,6 +94,7 @@
             <div class="row">
                 @include('components.qr-filter', ['url' => 'generate-substation-excel'])
 
+
                 <div class="col-12-">
                     <div class="card">
 
@@ -199,6 +200,14 @@
 
 
         $(document).ready(function() {
+
+
+            var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+        removeItemButton: true,
+        maxItemCount:44,
+        searchResultLimit:44,
+        renderChoiceLimit:44
+      });
 
             var columns = [{
                     render: function(data, type, full) {
@@ -323,10 +332,26 @@
             })
 
 
- 
+
         });
 
 
+
+
+
+        function filter_data_withDefects(){
+            var defect_vals=$("#choices-multiple-remove-button").val();
+            console.log( defect_vals);
+
+            $.ajax({
+                    url: '/{{app()->getLocale()}}/get_defect_data?arr='+defect_vals,
+                    method: 'GET',
+                    async: false,
+                    success: function callback(data) {
+                    }
+                })
+
+        }
 
 
     </script>

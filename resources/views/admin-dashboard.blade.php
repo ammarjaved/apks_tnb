@@ -993,7 +993,7 @@
 
 
                     if (data && data['patrolling'] != '') {
-                        makeArray(data['patrolling'], 'patrolling-container', 'Defcets')
+                        makeArray(data['patrolling'], 'patrolling-container', '')
                     }
 
                     if (data && data['substation'] != '') {

@@ -91,42 +91,82 @@
 
 
 
-        <div class=" px-4  mt-2  from-input  ">
-            <div class="card p-0 mb-3">
-                <div class="card-body row">
+        <div class=" d-sm-flex px-3    ">
+            <div class="col-md-6 ">
+                
+            <div class="card p-0">
+                <div class="card-header">
 
-                    <div class="table-responsive col-md-6">
-                        <table class="table" id="stats_table_1">
-                            <thead>
+                    <h3 class="card-title">Total Pending and Surveyed</h3>
 
+                    <div class="card-tools">
 
-                                <th scope="col">BA</th>
-                                <th scope="col">Patroling(KM)</th>
-                                <th scope="col">Substation</th>
-                                <th scope="col">Feeder Pillar</th>
-                                <th scope="col">Tiang</th>
-                                <th scope="col">Link Box</th>
-                                <th scope="col">Cable Bridge</th>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
 
-                            </thead>
-                            <tbody id='stats_table'>
-
-                            </tbody>
-                            <tfoot id='stats_table_footer'>
-
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <div id='map' style="width:100%;height:800px;" class="col-md-6">
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
 
                     </div>
+                </div>
 
+                    <div class="card-body from-input">
 
+                        <div class="table-responsive  ">
+                            <table class="table" id="stats_table_1">
+                                <thead>
+                                    <tr>
 
+                                        <th scope="col" >BA</th>
+                                        <th scope="col" >Patroling(KM)</th>
+                                        <th scope="col">Substation</th>
+                                        <th scope="col">Feeder Pillar</th>
+                                        <th scope="col">Tiang</th>
+                                        <th scope="col">Link Box</th>
+                                        <th scope="col">Cable Bridge</th>
+                                    </tr>
+                            
+                                </thead>
+
+                                <tbody id='stats_table'>
+
+                                </tbody>
+                                <tfoot id='stats_table_footer'>
+
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+           
+            <div class="col-md-6">
+                <div class="card p-0">
+                    <div class="card-header">
+                        <h3 class="card-title">Map</h3>
+                        
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id='map' style="width:100%;height:800px;"  >
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        
     @endif
     <div class=" px-4 mt-2">
         <div class="row dashboard-counts">
@@ -1173,17 +1213,22 @@
 
 
         function resetDashboard() {
-            $('#excelBa').empty();
+             
             $('#excel_from_date, #excel_to_date ').val('');
-            onChangeBA();
+          
             from_date = '';
             to_date = '';
 
             if (ba == '') {
+                $('#excelBa').empty();
+                $('#excelZone').val('');
+
+
                 addRemoveBundary('', 2.75101756479656, 101.304931640625)
             } else {
                 callLayers(ba);
             }
+            onChangeBA();
             // $("#excelBa").val($("#excelBa option:first").val());
         }
 

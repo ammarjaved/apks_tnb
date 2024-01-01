@@ -197,6 +197,7 @@
         var lang = "{{ app()->getLocale() }}";
         var url = "substation"
         var auth_ba = "{{ Auth::user()->ba }}"
+        var filters =  [];
 
 
         $(document).ready(function() {
@@ -208,6 +209,9 @@
         searchResultLimit:44,
         renderChoiceLimit:44
       });
+   
+
+     
 
             var columns = [{
                     render: function(data, type, full) {
@@ -318,6 +322,10 @@
                         if (qa_status) {
                             d.qa_status = qa_status;
                         }
+
+                        if (filters) {
+                            d.arr = filters;
+                        }
                     }
                 },
                 columns: columns,
@@ -341,15 +349,18 @@
 
         function filter_data_withDefects(){
             var defect_vals=$("#choices-multiple-remove-button").val();
-            console.log( defect_vals);
+            filters = defect_vals;
 
-            $.ajax({
-                    url: '/{{app()->getLocale()}}/get_defect_data?arr='+defect_vals,
-                    method: 'GET',
-                    async: false,
-                    success: function callback(data) {
-                    }
-                })
+            table.ajax.reload();
+            // console.log( defect_vals);
+
+            // $.ajax({
+            //         url: '/{{app()->getLocale()}}/get_defect_data?arr='+defect_vals,
+            //         method: 'GET',
+            //         async: false,
+            //         success: function callback(data) {
+            //         }
+            //     })
 
         }
 

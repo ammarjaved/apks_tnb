@@ -3,6 +3,14 @@
         border: 0px;
     }
     .body{background: #00B4DB;background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);background: linear-gradient(to right, #0083B0, #00B4DB);color: #514B64;min-height: 100vh}
+    .choices[data-type*=select-multiple] .choices__inner, .choices[data-type*=text] .choices__inner {
+    background: white;
+    box-shadow: 0 0 24px rgba(91, 94, 222, 0.1)}
+    
+ 
+.choices__input {
+    border: 0px !important; margin-bottom: 0px !important}
+     
 </style>
 
 <div class="col-12">
@@ -86,9 +94,12 @@
 
             </form>
 
-            <div class="row d-flex justify-content-center mt-100" >
+            @if ($url == 'generate-substation-excel')
+                
+            <div class="row">
+            <div class="row d-flex justify-content- mt-100" >
                 <label for="excelZone">Filter Defects :</label>
-                <div class="col-md-12"> <select id="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                <div class="col-md-12"> <select id="choices-multiple-remove-button" class="form-control" placeholder="Select upto 5 tags" multiple>
                         <option value="grass">grass</option>
                         <option value="treebranches">tree_branches_status</option>
                         <option value="gate_loc">gate_loc</option>
@@ -101,9 +112,14 @@
                         <option value="poster_status">poster_status</option>
                     </select>
                 </div>
-                <button type="button" class="btn text-white btn-sm mt-4 "  onclick="filter_data_withDefects()" class="form-control"
-                style="background-color: #708090">Filter </button>
+                <p>
+                    <button type="button" class="btn text-white btn-sm mt-4 "  onclick="filter_data_withDefects()" class="form-control"
+                        style="background-color: #708090">Filter </button>
+                    </p>
             </div>
+        </div>
+            
+                @endif
         </div>
     </div>
 </div>

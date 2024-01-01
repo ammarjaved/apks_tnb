@@ -97,7 +97,7 @@
             @if ($url == 'generate-substation-excel')
                 
             <div class="row">
-            <div class="row d-flex justify-content- mt-100" >
+            <div class="row d-flex justify-content- mt-100 px-4" >
                 <label for="excelZone">Filter Defects :</label>
                 <div class="col-md-12"> <select id="choices-multiple-remove-button" class="form-control" placeholder="Select upto 5 tags" multiple>
                         <option value="grass">grass</option>

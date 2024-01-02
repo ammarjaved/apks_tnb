@@ -6,11 +6,11 @@
     .choices[data-type*=select-multiple] .choices__inner, .choices[data-type*=text] .choices__inner {
     background: white;
     box-shadow: 0 0 24px rgba(91, 94, 222, 0.1)}
-    
- 
+
+
 .choices__input {
     border: 0px !important; margin-bottom: 0px !important}
-     
+
 </style>
 
 <div class="col-12">
@@ -95,7 +95,7 @@
             </form>
 
             @if ($url == 'generate-substation-excel')
-                
+
             <div class="row">
             <div class="row d-flex justify-content- mt-100 px-4" >
                 <label for="excelZone">Filter Defects :</label>
@@ -103,7 +103,7 @@
                         <option value="grass">grass</option>
                         <option value="treebranches">tree_branches_status</option>
                         <option value="gate_loc">gate_loc</option>
-                        <option value="gate_damage">gate_demage</option>
+                        <option value="gate_demage">gate_demage</option>
                         <option value="gate_other">gate_other</option>
                         <option value="broken_gutter">broken_gutter</option>
                         <option value="broken_roof">broken_roof</option>
@@ -118,7 +118,7 @@
                     </p>
             </div>
         </div>
-            
+
                 @endif
         </div>
     </div>

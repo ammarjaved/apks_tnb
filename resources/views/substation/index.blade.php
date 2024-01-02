@@ -197,13 +197,13 @@
         var lang = "{{ app()->getLocale() }}";
         var url = "substation"
         var auth_ba = "{{ Auth::user()->ba }}"
-        var filters =  [];
+      
 
 
         $(document).ready(function() {
 
 
-            var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+             multipleCancelButton = new Choices('#choices-multiple-remove-button', {
         removeItemButton: true,
         maxItemCount:44,
         searchResultLimit:44,

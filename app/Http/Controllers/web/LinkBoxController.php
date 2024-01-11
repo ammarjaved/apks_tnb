@@ -23,10 +23,24 @@ class LinkBoxController extends Controller
     {
         //
         if ($request->ajax()) {
+            if ($request->filled('arr')) {
+
+                $getIds = DB::table('link_box_all_defects');
+                foreach ($request->arr as $res) {
+                    $getIds->orWhere($res, 'Yes');
+                }
+                $ids = $getIds->pluck('id');
+                
+            }
+
             $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
             $result = LinkBox::query();
 
-           $result = $this->filter($result , 'visit_date' , $request);
+            $result = $this->filter($result, 'visit_date', $request);
+
+            if ($request->filled('arr')) {
+                $result->whereIn('id', $ids);
+            }
 
             $result->when(true, function ($query) {
                 return $query->select('id','qa_status' , 'reject_remarks', 'ba', 'zone', 'team', 'visit_date','total_defects' , 'qa_status');

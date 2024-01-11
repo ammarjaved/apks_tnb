@@ -19,7 +19,25 @@ class CableBridgeExcelController extends Controller
         {
 
             try{
+                if ($req->filled('defects')) {
+
+                    $getIds = DB::table('cable_bridge_all_defects');
+            
+                    foreach($req->defects as $res){
+            
+                        $getIds->orWhere($res,'Yes');
+                   }
+            
+                    $ids = $getIds->pluck('id');
+                }
+
+                
+
+
             $result = CableBridge::query();
+            if ($req->filled('defects')) {
+                $result->whereIn('id',$ids);
+            }
 
             $result = $this->filter($result , 'visit_date',$req);
 

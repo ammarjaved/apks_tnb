@@ -28,7 +28,6 @@ var multipleCancelButton = '';
 
 
 
-
 var url_split = '';
 
 
@@ -43,6 +42,11 @@ $(function(){
 
     to_date= localStorage[url_split[0] + '_to']??'';
     from_date= localStorage[url_split[0] + '_from']??'';
+
+    
+    
+
+
     $('#excel_from_date').val(from_date)
  $('#excel_to_date').val(to_date)
 
@@ -109,7 +113,27 @@ $(function(){
         // });
 
 
+        // multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+        //     removeItemButton: true,
+        //     maxItemCount:44,
+        //     searchResultLimit:44,
+        //     renderChoiceLimit:44
+        //   });
 
+        $('#choices-multiple-remove-button').on('change',function(){
+
+
+            var defect_vals=$("#choices-multiple-remove-button").val();
+            filters = defect_vals;
+            table.ajax.reload();
+
+        localStorage.setItem(url_split[0]+'_defects', JSON.stringify(defect_vals));
+
+        console.log(filters);
+
+
+        })
+       
 
 
 
@@ -121,6 +145,14 @@ $(function(){
             $('#reject-id').val(id);
         });
 });
+
+// function filter_data_withDefects(){
+//     var defect_vals=$("#choices-multiple-remove-button").val();
+//     filters = defect_vals;
+
+//     table.ajax.reload();
+// }
+
 
 
 
@@ -219,32 +251,18 @@ function renderDropDownActions(data, type, full) {
 
 function renderQaStatus(data, type, full) {
 
-    if (full.qa_status === 'Accept' || full.qa_status === 'Reject') {
+    if (full.qa_status === 'Accept' || full.qa_status === 'Reject' ||full.qa_status === 'pending') {
         if (full.qa_status == 'Accept') {
-            return `
-            <span class="badge bg-success">Accept</span>`;
-
+            return `<span class="badge bg-success">Accept</span>`;
+        }
+        if (full.qa_status == 'pending') {
+            return `<span class="badge bg-warning text-dark">Pending</span>`;
         }
         return `<span class="badge bg-danger">${full.reject_remarks}</span>`;
-
-    } else {
-        if ( full.qa_status == 'pending') {
-
-
-        return `<div class="d-flex text-center" id="status-${full.id}">
-                    <a  class="btn btn-sm btn-success  " href="/${lang}/${url}-update-QA-Status?status=Accept&&id=${full.id}" onclick="return confirm('are you sure?')" >
-                                Accept
-                    </a>
-                     /
-                     <a type="button" class="btn btn-danger  btn-sm" data-id="${full.id}" data-toggle="modal"
-            data-target="#rejectReasonModal">
-            Reject
-        </a>
-
-                </div>`;
-                }
     }
-    return '';
+    return `<span class="badge bg-warning text-dark">Pending</span>`;
+
+
 }
 
 
@@ -254,13 +272,12 @@ function resetIndex(){
 
     qa_status = '' ;
     f_status = '' ;
-
     if (filters.length > 0) {
-        multipleCancelButton.removeActiveItems();
-            
-        }
-    
-        filters = [];
+    multipleCancelButton.removeActiveItems();
+        
+    }
+
+    filters = [];
 
     if (auth_ba == '') {
         excel_ba = '';

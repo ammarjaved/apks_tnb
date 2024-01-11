@@ -1,11 +1,11 @@
 @extends('layouts.app', ['page_title' => 'Index'])
 
 @section('css')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-<script src="https://malsup.github.io/jquery.form.js"></script>
-<script>
-    var $jq = $.noConflict(true);
-</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="https://malsup.github.io/jquery.form.js"></script>
+    <script>
+        var $jq = $.noConflict(true);
+    </script>
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
@@ -123,7 +123,6 @@
     </section>
     <x-remove-confirm />
     <x-reject-modal />
-
 @endsection
 
 
@@ -140,6 +139,22 @@
         var auth_ba = "{{ Auth::user()->ba }}"
 
         $(document).ready(function() {
+            $('#choices-multiple-remove-button').append(`
+            <option value="vandalism_status">vandalism_status</option>
+            <option value="leaning_staus">leaning_status</option>
+            <option value="rust_status">rust_status</option>
+            <option value="advertise_poster_status">advertise_poster_status</option>
+            <option value="bushes_status">bushes_status</option>
+            <option value="cover_status">cover_status</option>
+            `);
+
+            // Initialize Choices
+            var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+                removeItemButton: true,
+                maxItemCount: 44,
+                searchResultLimit: 44,
+                renderChoiceLimit: 44
+            });
 
             var columns = [{
                     data: "link_box_id",
@@ -206,6 +221,9 @@
                         }
                         if (qa_status) {
                             d.qa_status = qa_status;
+                        }
+                        if (filters) {
+                            d.arr = filters;
                         }
                     }
                 },

@@ -22,30 +22,29 @@ class TiangExcelController extends Controller
     public function generateTiangExcel(Request $req)
     {
         try{
-// return date('Y-m-d');
+            if ($req->filled('defects')) {
+                $getIds = DB::table('savr_all_defects');
 
-        $ba = $req->filled('excelBa') ? $req->excelBa : Auth::user()->ba;
+                foreach ($req->defects as $res) {
+                    $getIds->orWhere($res, 'YES');
+                }
 
-        $result = Tiang::query();
+                $ids = $getIds->pluck('id');
+            }
+            // return $ids;
 
-      //  $result = $this->filter($result , 'review_date',$req);
+            $ba = $req->filled('ba') ? $req->ba : Auth::user()->ba;
 
-        if ($req->filled('excelBa')) {
-         $result->where('ba', $ba);
-        }
+            $result = Tiang::query();
 
-        if ($req->filled('from_date')) {
-            $result->where('review_date', '>=', $req->from_date);
-        }
+           
+            $result = $this->filter($result , 'review_date',$req);
 
-        if ($req->filled('to_date')) {
-            $result->where('review_date', '<=', $req->to_date);
-        }
 
-        if (Auth::user()->ba == '') {
-            $result->where('qa_status', 'Accept');
-
-        }
+            if ($req->filled('defects')) 
+            {
+                $result->whereIn('id', $ids);
+            }
 
 
             $res = $result->whereNotNull('review_date')
@@ -77,17 +76,16 @@ class TiangExcelController extends Controller
             ->selectRaw("SUM(CASE WHEN (umbang_defect->'breaking')::text <> '' AND (bare_span->'breaking')::text <> 'null'THEN 0 ELSE 1 END) as bare_s7132")
             ->selectRaw("SUM(CASE WHEN (blackbox_defect->'cracked')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (blackbox_defect->'other')::text = 'true' THEN 1 ELSE 0 END) as blackbox")
             ->selectRaw("SUM(CASE WHEN (ipc_defect->'burn')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (ipc_defect->'other')::text = 'true' THEN 1 ELSE 0 END) as ipc")
-
-
-            ->selectRaw("SUM(CASE WHEN (umbang_defect->'breaking')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'creepers')::text = 'true' THEN 1 ELSE 0 END
-            + CASE WHEN (umbang_defect->'cracked')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'stay_palte')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'other')::text = 'true' THEN 1 ELSE 0 END
-            ) as umbagan")
-
+            ->selectRaw("SUM(CASE WHEN (umbang_defect->'breaking')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'creepers')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'cracked')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'stay_palte')::text = 'true' THEN 1 ELSE 0 END + CASE WHEN (umbang_defect->'other')::text = 'true' THEN 1 ELSE 0 END) as umbagan")
             ->selectRaw("SUM(CASE WHEN (talian_utama_connection)::text ='one' THEN 1 ELSE 0 END ) as service")
-
-
             ->whereNotNull('review_date')
             ->whereNotNull('fp_road');
+
+            if ($req->filled('defects')) 
+            {
+                $query->whereIn('id', $ids);
+            }
+
                 if ($ba != '') {
                     $query->where('ba',$ba);
                 }

@@ -153,7 +153,27 @@
         var url = "tiang-talian-vt-and-vr"
         var auth_ba = "{{ Auth::user()->ba }}"
 
+        var defectsNames = ['tinag_dimm','tiang_cracked','tiang_leaning','tiang_creepers','tiang_other','talian_joint',
+            'talian_ground', 'talian_need_rentis', 'talian_other', 'umbang_breaking', 'umbang_creepers', 'umbang_cracked', 'umbang_stay_palte',
+    'umbang_other','ipc_burn','ipc_other','blackbox_cracked','blackbox_other','jumper_sleeve','jumper_burn','jumper_other','kilat_broken','kilat_other',
+    'servis_roof','servis_won_piece', 'servis_other', 'pembumian_netural', 'pembumian_other', 'bekalan_dua_damage', 'bekalan_dua_other',
+    'kaki_lima_date_wire', 'kaki_lima_burn', 'kaki_lima_other', 'tapak_condition_road', 'tapak_condition_side_walk',
+	 'tapak_condition_vehicle_entry', 'kawasan_bend', 'kawasan_road', 'kawasan_forest', 'kawasan_other']
+
         $(document).ready(function() {
+            for (let index = 0; index < defectsNames.length; index++) {
+                const element = defectsNames[index];
+                $('#choices-multiple-remove-button').append(` <option value="${element}">${element}</option>`)
+            }
+
+       
+
+            multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount:44,
+            searchResultLimit:44,
+            renderChoiceLimit:44
+            });
 
 
             var columns = [
@@ -218,6 +238,9 @@
                         if (qa_status) {
                             d.qa_status = qa_status;
                         }
+                        if (filters) {
+                            d.arr = filters;
+                        }
                     }
                 },
                 columns: columns,
@@ -226,9 +249,6 @@
                     [3,'desc']
                 ]
             });
-
-
-
 
         });
     </script>

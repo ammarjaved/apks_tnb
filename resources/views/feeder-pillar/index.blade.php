@@ -137,7 +137,22 @@
 
 
         $(document).ready(function() {
+            $('#choices-multiple-remove-button').append(`
+            <option value="vandalism_status">vandalism_status</option>
+                        <option value="leaning_staus">leaning_status</option>
+                        <option value="gate_loc">gate_loc</option>
+                        <option value="gate_demage">gate_demage</option>
+                        <option value="gate_other">gate_other</option>
+                        <option value="rust_status">rust_status</option>
+                        <option value="advertise_poster_status">advertise_poster_status</option>
+            `)
 
+             multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount:44,
+            searchResultLimit:44,
+            renderChoiceLimit:44
+          });
 
             var columns = [{
                         data: 'feeder_pillar_id',
@@ -219,6 +234,9 @@
                         }
                         if (qa_status) {
                             d.qa_status = qa_status;
+                        }
+                        if (filters) {
+                            d.arr = filters;
                         }
                     }
                 },

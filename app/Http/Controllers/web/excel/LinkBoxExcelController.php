@@ -18,7 +18,22 @@ class LinkBoxExcelController extends Controller
     public function generateLinkBoxExcel(Request $req){
         try{ 
             
+            if ($req->filled('defects')) {
+
+                $getIds = DB::table('link_box_all_defects');
+        
+                foreach($req->defects as $res){
+        
+                    $getIds->orWhere($res,'Yes');
+               }
+        
+                $ids = $getIds->pluck('id');
+            }
+            
         $result = LinkBox::query();
+        if ($req->filled('defects')) {
+            $result->whereIn('id',$ids);
+        }
 
         $result = $this->filter($result , 'visit_date',$req);
 

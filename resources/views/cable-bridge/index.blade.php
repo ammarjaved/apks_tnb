@@ -131,7 +131,21 @@
 
 
         $(document).ready(function() {
+            $('#choices-multiple-remove-button').append(`
+                <option value="vandalism_status">vandalism_status</option>
+                <option value="pipe_staus">pipe_staus</option>
+                <option value="rust_status">rust_status</option> 
+                <option value="bushes_status">bushes_status</option>
+                <option value="collapsed_status">collapsed_status</option>
+            `);
 
+           // Initialize Choices
+            var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount: 44,
+            searchResultLimit: 44,
+            renderChoiceLimit: 44
+            });
 
             var columns = [{
                     data:"cable_bridge_id",
@@ -195,6 +209,7 @@
                         if (qa_status) {
                             d.qa_status = qa_status;
                         }
+                        if (filters)    { d.arr       = filters }
                     }
                 },
                 columns: columns ,

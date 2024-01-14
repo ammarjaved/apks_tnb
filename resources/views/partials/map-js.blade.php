@@ -570,7 +570,11 @@ var sub_reject = '';
 
 
     function filterByDate(param) {
+
             var inBa = $('#search_ba').val() ??'';
+            if(inBa==''){
+                inBa=$('#excelBa').val();
+            }
             if (param.id == 'from_date') {
                 from_date = param.value;
             } else if (param.id == 'to_date') {

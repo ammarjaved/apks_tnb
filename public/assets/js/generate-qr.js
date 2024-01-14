@@ -227,6 +227,9 @@ $(function(){
 function renderDropDownActions(data, type, full) {
 
     var id = full.id;
+    var x = full.x;
+    var y = full.y;
+
     return `<button type="button" class="btn  " data-toggle="dropdown">
         <i class="fas fa-ellipsis-v"></i>
     </button>
@@ -235,6 +238,7 @@ function renderDropDownActions(data, type, full) {
 
             <button type="submit" class="dropdown-item pl-3 w-100 text-left">Detail</button>
         </form>
+        <button type="button" class="dropdown-item pl-3 w-100 text-left" onclick="zoomToLoc(`+x+`,`+y+`)">ZoomToMap</button>
 
     </div>`
 //     <form action="/${lang}/${url}/${id}/edit" method="get">

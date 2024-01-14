@@ -1,412 +1,19 @@
-@extends('layouts.app_tnb', ['page_title' => 'Index'])
+@extends('layouts.app', ['page_title' => 'Index'])
 
 @section('css')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-    <script src="https://malsup.github.io/jquery.form.js"></script>
-    <script>
-        var $jq = $.noConflict(true);
-    </script>
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
+    @include('partials.map-css')
     <style>
-        div#myTable_length,
-        div#roads_length {
-            display: none;
-        }
-
-
-        span.relative.inline-flex.items-center.px-4.py-2.-ml-px.text-sm.font-medium.text-gray-500.bg-white.border.border-gray-300.cursor-default.leading-5 {
-            background: #007BFF !important;
-            color: white !important;
-        }
-
-        .collapse {
-            visibility: visible;
-        }
-
-        /* .table-responsive::-webkit-scrollbar {
-                        display: none;
-                    } */
-
-        table.dataTable>thead>tr>th:not(.sorting_disabled),
-        table.dataTable>thead>tr>td:not(.sorting_disabled) {
-            padding-right: 14px;
-        }
-
-        .lower-header,
-        td {
-            font-size: 14px !important;
-            padding: 5px !important;
-        }
-
-        th {
-            font-size: 15px !important;
-
-        }
-
-        thead {
-            background-color: #E4E3E3 !important;
-        }
-
-        .nowrap,
-        th {
-            white-space: nowrap;
+        #map {
+            height: 700px;
+            z-index: 1;
         }
     </style>
 @endsection
 
-@section('script')
+
+
 
 @section('content')
-    {{-- <section class="content-header pb-0">
-        <div class="container-  ">
-            <div class="row  mb-0 pb-0" style="flex-wrap:nowrap">
-                <div class="col-sm-6">
-                    <h3>{{ __('messages.substation') }}</h3>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a
-                                href="/{{ app()->getLocale() }}/dashboard">{{ __('messages.dashboard') }}</a></li>
-                        <li class="breadcrumb-item active">{{ __('messages.index') }} </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
-
-    <section class="content-">
-        <div class="container-fluid">
-
-
-
-            @include('components.message')
-
-
-
-
-
-
-
-            <div class="row">
-                @include('components.qr-filter', ['url' => 'generate-substation-excel'])
-
-
-                <div class="col-md-12">
-                    <div class="card">
-
-                        <div class="card-header d-flex justify-content-between ">
-                            <p class="mb-0">{{ __('messages.substation') }}</p>
-                            <div class="d-flex ml-auto">
-                                {{-- <a href="{{ route('substation.create', app()->getLocale()) }}"><button
-                                        class="btn text-white btn-success  btn-sm mr-4">Add Substation</button></a> --}}
-
-
-                                <button class="btn text-white  btn-sm mr-4" type="button" data-toggle="collapse"
-                                    style="background-color: #708090" data-target="#collapseQr" aria-expanded="false"
-                                    aria-controls="collapseQr">
-                                    QR Substation
-                                </button>
-
-                            </div>
-                        </div>
-
-
-                        <div class="card-body">
-                            <div class="text-right mb-4">
-
-                            </div>
-
-
-
-                            {{-- <table id="pagination" class="table table-bordered table-hover"> --}}
-
-                            <div class="table-responsive add-substation" id="add-substation">
-                                <table id="" class="table table-bordered  table-hover data-table">
-
-
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2">{{ __('messages.name') }}</th>
-                                            <th rowspan="2">{{ __('messages.visit_date') }} </th>
-                                            <th rowspan="2">asdas</th>
-                                            <th colspan="3" class="text-center" style="border-bottom: 0px">
-                                                {{ __('messages.gate') }}</th>
-                                            <th colspan="2" class="text-center" style="border-bottom: 0px">
-                                                {{ __('messages.tree') }}</th>
-                                            <th colspan="4" class="text-center" style="border-bottom: 0px">
-                                                {{ __('messages.building_defects') }}
-                                            </th>
-                                            <th class="nowrap" style="border-bottom: 0px">{{ __('messages.add_clean_up') }}
-                                            </th>
-                                            <th rowspan="2">{{ __('messages.total_defects') }} </th>
-                                            @if (Auth::user()->ba !== '')
-                                                <th rowspan="2">QA Status</th>
-                                            @endif
-
-
-                                            <th rowspan="2">ACTION</th>
-
-                                        </tr>
-                                        <tr class="lower-header">
-                                            <th>{{ __('messages.unlocked') }}</th>
-                                            <th>{{ __('messages.demaged') }}</th>
-                                            <th>{{ __('messages.others') }} </th>
-                                            <th class="nowrap">{{ __('messages.long_grass') }} </th>
-                                            <th class="nowrap">{{ __('messages.tree_branches_in_PE') }} </th>
-                                            <th class="nowrap">{{ __('messages.broken_roof') }} </th>
-                                            <th>{{ __('messages.broken_gutter') }} </th>
-                                            <th>{{ __('messages.broken_base') }} </th>
-                                            <th>{{ __('messages.others') }} </th>
-                                            <th>{{ __('messages.cleaning_illegal_ads_banners') }} </th>
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-    </section>
-
-
-    <x-remove-confirm />
-
-    <x-reject-modal />
-@endsection
-
-
-
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/js/generate-qr.js') }}"></script>
-
-
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
-
-
-    <script>
-        var lang = "{{ app()->getLocale() }}";
-        var url = "substation"
-        var auth_ba = "{{ Auth::user()->ba }}"
-      
-
-
-        $(document).ready(function() {
-
-
-            $('#choices-multiple-remove-button').append(`
-            <option value="grass">grass</option>
-                        <option value="treebranches">tree_branches_status</option>
-                        <option value="gate_loc">gate_loc</option>
-                        <option value="gate_demage">gate_demage</option>
-                        <option value="gate_other">gate_other</option>
-                        <option value="broken_gutter">broken_gutter</option>
-                        <option value="broken_roof">broken_roof</option>
-                        <option value="broken_base">broken_base</option>
-                        <option value="building_other">building_others</option>
-                        <option value="poster_status">poster_status</option>
-            `)
-
-            multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-            removeItemButton: true,
-            maxItemCount:44,
-            searchResultLimit:44,
-            renderChoiceLimit:44
-          });
-   
-
-     
-
-            var columns = [{
-                    render: function(data, type, full) {
-                        return `<a href="/{{ app()->getLocale() }}/substation/${full.id}/edit" class="text-decoration-none text-dark">${full.name}</a>`;
-                    },
-                    name: 'name'
-                },
-                {
-                    data: 'visit_date',
-                    name: 'visit_date',
-                    orderable: true
-                },
-                {
-                    data: 'id',
-                    name: 'id',
-                    visible: false,
-                },
-                {
-                    data: 'unlocked',
-                    name: 'unlocked'
-                },
-                {
-                    data: 'demaged',
-                    name: 'demaged'
-                },
-
-                {
-                    data: 'other_gate',
-                    name: 'other_gate'
-                },
-                {
-                    data: 'grass_status',
-                    name: 'grass_status'
-                },
-                {
-                    data: 'tree_branches_status',
-                    name: 'tree_branches_status'
-                },
-                {
-                    data: 'broken_roof',
-                    name: 'broken_roof'
-                },
-                {
-                    data: 'broken_gutter',
-                    name: 'broken_gutter'
-                },
-                {
-                    data: 'broken_base',
-                    name: 'broken_base'
-                },
-                {
-                    data: 'building_other',
-                    name: 'building_other'
-                },
-
-                {
-                    data: 'advertise_poster_status',
-                    name: 'advertise_poster_status'
-                },
-                {
-                    data: 'total_defects',
-                    name: 'total_defects'
-                }
-            ];
-            if (auth_ba !== '') {
-                columns.push({
-                    data: null,
-                    render: renderQaStatus
-                });
-            }
-
-            columns.push({
-                data: null,
-                render: renderDropDownActions
-            });
-
-
-
-
-
-
-             table = $('.data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                stateSave: true,
-
-
-                ajax: {
-                    url: '{{ route('substation.index', app()->getLocale()) }}',
-                    type: "GET",
-                    data: function(d) {
-
-                        if (from_date) {
-                            d.from_date = from_date;
-                        }
-
-                        if (excel_ba) {
-                            d.ba = excel_ba;
-                        }
-
-                        if (to_date) {
-                            d.to_date = to_date;
-                        }
-                        if (f_status) {
-                            d.status = f_status;
-                            d.image = 'substation_image_1';
-                        }
-                        if (qa_status) {
-                            d.qa_status = qa_status;
-                        }
-
-                        if (filters) {
-                            d.arr = filters;
-                        }
-                    }
-                },
-                columns: columns,
-                order: [
-                    [1, 'desc'],
-                    [0, 'desc']
-
-                ],
-                createdRow: function(row, data, dataIndex) {
-                    $(row).find('td:not(:first-child)').addClass('text-center');
-                }
-            })
-
-
-            // $('.data-table').on( 'click', 'tr', function(e) {
-            //     e.preventDefault();
-            //     var id = console.log(table.row( this ).x) /// How can i get the UUID
-            // } );
-
-
-        });
-
-
-
-
-function zoomToLoc(x,y){
-        map.flyTo([parseFloat(y), parseFloat(x)], 16, {
-                        duration: 1.5, // Animation duration in seconds
-                        easeLinearity: 0.25,
-                    });
-                    L.marker([parseFloat(y), parseFloat(x)]).addTo(map);            
- }                
-
-
-        function filter_data_withDefects(){
-            var defect_vals=$("#choices-multiple-remove-button").val();
-            filters = defect_vals;
-
-            table.ajax.reload();
-            // console.log( defect_vals);
-
-            // $.ajax({
-            //         url: '/{{app()->getLocale()}}/get_defect_data?arr='+defect_vals,
-            //         method: 'GET',
-            //         async: false,
-            //         success: function callback(data) {
-            //         }
-            //     })
-
-        }
-
-
-    </script>
-{{-- @endsection --}}
-
-@section('content1')
-@include('partials.map-css')
-<style>
-    #map {
-        height: 60vh;
-        z-index: 1;
-    }
-</style>
     @if (Session::has('failed'))
         <div class="alert {{ Session::get('alert-class', 'alert-secondary') }}" role="alert">
             {{ Session::get('failed') }}
@@ -418,8 +25,77 @@ function zoomToLoc(x,y){
         </div>
     @endif
 
-   
+    <section class="content-header">
+        <div class="container-  ">
+            <div class="row  " style="flex-wrap:nowrap">
+                <div class="col-sm-6">
+                    <h3>Substation</h3>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">index</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
     <div class="container-fluid bg-white pt-2">
+
+
+
+        <div class=" p-1 col-12 m-2">
+            <div class="card p-0 mb-3">
+                <div class="card-body row form-input">
+
+                    <div class="col-md-2">
+                        <label for="search_zone">Zone</label>
+                        <select name="search_zone" id="search_zone" class="form-control"
+                            onchange="onChangeZone(this.value)">
+
+                            @if (Auth::user()->zone == '')
+                                <option value="" hidden>select zone</option>
+                                <option value="W1">W1</option>
+                                <option value="B1">B1</option>
+                                <option value="B2">B2</option>
+                                <option value="B4">B4</option>
+                            @else
+                                <option value="{{ Auth::user()->zone }}" hidden>{{ Auth::user()->zone }}</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="search_ba">BA</label>
+                        <select name="search_ba" id="search_ba" class="form-control" onchange="callLayers(this.value)">
+
+                            <option value="{{ Auth::user()->ba }}" hidden>
+                                {{ Auth::user()->ba != '' ? Auth::user()->ba : 'Select BA' }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="from_date">Fom</label>
+                        <input type="date" class="form-control" id="from_date" onchange="filterByDate(this)" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="to_date">To</label>
+                        <input type="date" class="form-control" id="to_date" onchange="filterByDate(this)" />
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <br />
+                        <input type="button" class="btn btn-secondary mt-2" id="reset" value="Reset"
+                            onclick="resetMapFilters()" />
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
 
 
         <div class="p-3 form-input  ">
@@ -472,13 +148,55 @@ function zoomToLoc(x,y){
 
             </div>
 
-          
+            {{-- <select name="select_layer" id="select_layer" onchange="selectLayer(this.value)" class="form-control">
+                    <option value="" hidden>select layer</option>
+                    <option value="main_substation">Substation</option>
+                    <option value="pano">Pano</option>
+                </select> --}}
         </div>
 
         <!--  START MAP CARD DIV -->
         <div class="row m-2">
 
-            <div class="col-md-12 p-0 ">
+
+
+
+            <!-- START MAP SIDEBAR DIV -->
+            {{-- <div class="col-2 p-0">
+                <div class="card p-0 m-0"
+                    style="border: 1px solid rgb(177, 175, 175) !important; border-radius: 0px !important">
+                    <div class="card-header"><strong> NAVIGATION</strong></div>
+                    <div class="card-body">
+                        <!-- MAP SIDEBAR LAYERS SELECTOR -->
+                        <div class="side-bar" style="height: 569px !important; overflow-y: scroll;">
+
+
+                            <details class="mb-3" open>
+                                <summary><strong>Substation</strong> </summary>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>Pemeriksaan visual dan pelaporan</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pembersihan iklan haram/banner </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Report</td>
+                                    </tr>
+                                </table>
+
+                            </details>
+
+
+                            <!-- END MAP SIDEBAR DETAILS -->
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+            <!-- END MAP SIDEBAR DIV -->
+
+            <!-- START MAP  DIV -->
+            <div class="col-md-8 p-0 ">
                 <div class="card p-0 m-0"
                     style="border: 1px solid rgb(177, 175, 175) !important; border-radius: 0px !important;">
                     <div class="card-header text-center"><strong> MAP</strong></div>
@@ -491,13 +209,13 @@ function zoomToLoc(x,y){
 
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <div class="card p-0 m-0"
                     style="border: 1px solid rgb(177, 175, 175) !important; border-radius: 0px !important;">
 
                     <div class="card-header text-center"><strong>Detail</strong></div>
 
-                    <div class="card-body p-0" style="height: 50vh ;overflow-y:scroll;" id='set-iframe'>
+                    <div class="card-body p-0" style="height: 700px ;overflow: hidden;" id='set-iframe'>
 
                     </div>
                 </div>
@@ -538,7 +256,7 @@ function zoomToLoc(x,y){
     </div>
 @endsection
 
-{{-- @section('script') --}}
+@section('script')
     @include('partials.map-js')
     <script>
         var substringMatcher = function(strs) {
@@ -869,7 +587,7 @@ function zoomToLoc(x,y){
             $('#set-iframe').html('');
 
             $('#set-iframe').html(
-                `<iframe src="/{{ app()->getLocale() }}/get-substation-edit/${id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
+                `<iframe src="/{{ app()->getLocale() }}/get-substation-edit/${id}" frameborder="0" style="height:700px; width:100%" ></iframe>`
             )
 
 

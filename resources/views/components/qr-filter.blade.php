@@ -14,7 +14,7 @@
 
 </style>
 
-    <div class="col-12">
+    <div class="col-md-12">
         <div class="collapse" id="collapseQr">
             <div class="card card-body">
                 {{-- FORM START --}}
@@ -100,21 +100,18 @@
 
 
                     {{-- @if ($url == 'generate-substation-excel') --}}
-                     @if ( $url !='generate-third-party-digging-excel')
-
+                    @if ( $url !='generate-third-party-digging-excel')
                     <div class="row">
                         <div class="row d-flex justify-content- mt-100 px-4" >
                             <label for="excelZone">Filter Defects :</label>
                             <div class="col-md-12"> 
                                 <select id="choices-multiple-remove-button" class="form-control" name="defects[]" placeholder="Select tags" multiple>
-                                
                                 </select>
-                            </div>
-                            
+                            </div>    
                         </div>
                     </div>
-                </form>
-                        @endif
+                    </form>
+                    @endif
 
     </div>
 </div>

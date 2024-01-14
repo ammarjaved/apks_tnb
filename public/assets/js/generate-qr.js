@@ -61,6 +61,7 @@ $(function(){
 
     $('#excelBa').on('change', function() {
         excel_ba = $(this).val();
+        callLayers(excel_ba)
         table.ajax.reload(function() {
             // table.draw('page');
         });
@@ -69,6 +70,7 @@ $(function(){
 
     $('#excel_from_date').on('change', function() {
         from_date = $(this).val();
+        filterByDate(from_date)
         table.ajax.reload(function() {
             // table.draw('page');
         });
@@ -76,6 +78,7 @@ $(function(){
 
     $('#excel_to_date').on('change', function() {
         to_date = $(this).val();
+        filterByDate(to_date)
         table.ajax.reload(function() {
             // table.draw('page');
         });
@@ -297,5 +300,6 @@ function resetIndex(){
     localStorage.removeItem(url_split[0]+"_from");
 
     table.ajax.reload();
+    resetMapFilters();
 
 }

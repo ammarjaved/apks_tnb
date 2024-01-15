@@ -120,7 +120,7 @@
                     <div class="card" style="position: relative; left: 0px; top: 0px;">
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                            <h3 class="card-title">{{ __('messages.substation') }}</h3>
+                            <h3 class="card-title">{{ __('messages.feeder_pillar') }}</h3>
 
                             <div class="card-tools">
                               <ul class="nav nav-pills ml-auto">
@@ -171,7 +171,7 @@
                     <div class="card" style="position: relative; left: 0px; top: 0px;">
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                            <h3 class="card-title">{{ __('messages.substation') }} MAP</h3>
+                            <h3 class="card-title">{{ __('messages.feeder_pillar') }} MAP</h3>
 
                             <div class="card-tools">
                               <ul class="nav nav-pills ml-auto">
@@ -229,7 +229,7 @@
                     <div class="card" style="position: relative; left: 0px; top: 0px;">
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                            <h3 class="card-title">{{ __('messages.substation') }} Detail</h3>
+                            <h3 class="card-title">{{ __('messages.feeder_pillar') }} Detail</h3>
 
                             <div class="card-tools">
                               <ul class="nav nav-pills ml-auto">

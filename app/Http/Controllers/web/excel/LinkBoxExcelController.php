@@ -63,11 +63,11 @@ class LinkBoxExcelController extends Controller
                     $worksheet->setCellValue('J' . $i, $rec->end_date);
                     $worksheet->setCellValue('K' . $i, $rec->type);
 
-                    $worksheet->setCellValue('L' . $i, $rec->coordinate);
+                    $worksheet->setCellValue('L' . $i, $rec->x . ' , ' .$rec->y);
                     $worksheet->setCellValue('M' . $i, $rec->gate_status);
                     $worksheet->setCellValue('N' . $i, $rec->vandalism_status);
 
-                    $worksheet->setCellValue('O' . $i, $rec->leaning_staus);
+                    $worksheet->setCellValue('O' . $i, $rec->leaning_status);
                     $worksheet->setCellValue('P' . $i, $rec->rust_status);
                     $worksheet->setCellValue('Q' . $i, $rec->advertise_poster_status);
                     $worksheet->setCellValue('R' . $i, $rec->bushes_status);

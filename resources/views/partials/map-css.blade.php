@@ -60,6 +60,9 @@
 
         background-color: #00F700;
         border-color: #00F700;
+        margin-right: 5px !important;
+margin-top: 2px !important;
+
     }
 
     input[type="radio"]:checked.without_defects {
@@ -72,11 +75,16 @@
 
         background-color: #F7F701;
         border-color: #F7F701;
+        margin-right: 5px !important;
+margin-top: 2px !important;
+
+
     }
 
     input[type="radio"]:checked.with_defects {
         background-color: #F7F701;
         border-color: #F7F701;
+
     }
 
 
@@ -84,6 +92,7 @@
 
         background-color: #FF0000;
         border-color: #FF0000;
+
     }
 
     input[type="radio"]:checked.reject {
@@ -101,13 +110,17 @@ input[type="radio"]:checked.unsurveyed {
 background-color: #FF7F00;
 border-color: #FF7F00;
 }
-    input[type="radio"].pano {
+    input[type="radio"]#select_layer_pano {
 
 background-color: blue;
 border-color: blue;
+margin-right: 5px !important;
+margin-top: 2px !important;
+
+
 }
 
-input[type="radio"]:checked.pano {
+input[type="radio"]:checked#select_layer_pano {
 background-color: blue;
 border-color: blue;
 }

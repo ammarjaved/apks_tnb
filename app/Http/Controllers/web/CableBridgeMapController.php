@@ -16,7 +16,7 @@ class CableBridgeMapController extends Controller
     {
 
         $data = CableBridge::find($id);
-        return $data ?  view('cable-bridge.edit-form', ['data' => $data, 'disabled'=>false]) : abort(404);
+        return $data ?  view('cable-bridge.edit-form', ['data' => $data, 'disabled'=>true]) : abort(404);
 
     }
 

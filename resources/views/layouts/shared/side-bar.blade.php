@@ -88,7 +88,7 @@
 
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="{{ route('substation.index', app()->getLocale()) }}" class="nav-link ">
                         <i class="fas fa-building"></i>
                         <p>{{__('messages.substation')}}
                         {{-- <i class="right fas fa-angle-left"></i> --}}
@@ -115,13 +115,14 @@
                     </ul> --}}
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="{{ route('feeder-pillar.index', app()->getLocale()) }}" class="nav-link ">
                         <i class="fas fa-cube"></i>
                         <p>{{__('messages.feeder_pillar')}}
-                        <i class="right fas fa-angle-left"></i></p>
+                        {{-- <i class="right fas fa-angle-left"></i> --}}
+                    </p>
                     </a>
 
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
 
                        
 
@@ -138,19 +139,19 @@
                                 <p>{{__('messages.index')}}</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
 
                 </li>
 
                 <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('tiang-talian-vt-and-vr.index', app()->getLocale())}}" class="nav-link">
                         <i class="fas fa-bolt"></i>
                         <p>
                             {{__('messages.tiang_talian_vt_&_vr')}}
-                            <i class="right fas fa-angle-left"></i>
+                            {{-- <i class="right fas fa-angle-left"></i> --}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
                        
 
                         <li class="nav-item">
@@ -166,18 +167,18 @@
                                 <p>{{__('messages.index')}}</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
 
                 <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('link-box-pelbagai-voltan.index', app()->getLocale())}}" class="nav-link">
                         <i class="fas fa-link"></i>
                         <p>
                             {{__('messages.link_box_pelbagai_voltan')}}
-                            <i class="right fas fa-angle-left"></i>
+                            {{-- <i class="right fas fa-angle-left"></i> --}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
                       
                         <li class="nav-item">
                             <a href="/{{app()->getLocale()}}/link-box-pelbagai-voltan-map" class="nav-link ">
@@ -192,18 +193,18 @@
                                 <p>{{__('messages.index')}}</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
 
                 <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('cable-bridge.index', app()->getLocale())}}" class="nav-link">
                         <i class="fas fa-road"></i>
                         <p>
                             {{__('messages.cable_bridge')}}
-                            <i class="right fas fa-angle-left"></i>
+                            {{-- <i class="right fas fa-angle-left"></i> --}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
                       
 
                         <li class="nav-item">
@@ -219,7 +220,7 @@
                                 <p>{{__('messages.index')}}</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
 
 

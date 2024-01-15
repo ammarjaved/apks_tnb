@@ -52,16 +52,11 @@
                     <div class="form-input ">
 
 
-                        <form action="{{ route('update-feeder-pillar-map-edit', [app()->getLocale(), $data->id]) }} " id="myForm"
-                            method="POST" enctype="multipart/form-data">
-
-                            @csrf
+                     
 
 
                             @include('feeder-pillar.partials.form')
-
-                            {{-- <div class="text-center p-4"><button class="btn btn-sm btn-success">{{__('messages.update')}}</button></div> --}}
-                        </form>
+ 
                     </div>
                 </div>
             </div>

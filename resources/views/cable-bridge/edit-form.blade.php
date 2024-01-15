@@ -51,16 +51,10 @@
                 <div class=" card col-md-12 p-4 ">
                     <div class=" form-input">
                         <h3 class="text-center p-2"></h3>
-
-                        <form action="{{ route('update-cable-bridge-map-edit', [app()->getLocale(),$data->id]) }} " id="myForm" method="POST"
-                            enctype="multipart/form-data">
-
-                            @csrf
-
+  
                             @include('cable-bridge.partials.form')
 
-                            <div class="text-center p-4"><button class="btn btn-sm btn-success" name="submit" value="map-edit">{{__("messages.update")}}</button></div>
-                        </form>
+                            
                     </div>
                 </div>
             </div>

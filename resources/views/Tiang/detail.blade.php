@@ -174,7 +174,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <select name="talian_utama" id="main_line" class="form-control"   disabled>
-                                            <option value="{{$data->talian_utama ?? ''}}" hidden>{{$data->talian_utama ?? 'select'}}</option>
+                                            <option value="{{$data->talian_utama_connection ?? ''}}" hidden>{{$data->talian_utama_connection ?? 'select'}}</option>
                                             <option value="main_line">Main Line</option>
                                             <option value="service_line">Service Line</option>
                                         </select>
@@ -188,7 +188,7 @@
                                         </label>
                                     </div>
                                     <div class="col-md-4 d-flex mt-2">
-                                        <input type="number" disabled class="form-control"  value="{{$data->talian_utama_connection}}" 
+                                        <input type="number" disabled class="form-control"  value="{{$data->talian_utama}}" 
                                          
                                       >
 

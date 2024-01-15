@@ -372,7 +372,7 @@ $secondWorksheet->getStyle('B:AL')->getFont()->setSize(9);
                     if ($rec->kawasan != '') {
                         $kawasan = json_decode($rec->kawasan);
                         $thirdWorksheet->setCellValue('H' . $i, excelCheckBOc('bend', $kawasan));
-                        $thirdWorksheet->setCellValue('I' . $i, excelCheckBOc('raod', $kawasan));
+                        $thirdWorksheet->setCellValue('I' . $i, excelCheckBOc('road', $kawasan));
                         $thirdWorksheet->setCellValue('J' . $i, excelCheckBOc('forest', $kawasan));
                         $thirdWorksheet->setCellValue('K' . $i, excelCheckBOc('other', $kawasan));
                     }

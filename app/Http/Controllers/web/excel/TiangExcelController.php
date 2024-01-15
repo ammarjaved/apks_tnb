@@ -148,16 +148,16 @@ class TiangExcelController extends Controller
                     $worksheet->setCellValue('AA' . $i, $rec->bare_s7173 );
                     $worksheet->setCellValue('AB' . $i, $rec->bare_s7122 );
                     $worksheet->setCellValue('AC' . $i, $rec->bare_s7132 );
-                   $one_line = Tiang::where('fp_road', $rec->road)
-                    ->whereNotNull('talian_utama_connection')
-                    ->where('talian_utama_connection' ,'one')
-                    ->where('talian_utama', 'main_line')
+                    $one_line = Tiang::where('fp_road', $rec->road)
+                    ->whereNotNull('talian_utama')
+                    ->where('talian_utama' ,'one')
+                    ->where('talian_utama_connection', 'main_line')
                     ->count();
 
                     $many_line = Tiang::where('fp_road', $rec->road)
                     ->whereNotNull('talian_utama_connection')
-                    ->where('talian_utama_connection' ,'many')
-                    ->where('talian_utama', 'main_line')
+                    ->where('talian_utama' ,'many')
+                    ->where('talian_utama_connection', 'main_line')
                     ->count();
                     $line = '';
                     if ($one_line > 0)  {
@@ -174,12 +174,14 @@ class TiangExcelController extends Controller
                     ->whereNotNull('talian_utama')
                     ->where('talian_utama','');
 
-
                      ($rec->road);
-                    $array = json_decode($rec, true);
 
+                    $array = json_decode($rec, true);
+ 
                     // Sum the values
-                  $totalSum = array_sum($array);
+                //   $totalSum = array_sum($array);
+             $totalSum  = $array['abc_s3186']+ $array['abc_s3195']+$array['abc_s316'] +$array['abc_s116']+$array['pvc_s9064']
+             +$array['pvc_s7083']+$array['pvc_s7044']+$array['bare_s7173']+$array['bare_s7122']+$array['bare_s7132'];
 
 
                     $worksheet->setCellValue('AD' . $i, $totalSum );
@@ -351,6 +353,11 @@ $secondWorksheet->getStyle('B:AL')->getFont()->setSize(9);
                 foreach ($res as $rec) {
                     $thirdWorksheet->setCellValue('A' . $i, $i - 10);
                     $thirdWorksheet->setCellValue('B' . $i, $rec->review_date);
+                    $thirdWorksheet->setCellValue('C' . $i, $rec->section_to);
+
+                    $thirdWorksheet->setCellValue('D' . $i, $rec->section_from);
+
+
                     // $thirdWorksheet->getStyle('B'.$i)
 
 
@@ -403,7 +410,7 @@ $secondWorksheet->getStyle('B:AL')->getFont()->setSize(9);
                     ->with('failed', 'No records found ');
             }
         } catch (\Throwable $th) {
-            // return $th->getMessage();
+            return $th->getMessage();
             return redirect()
                 ->back()
                 ->with('failed', 'Request Failed');

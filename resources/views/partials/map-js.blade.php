@@ -346,6 +346,89 @@ var sub_reject = '';
     }
 
 
+    function addRemoveBundary(param, paramY, paramX) 
+        {
+
+            // WORK PACKAGE 
+            if (work_package) {
+                map.removeLayer(work_package);
+            }
+
+            work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
+                layers: 'cite:tbl_workpackage',
+                format: 'image/png',
+                cql_filter: "ba ILIKE '%" + param + "%'",
+                maxZoom: 21,
+                transparent: true
+            }, { buffer: 10 })
+
+            map.addLayer(work_package) 
+            // END WORKPACKAGE
+
+
+            // BOUNDARY 
+            if (boundary !== '') 
+            {
+                map.removeLayer(boundary)
+            }
+
+            boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
+                layers: 'cite:ba',
+                format: 'image/png',
+                cql_filter: "station ILIKE '%" + param + "%'",
+                maxZoom: 21,
+                transparent: true
+            }, { buffer: 10 })
+
+            map.addLayer(boundary)
+            boundary.bringToFront()
+            // END BOUNDARY
+            
+
+            // PANO LAYER
+            if (pano_layer !== '') 
+            {
+                map.removeLayer(pano_layer)
+            }
+
+            pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
+                layers: 'cite:pano_apks',
+                format: 'image/png',
+                cql_filter: "ba ILIKE '%" + param + "%'",
+                maxZoom: 21,
+                transparent: true
+            }, { buffer: 10 }); 
+
+            // END PANO LAYER
+
+
+            map.flyTo([parseFloat(paramY), parseFloat(paramX)], zoom, {
+                duration: 1.5, // Animation duration in seconds
+                easeLinearity: 0.25,
+            });
+
+            updateLayers(param);
+
+        }
+
+
+        
+var marker = '';
+        function zoomToLoc(x,y)
+        {
+            map.flyTo([parseFloat(y), parseFloat(x)], 16, {
+                duration: 1.5, // Animation duration in seconds
+                easeLinearity: 0.25,
+                });
+                if (marker != '') {
+                    map.removeLayer(marker);
+                }
+           marker =  L.marker([parseFloat(y), parseFloat(x)]);      
+           map.addLayer(marker);      
+        }                
+
+
+
 
     function addpanolayer() {
 
@@ -591,6 +674,9 @@ var sub_reject = '';
                 to_date = '';
                 $('#from_date , #to_date , .tt-input').val('')
 
+                if (marker != '') {
+                    map.removeLayer(marker);
+                }
                 if (ba == '') {
                     zoom = 8
                     addRemoveBundary('', 2.75101756479656, 101.304931640625)

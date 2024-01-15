@@ -15,7 +15,7 @@
 </style>
 
     <div class="col-md-12">
-        <div class="collapse" id="collapseQr">
+        <div class="-collapse" id="collapseQr">
             <div class="card card-body">
                 {{-- FORM START --}}
                 <form action="{{ isset($url) ? route($url, app()->getLocale()) : '#' }}" onsubmit="collapseFilter()" method="post">
@@ -24,7 +24,7 @@
 
                     <div class="row form-input ">
 
-                        <div class=" col-md-2">
+                        <div class=" col-md-2  ">
                             <label for="excelZone">Zone :</label>
                             <select name="excelZone" id="excelZone" class="form-control" onchange="getBa(this.value)">
                                 <option value="{{ Auth::user()->zone }}" hidden>

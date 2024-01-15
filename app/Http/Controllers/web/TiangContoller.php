@@ -49,7 +49,7 @@ class TiangContoller extends Controller
            $result = $this->filter($result , 'review_date' , $request);
 
             $result->when(true, function ($query) {
-                return $query->select('id', 'ba' ,'qa_status' , 'reject_remarks', 'review_date', 'tiang_no', 'total_defects' );
+                return $query->select('id', 'ba' ,'qa_status' , 'reject_remarks', 'review_date', 'tiang_no', 'total_defects',  DB::raw("st_x(geom) as x,st_y(geom) as y"));
             });
 
             return datatables()

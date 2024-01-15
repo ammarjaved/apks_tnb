@@ -105,7 +105,7 @@ class TiangExcelController extends Controller
            $roadStatistics = $query->groupBy('fp_road' )->get();
 
          //  return $roadStatistics;
-
+// return $roadStatistics;
 
 
             if ($roadStatistics) {
@@ -403,7 +403,7 @@ $secondWorksheet->getStyle('B:AL')->getFont()->setSize(9);
                     ->with('failed', 'No records found ');
             }
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            // return $th->getMessage();
             return redirect()
                 ->back()
                 ->with('failed', 'Request Failed');

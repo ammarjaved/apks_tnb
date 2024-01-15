@@ -1,14 +1,18 @@
 @extends('layouts.app', ['page_title' => 'Index'])
 
 @section('css')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-<script src="https://malsup.github.io/jquery.form.js"></script>
-<script>
-    var $jq = $.noConflict(true);
-</script>
+<link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="https://malsup.github.io/jquery.form.js"></script>
+    <script>
+        var $jq = $.noConflict(true);
+    </script>
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    @include('partials.map-css')
 
     <style>
         div#myTable_length,
@@ -16,143 +20,392 @@
             display: none;
         }
 
-        .collapse {
-            visibility: visible !important;
+
+        span.relative.inline-flex.items-center.px-4.py-2.-ml-px.text-sm.font-medium.text-gray-500.bg-white.border.border-gray-300.cursor-default.leading-5 {
+            background: #007BFF !important;
+            color: white !important;
         }
+
+        .collapse {
+            visibility: visible;
+        }
+
+        /* .table-responsive::-webkit-scrollbar {
+                        display: none;
+                    } */
+
+        table.dataTable>thead>tr>th:not(.sorting_disabled),
+        table.dataTable>thead>tr>td:not(.sorting_disabled) {
+            padding-right: 14px;
+        }
+
+        .lower-header,
+        td {
+            font-size: 14px !important;
+            padding: 5px !important;
+        }
+
+        th {
+            font-size: 15px !important;
+
+        }
+
+        thead {
+            background-color: #E4E3E3 !important;
+        }
+
+        .nowrap,
+        th {
+            white-space: nowrap;
+        }
+ 
+        #map {
+            height: 60vh;
+            z-index: 1;
+        }
+
+        select.form-select.form-select-sm {
+    padding: 0px 0px 0px 10px;
+    font-size: 12px;
+    /* display: none; */
+    min-width: 20px !important;
+    width: 47px !important;
+} 
+
     </style>
+
 @endsection
 
-
+@section('script')
 
 @section('content')
-    <section class="content-header">
+
+    {{-- bread crumbs start --}}
+    <section class="content-header pb-0">
         <div class="container-  ">
-            <div class="row mb-2" style="flex-wrap:nowrap">
+            <div class="row  mb-0 pb-0" style="flex-wrap:nowrap">
                 <div class="col-sm-6">
                     <h3>Tiang</h3>
                 </div>
                 <div class="col-sm-6 text-right">
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">index</li>
+                        <li class="breadcrumb-item"><a
+                                href="/{{ app()->getLocale() }}/dashboard">{{ __('messages.dashboard') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('messages.index') }} </li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
+    {{-- bread crumb end --}}
+
+    @include('components.message')
 
 
-    <section class="content">
+
+    
+
+    {{-- section content --}}
+    <section class="content-  ">
+
         <div class="container-fluid">
 
-
-
-            @if (Session::has('failed'))
-                <div class="alert {{ Session::get('alert-class', 'alert-secondary') }}" role="alert">
-                    {{ Session::get('failed') }}
-
-                    <button type="button" class="close border-0 bg-transparent" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-
-                </div>
-            @endif
-            @if (Session::has('success'))
-                <div class="alert {{ Session::get('alert-class', 'alert-success') }}" role="alert">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close border-0 bg-transparent" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
-
+            {{-- ADD FILTERS --}}
+            @include('components.qr-filter', ['url' => 'generate-tiang-talian-vt-and-vr-excel'])
 
             <div class="row">
-                @include('components.qr-filter', ['url' => 'generate-tiang-talian-vt-and-vr-excel'])
+                {{-- START TABLE --}}
+                <section class="col-md-6 connectedSortable ui-sortable">
 
-                <div class="col-12">
-                    <div class="card">
+                    <div class="card" style="position: relative; left: 0px; top: 0px;">
+                        <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                        <div class="card-header d-flex justify-content-between ">
-                            <div class="card-title">
-                                Tiang
-                            </div>
-                            <div class="d-flex ml-auto">
-                                <a href="{{ route('tiang-talian-vt-and-vr.create', app()->getLocale()) }}"><button
-                                        class="btn text-white btn-success  btn-sm mr-4">Add Tiang</button></a>
-                                <button class="btn text-white  btn-sm mr-4" type="button" data-toggle="collapse"
-                                    style="background-color: #708090" data-target="#collapseQr" aria-expanded="false"
-                                    aria-controls="collapseQr">
-                                    QR Tiang
-                                </button>
+                            <h3 class="card-title">Tiang</h3>
 
+                            <div class="card-tools">
+                              <ul class="nav nav-pills ml-auto">
+                                <li>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </li>
+                              </ul>
                             </div>
                         </div>
-
-                        <div class="card-body">
-                            <div class="text-right mb-4">
-
-                            </div>
-                            <div class="table-responsive">
-                                <table id="myTable" class="table table-bordered table-hover data-table">
+ 
 
 
-                                    <thead style="background-color: #E4E3E3 !important">
-                                        <tr>
+                        <div class="card-body" id="yourMapElement">
 
-                                            <th>TIANG NO</th>
-                                            <th>BA</th>
-                                            <th></th>
-                                            <th>REVIEW DATE</th>
-                                            <th>TOTAL DEFECTS</th>
-                                            @if (Auth::user()->ba !== '')
-                                                <th>QA Status</th>
-                                            @endif
-
-                                            <th>ACTION</th>
-
-                                        </tr>
+                            <div class="table-responsive add-substation" id="add-substation">
+                                <table id="" class="table table-bordered  table-hover data-table">
+                                    <thead>
+                                        <th>TIANG NO</th>
+                                        <th>BA</th>
+                                        <th></th>
+                                        <th>REVIEW DATE</th>
+                                        <th>TOTAL DEFECTS</th>  
+                                        <th>ACTION</th>
+                                    
                                     </thead>
-                                    <tbody>
 
-
+                                    <tbody>  
+                                        {{-- comming from script --}}
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </section>
+                {{-- END TABLE  --}}
 
 
+                <section class="col-md-6 connectedSortable ui-sortable">
+                    
+                    <div class="card" style="position: relative; left: 0px; top: 0px;">
+                        <div class="card-header ui-sortable-handle" style="cursor: move;">
 
+                            <h3 class="card-title">Tiang MAP</h3>
 
+                            <div class="card-tools">
+                              <ul class="nav nav-pills ml-auto">
+                                <li>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </li>
+                              </ul>
+                            </div>
+                        </div>
 
+                        <div class="card-body p-0">
+                            <div class="p-3 pt-0 mt-0  form-input  ">
+                                {{-- <label for="select_layer">Select Layer : </label> --}}
+                                <span class="text-danger" id="er-select-layer"></span>
+                                <div class="d-sm-flex">
+                                    <div class="d-flex">
+                                        <input type="radio" name="select_layer" id="select_layer_main" class="with_defects"
+                                            value="ts_with_defects" onchange="selectLayer(this.value)">
+                                        <label for="select_layer_main">Defects</label>
+                                    </div>
+                    
+                                    <div class="mx-4 d-flex">
+                                        <input type="radio" name="select_layer" id="substation_without_defects"
+                                            value="ts_without_defects" class="without_defects" onchange="selectLayer(this.value)">
+                                        <label for="substation_without_defects">Without defects</label>
+                                    </div>
+                    
+                                    <div class="  d-flex">
+                                        <input type="radio" name="select_layer" id="select_layer_pano" value="pano"
+                                            onchange="selectLayer(this.value)">
+                                        <label for="select_layer_pano">Pano</label>
+                                    </div>
 
+                                    {{-- <div class="mx-4">
+                                        <div id="the-basics">
+                                            <input class="typeahead" type="text" placeholder="search substation" class="form-control">
+                                        </div>
+                                    </div>
+                                    --}}
+                    
+                                </div>
+
+                                <div id="map">
+
+                                </div>
+                    
+                              
+                            </div>
                         </div>
                     </div>
 
 
+                    <div class="card" style="position: relative; left: 0px; top: 0px;">
+                        <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                </div>
+                            <h3 class="card-title">Tiang Detail</h3>
+
+                            <div class="card-tools">
+                              <ul class="nav nav-pills ml-auto">
+                                <li>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </li>
+                              </ul>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0" style="height: 60vh ;" id='set-iframe'>
+
+                        </div>
+                    </div>
+                </section>
+ 
+
             </div>
         </div>
     </section>
-    <x-remove-confirm />
-    <x-reject-modal />
 
+
+    <div id="wg" class="windowGroup">
+
+    </div>
+
+    <div id="wg1" class="windowGroup">
+
+    </div>
+ 
 @endsection
 
 
 @section('script')
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/generate-qr.js') }}"></script>
 
+
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
+    @include('partials.map-js')
+
+ 
+    
+    <script>
+        var layers = [];
+        layers = ['']
+
+        // for add and remove layers
+      
+
+
+        function updateLayers(param) 
+        {
+
+            var q_cql = "ba ILIKE '%" + param + "%' AND qa_status ='Accept' "
+            if (from_date != '') 
+            {
+                q_cql += "AND review_date >=" + from_date;
+            }
+
+            if (to_date !=  '') 
+            {
+                q_cql +=  "AND review_date <=" + to_date;
+            }
+
+            if (road != '') {
+                map.removeLayer(road)
+            }
+                road = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
+                layers: 'cite:tbl_roads',
+                format: 'image/png',
+                cql_filter: "ba ILIKE '%" + param + "%'",
+                maxZoom: 21,
+                transparent: true
+            }, {
+                buffer: 10
+            })
+           
+
+            if (ts_with_defects != '') {
+                map.removeLayer(ts_with_defects)
+            }
+
+            ts_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
+                layers: 'cite:ts_with_defects',
+                format: 'image/png',
+                cql_filter: q_cql,
+                maxZoom: 21,
+                transparent: true
+            }, {
+                buffer: 10
+            })
+
+            map.addLayer(ts_with_defects)
+            ts_with_defects.bringToFront()
+
+            if (ts_without_defects != '') {
+                map.removeLayer(ts_without_defects)
+            }
+
+            ts_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
+                layers: 'cite:ts_without_defects',
+                format: 'image/png',
+                cql_filter: q_cql,
+                maxZoom: 21,
+                transparent: true
+            }, {
+                buffer: 10
+            })
+
+            map.addLayer(ts_without_defects)
+            ts_without_defects.bringToFront()
+
+             
+            addGroupOverLays()
+
+        }
+
+
+        // add group overlayes
+        function addGroupOverLays() 
+        {
+            if (layerControl != '') 
+            {
+                map.removeControl(layerControl);
+            }
+
+          
+            groupedOverlays = {
+                "POI": {
+                    'BA': boundary, 
+                    'Pano': pano_layer, 
+                    'Surveyed with defects' : ts_with_defects,
+                    'Surveyed Without defects' : ts_without_defects, 
+                    'Roads': road,
+                    'Work Package':work_package
+
+                }
+            };
+
+            //add layer control on top right corner of map
+            layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
+                collapsed: true,
+                position: 'topright'
+                // groupCheckboxes: true
+            }).addTo(map);
+        }
+
+
+
+
+
+
+
+
+        function showModalData(data, id) 
+        {
+            $('#set-iframe').html('');
+            $('#set-iframe').html(
+                `<iframe src="/{{ app()->getLocale() }}/get-tiang-edit/${data.id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
+            )
+           
+        }
+
+       
+    </script>
 
     <script>
         var lang = "{{ app()->getLocale() }}";
         var url = "tiang-talian-vt-and-vr"
         var auth_ba = "{{ Auth::user()->ba }}"
-
+      
         var defectsNames = ['tinag_dimm','tiang_cracked','tiang_leaning','tiang_creepers','tiang_other','talian_joint',
             'talian_ground', 'talian_need_rentis', 'talian_other', 'umbang_breaking', 'umbang_creepers', 'umbang_cracked', 'umbang_stay_palte',
     'umbang_other','ipc_burn','ipc_other','blackbox_cracked','blackbox_other','jumper_sleeve','jumper_burn','jumper_other','kilat_broken','kilat_other',
@@ -160,96 +413,74 @@
     'kaki_lima_date_wire', 'kaki_lima_burn', 'kaki_lima_other', 'tapak_condition_road', 'tapak_condition_side_walk',
 	 'tapak_condition_vehicle_entry', 'kawasan_bend', 'kawasan_road', 'kawasan_forest', 'kawasan_other']
 
+
         $(document).ready(function() {
+
+          
+            // ADD DEFECTS  IN SLECT OPTIONS
             for (let index = 0; index < defectsNames.length; index++) {
                 const element = defectsNames[index];
                 $('#choices-multiple-remove-button').append(` <option value="${element}">${element}</option>`)
             }
 
-       
-
+            // DECLARE DROPDOWN AS CHOICE
             multipleCancelButton = new Choices('#choices-multiple-remove-button', {
             removeItemButton: true,
             maxItemCount:44,
             searchResultLimit:44,
-            renderChoiceLimit:44
-            });
+            renderChoiceLimit:44 });
+   
+
+     
+                // DEFINE TABLE  COLUMNS 
+                var columns = [
+                    { data: 'tiang_no', name: 'tiang_no' },
+                    { data: 'ba', name: 'ba', orderable: true },
+                    { data: 'review_date', name: 'review_date' },
+                    { data: 'id', name: 'id', visible: false, },
+                    { data: 'total_defects', name: 'total_defects' },
+                    { data: null, render: renderDropDownActions }
+                ];
+            
 
 
-            var columns = [
-
-                {
-                    data: 'tiang_no',
-                    name: 'tiang_no'
-                },
-                {
-                    data: 'ba',
-                    name: 'ba',
-                    orderable: true
-                },
-                {
-                    data: 'review_date',
-                    name: 'review_date'
-                },
-                {
-                    data: 'id',
-                    name: 'id',
-                    visible: false,
-                },
-                {
-                    data: 'total_defects',
-                    name: 'total_defects'
-                }
-            ];
-            if (auth_ba !== '') {
-                columns.push({
-                    data: null,
-                    render: renderQaStatus
-                });
-            }
-
-            columns.push({
-                data: null,
-                render: renderDropDownActions
-            });
-            table = $('.data-table').DataTable({
+             table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 stateSave: true,
-                ajax: {
+
+                ajax: 
+                {
                     url: '{{ route('tiang-talian-vt-and-vr.index', app()->getLocale()) }}',
                     type: "GET",
-                    data: function(d) {
-                        if (from_date) {
-                            d.from_date = from_date;
-                        }
-
-                        if (excel_ba) {
-                            d.ba = excel_ba;
-                        }
-
-                        if (to_date) {
-                            d.to_date = to_date;
-                        }
-                        if (f_status) {
-                            d.status = f_status;
+                    data: function(d) 
+                    {
+                        if (from_date) { d.from_date = from_date }
+                        if (excel_ba)  { d.ba        = excel_ba }
+                        if (to_date)   { d.to_date   = to_date }
+                        if (filters)   { d.arr       = filters }
+                        if (qa_status) { d.qa_status = qa_status }
+                        if (f_status) 
+                        { 
+                            d.status = f_status; 
                             d.image = 'pole_image_1';
-                        }
-                        if (qa_status) {
-                            d.qa_status = qa_status;
-                        }
-                        if (filters) {
-                            d.arr = filters;
                         }
                     }
                 },
-                columns: columns,
-                order: [
-                    [2, 'desc'],
-                    [3,'desc']
-                ]
-            });
+                columns: columns,  // ADD COLUMNS
+                order: [ [1, 'desc'], [0, 'desc'] ],
 
+                createdRow: function(row, data, dataIndex) {
+                    $(row).find('td:not(:first-child)').addClass('text-center');
+                }
+            })
         });
+
+
+
+ 
+
+
     </script>
 @endsection
+

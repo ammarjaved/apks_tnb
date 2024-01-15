@@ -113,27 +113,7 @@
                         value="substation_without_defects" class="without_defects" onchange="selectLayer(this.value)">
                     <label for="substation_without_defects">Surveyed without defects</label>
                 </div>
-                @if (Auth::user()->ba != '')
-                    <div class=" mx-4">
-                        <input type="radio" name="select_layer" id="select_layer_unsurveyed" value="unsurveyed"
-                            onchange="selectLayer(this.value)" class="unsurveyed">
-                        <label for="select_layer_unsurveyed">Unsurveyed </label>
-                    </div>
-
-                    <div class=" mx-4">
-                        <input type="radio" name="select_layer" id="select_layer_pending" value="sub_pending"
-                            onchange="selectLayer(this.value)" class="pending">
-                        <label for="select_layer_pending">Pending </label>
-                    </div>
-
-
-                    <div class=" mx-4">
-                        <input type="radio" name="select_layer" id="select_layer_reject" value="sub_reject"
-                            onchange="selectLayer(this.value)" class="reject">
-                        <label for="select_layer_reject">Reject </label>
-                    </div>
-                @endif
-
+              
                 <div class=" mx-4">
                     <input type="radio" name="select_layer" id="select_layer_pano" value="pano"
                         onchange="selectLayer(this.value)">
@@ -148,11 +128,7 @@
 
             </div>
 
-            {{-- <select name="select_layer" id="select_layer" onchange="selectLayer(this.value)" class="form-control">
-                    <option value="" hidden>select layer</option>
-                    <option value="main_substation">Substation</option>
-                    <option value="pano">Pano</option>
-                </select> --}}
+           
         </div>
 
         <!--  START MAP CARD DIV -->
@@ -160,39 +136,6 @@
 
 
 
-
-            <!-- START MAP SIDEBAR DIV -->
-            {{-- <div class="col-2 p-0">
-                <div class="card p-0 m-0"
-                    style="border: 1px solid rgb(177, 175, 175) !important; border-radius: 0px !important">
-                    <div class="card-header"><strong> NAVIGATION</strong></div>
-                    <div class="card-body">
-                        <!-- MAP SIDEBAR LAYERS SELECTOR -->
-                        <div class="side-bar" style="height: 569px !important; overflow-y: scroll;">
-
-
-                            <details class="mb-3" open>
-                                <summary><strong>Substation</strong> </summary>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td>Pemeriksaan visual dan pelaporan</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pembersihan iklan haram/banner </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Report</td>
-                                    </tr>
-                                </table>
-
-                            </details>
-
-
-                            <!-- END MAP SIDEBAR DETAILS -->
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
             <!-- END MAP SIDEBAR DIV -->
 
             <!-- START MAP  DIV -->
@@ -401,7 +344,7 @@
 
         function updateLayers(param) {
 
-            var q_cql = "ba ILIKE '%" + param + "%' "
+            var q_cql = "ba ILIKE '%" + param + "%' AND qa_status ='Accept' "
             if (from_date != '') {
                 q_cql = q_cql + "AND visit_date >=" + from_date;
             }
@@ -446,64 +389,7 @@
             map.addLayer(substation_with_defects)
             substation_with_defects.bringToFront()
 
-            if (ba !== '') {
-
-
-
-                if (sub_reject != '') {
-                    map.removeLayer(sub_reject)
-                }
-
-                sub_reject = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                    layers: 'cite:sub_reject',
-                    format: 'image/png',
-                    cql_filter: q_cql,
-                    maxZoom: 21,
-                    transparent: true
-                }, {
-                    buffer: 10
-                })
-
-
-                map.addLayer(sub_reject)
-                sub_reject.bringToFront()
-
-
-                if (sub_pending != '') {
-                    map.removeLayer(sub_pending)
-                }
-
-                sub_pending = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                    layers: 'cite:sub_pending',
-                    format: 'image/png',
-                    cql_filter: q_cql,
-                    maxZoom: 21,
-                    transparent: true
-                }, {
-                    buffer: 10
-                })
-
-
-                map.addLayer(sub_pending)
-                sub_pending.bringToFront()
-
-                if (unservey != '') {
-                    map.removeLayer(unservey)
-                }
-                unservey = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                    layers: 'cite:sub_unserveyed',
-                    format: 'image/png',
-                    cql_filter: "ba ILIKE '%" + param + "%'",
-                    maxZoom: 21,
-                    transparent: true
-                }, {
-                    buffer: 10
-                })
-
-                map.addLayer(unservey)
-                unservey.bringToFront()
-
-            }
+           
 
             addGroupOverLays()
 
@@ -517,23 +403,7 @@
                 map.removeControl(layerControl);
             }
 
-            if (ba !== '') {
-
-
-            groupedOverlays = {
-                "POI": {
-                    'BA': boundary,
-                    'Pano': pano_layer,
-                    'With defects': substation_with_defects,
-                    'Without defects': substation_without_defects,
-                    'Unsurveyed': unservey,
-
-                    'Work Package': work_package,
-                    'Pending': sub_pending,
-                    'Reject': sub_reject
-                }
-            };
-        }else{
+           
 
             groupedOverlays = {
                 "POI": {
@@ -545,7 +415,7 @@
                 }
             };
 
-        }
+       
             //add layer control on top right corner of map
             layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
                 collapsed: true,
@@ -562,35 +432,15 @@
 
 
         function showModalData(data, id) {
-            var str = '';
-            var idSp = id; //.split('.');
 
-            $('#exampleModalLabel').html("Substation Info")
-            str = ` <tr><th>Zone</th><td>${data.zone}</td> </tr>
-        <tr><th>Ba</th><td>${data.ba}</td> </tr>
-        <tr><th>Type</th><td>${data.type}</td> </tr>
-        <tr><th>Voltage</th><td>${data.voltage}</td> </tr>
-        <tr><th>Coordinate</th><td>${data.coordinate}</td> </tr>
-        <tr><th>Created At</th><td>${data.created_at}</td> </tr>
-        <tr><th>Detail</th><td class="text-center">    <a href="/{{ app()->getLocale() }}/substation/${idSp[1]}" target="_blank" class="btn btn-sm btn-secondary">Detail</a>
-            </td> </tr>
-        `
-
-
-            console.log(data.id);
-            openDetails(data.id);
-
-        }
-
-        function openDetails(id) {
-            // $('#myModal').modal('hide');
             $('#set-iframe').html('');
 
             $('#set-iframe').html(
-                `<iframe src="/{{ app()->getLocale() }}/get-substation-edit/${id}" frameborder="0" style="height:700px; width:100%" ></iframe>`
+                `<iframe src="/{{ app()->getLocale() }}/get-substation-edit/${data.id}" frameborder="0" style="height:700px; width:100%" ></iframe>`
             )
 
-
         }
+
+       
     </script>
 @endsection

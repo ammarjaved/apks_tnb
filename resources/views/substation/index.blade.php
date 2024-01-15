@@ -1,6 +1,8 @@
-@extends('layouts.app_tnb', ['page_title' => 'Index'])
+@extends('layouts.app', ['page_title' => 'Index'])
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
     <script src="https://malsup.github.io/jquery.form.js"></script>
     <script>
@@ -9,6 +11,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    @include('partials.map-css')
 
     <style>
         div#myTable_length,
@@ -54,13 +58,40 @@
         th {
             white-space: nowrap;
         }
+ 
+        #map {
+            height: 60vh;
+            z-index: 1;
+        }
+
+        select.form-select.form-select-sm {
+    padding: 0px 0px 0px 10px;
+    font-size: 12px;
+    /* display: none; */
+    min-width: 20px !important;
+    width: 47px !important;
+}
+#fullscreenOverlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: #fff !important; /* Set your desired background color */
+    z-index: 9999 !important; /* Make sure the overlay is on top */
+    display: none !important; /* Initially hide the overlay */
+}
+
     </style>
+
 @endsection
 
 @section('script')
 
 @section('content')
-    {{-- <section class="content-header pb-0">
+
+    {{-- bread crumbs start --}}
+    <section class="content-header pb-0">
         <div class="container-  ">
             <div class="row  mb-0 pb-0" style="flex-wrap:nowrap">
                 <div class="col-sm-6">
@@ -75,81 +106,76 @@
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
+    {{-- bread crumb end --}}
+
+    @include('components.message')
 
 
-    <section class="content-">
+
+    
+
+    {{-- section content --}}
+    <section class="content-  ">
+
         <div class="container-fluid">
 
-
-
-            @include('components.message')
-
-
-
-
-
-
+            {{-- ADD FILTERS --}}
+            @include('components.qr-filter', ['url' => 'generate-substation-excel'])
 
             <div class="row">
-                @include('components.qr-filter', ['url' => 'generate-substation-excel'])
+                {{-- START TABLE --}}
+                <section class="col-md-6 connectedSortable ui-sortable">
 
+                    <div class="card" style="position: relative; left: 0px; top: 0px;">
+                        <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                <div class="col-md-12">
-                    <div class="card">
+                            <h3 class="card-title">{{ __('messages.substation') }}</h3>
 
-                        <div class="card-header d-flex justify-content-between ">
-                            <p class="mb-0">{{ __('messages.substation') }}</p>
-                            <div class="d-flex ml-auto">
-                                {{-- <a href="{{ route('substation.create', app()->getLocale()) }}"><button
-                                        class="btn text-white btn-success  btn-sm mr-4">Add Substation</button></a> --}}
-
-
-                                <button class="btn text-white  btn-sm mr-4" type="button" data-toggle="collapse"
-                                    style="background-color: #708090" data-target="#collapseQr" aria-expanded="false"
-                                    aria-controls="collapseQr">
-                                    QR Substation
-                                </button>
-
+                            <div class="card-tools">
+                              <ul class="nav nav-pills ml-auto">
+                                <li>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </li>
+                                {{-- <li>
+                                    <button id="fullscreenButton">
+                                        <i class="fas fa-expand-arrows-alt text-white"></i>
+                                    </button>
+                                    <button id="exitFullscreenButton">
+                                        <i class="fas fa-expand-arrows-alt text-white"></i>
+                                    </button>
+                                </li> --}}
+                              </ul>
                             </div>
                         </div>
+ 
 
 
-                        <div class="card-body">
-                            <div class="text-right mb-4">
+                        <div class="card-body" id="yourMapElement">
+                            {{-- <div class="text-right mb-4">
+                                <button class="btn text-white  btn-sm mr-4" type="button" data-toggle="collapse"
+                                style="background-color: #708090" data-target="#collapseQr" aria-expanded="false"
+                                aria-controls="collapseQr">
+                                QR Substation
+                              </button>
+                            </div> --}}
 
-                            </div>
-
-
-
-                            {{-- <table id="pagination" class="table table-bordered table-hover"> --}}
 
                             <div class="table-responsive add-substation" id="add-substation">
                                 <table id="" class="table table-bordered  table-hover data-table">
-
-
                                     <thead>
                                         <tr>
                                             <th rowspan="2">{{ __('messages.name') }}</th>
                                             <th rowspan="2">{{ __('messages.visit_date') }} </th>
                                             <th rowspan="2">asdas</th>
-                                            <th colspan="3" class="text-center" style="border-bottom: 0px">
-                                                {{ __('messages.gate') }}</th>
-                                            <th colspan="2" class="text-center" style="border-bottom: 0px">
-                                                {{ __('messages.tree') }}</th>
-                                            <th colspan="4" class="text-center" style="border-bottom: 0px">
-                                                {{ __('messages.building_defects') }}
-                                            </th>
-                                            <th class="nowrap" style="border-bottom: 0px">{{ __('messages.add_clean_up') }}
-                                            </th>
+                                            <th colspan="3" class="text-center" style="border-bottom: 0px">{{ __('messages.gate') }}</th>
+                                            <th colspan="2" class="text-center" style="border-bottom: 0px">{{ __('messages.tree') }}</th>
+                                            <th colspan="4" class="text-center" style="border-bottom: 0px">{{ __('messages.building_defects') }}</th>
+                                            <th class="nowrap" style="border-bottom: 0px">{{ __('messages.add_clean_up') }}</th>
                                             <th rowspan="2">{{ __('messages.total_defects') }} </th>
-                                            @if (Auth::user()->ba !== '')
-                                                <th rowspan="2">QA Status</th>
-                                            @endif
-
-
                                             <th rowspan="2">ACTION</th>
-
                                         </tr>
                                         <tr class="lower-header">
                                             <th>{{ __('messages.unlocked') }}</th>
@@ -163,384 +189,137 @@
                                             <th>{{ __('messages.others') }} </th>
                                             <th>{{ __('messages.cleaning_illegal_ads_banners') }} </th>
                                         </tr>
-
                                     </thead>
-                                    <tbody>
 
+                                    <tbody>  
+                                        {{-- comming from script --}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
+                {{-- END TABLE  --}}
+
+
+                <section class="col-md-6 connectedSortable ui-sortable">
+                    
+                    <div class="card" style="position: relative; left: 0px; top: 0px;">
+                        <div class="card-header ui-sortable-handle" style="cursor: move;">
+
+                            <h3 class="card-title">{{ __('messages.substation') }} MAP</h3>
+
+                            <div class="card-tools">
+                              <ul class="nav nav-pills ml-auto">
+                                <li>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </li>
+                              </ul>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="p-3 pt-0 mt-0  form-input  ">
+                                {{-- <label for="select_layer">Select Layer : </label> --}}
+                                <span class="text-danger" id="er-select-layer"></span>
+                                <div class="d-sm-flex">
+                                    <div class="d-flex">
+                                        <input type="radio" name="select_layer" id="select_layer_main" class="with_defects"
+                                            value="substation_with_defects" onchange="selectLayer(this.value)">
+                                        <label for="select_layer_main">Defects</label>
+                                    </div>
+                    
+                                    <div class="mx-4 d-flex">
+                                        <input type="radio" name="select_layer" id="substation_without_defects"
+                                            value="substation_without_defects" class="without_defects" onchange="selectLayer(this.value)">
+                                        <label for="substation_without_defects">Without defects</label>
+                                    </div>
+                    
+                                    <div class="  d-flex">
+                                        <input type="radio" name="select_layer" id="select_layer_pano" value="pano"
+                                            onchange="selectLayer(this.value)">
+                                        <label for="select_layer_pano">Pano</label>
+                                    </div>
+
+                                    {{-- <div class="mx-4">
+                                        <div id="the-basics">
+                                            <input class="typeahead" type="text" placeholder="search substation" class="form-control">
+                                        </div>
+                                    </div>
+                                    --}}
+                    
+                                </div>
+
+                                <div id="map">
+
+                                </div>
+                    
+                              
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card" style="position: relative; left: 0px; top: 0px;">
+                        <div class="card-header ui-sortable-handle" style="cursor: move;">
+
+                            <h3 class="card-title">{{ __('messages.substation') }} Detail</h3>
+
+                            <div class="card-tools">
+                              <ul class="nav nav-pills ml-auto">
+                                <li>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </li>
+                              </ul>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0" style="height: 60vh ;" id='set-iframe'>
+
+                        </div>
+                    </div>
+                </section>
+ 
+
             </div>
         </div>
-
-
-
-
-
     </section>
 
 
-    <x-remove-confirm />
+    <div id="wg" class="windowGroup">
 
-    <x-reject-modal />
+    </div>
+
+    <div id="wg1" class="windowGroup">
+
+    </div>
+ 
 @endsection
 
 
+@section('script')
 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/generate-qr.js') }}"></script>
 
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
-
-
-    <script>
-        var lang = "{{ app()->getLocale() }}";
-        var url = "substation"
-        var auth_ba = "{{ Auth::user()->ba }}"
-      
-
-
-        $(document).ready(function() {
-
-
-            $('#choices-multiple-remove-button').append(`
-            <option value="grass">grass</option>
-                        <option value="treebranches">tree_branches_status</option>
-                        <option value="gate_loc">gate_loc</option>
-                        <option value="gate_demage">gate_demage</option>
-                        <option value="gate_other">gate_other</option>
-                        <option value="broken_gutter">broken_gutter</option>
-                        <option value="broken_roof">broken_roof</option>
-                        <option value="broken_base">broken_base</option>
-                        <option value="building_other">building_others</option>
-                        <option value="poster_status">poster_status</option>
-            `)
-
-            multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-            removeItemButton: true,
-            maxItemCount:44,
-            searchResultLimit:44,
-            renderChoiceLimit:44
-          });
-   
-
-     
-
-            var columns = [{
-                    render: function(data, type, full) {
-                        return `<a href="/{{ app()->getLocale() }}/substation/${full.id}/edit" class="text-decoration-none text-dark">${full.name}</a>`;
-                    },
-                    name: 'name'
-                },
-                {
-                    data: 'visit_date',
-                    name: 'visit_date',
-                    orderable: true
-                },
-                {
-                    data: 'id',
-                    name: 'id',
-                    visible: false,
-                },
-                {
-                    data: 'unlocked',
-                    name: 'unlocked'
-                },
-                {
-                    data: 'demaged',
-                    name: 'demaged'
-                },
-
-                {
-                    data: 'other_gate',
-                    name: 'other_gate'
-                },
-                {
-                    data: 'grass_status',
-                    name: 'grass_status'
-                },
-                {
-                    data: 'tree_branches_status',
-                    name: 'tree_branches_status'
-                },
-                {
-                    data: 'broken_roof',
-                    name: 'broken_roof'
-                },
-                {
-                    data: 'broken_gutter',
-                    name: 'broken_gutter'
-                },
-                {
-                    data: 'broken_base',
-                    name: 'broken_base'
-                },
-                {
-                    data: 'building_other',
-                    name: 'building_other'
-                },
-
-                {
-                    data: 'advertise_poster_status',
-                    name: 'advertise_poster_status'
-                },
-                {
-                    data: 'total_defects',
-                    name: 'total_defects'
-                }
-            ];
-            if (auth_ba !== '') {
-                columns.push({
-                    data: null,
-                    render: renderQaStatus
-                });
-            }
-
-            columns.push({
-                data: null,
-                render: renderDropDownActions
-            });
-
-
-
-
-
-
-             table = $('.data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                stateSave: true,
-
-
-                ajax: {
-                    url: '{{ route('substation.index', app()->getLocale()) }}',
-                    type: "GET",
-                    data: function(d) {
-
-                        if (from_date) {
-                            d.from_date = from_date;
-                        }
-
-                        if (excel_ba) {
-                            d.ba = excel_ba;
-                        }
-
-                        if (to_date) {
-                            d.to_date = to_date;
-                        }
-                        if (f_status) {
-                            d.status = f_status;
-                            d.image = 'substation_image_1';
-                        }
-                        if (qa_status) {
-                            d.qa_status = qa_status;
-                        }
-
-                        if (filters) {
-                            d.arr = filters;
-                        }
-                    }
-                },
-                columns: columns,
-                order: [
-                    [1, 'desc'],
-                    [0, 'desc']
-
-                ],
-                createdRow: function(row, data, dataIndex) {
-                    $(row).find('td:not(:first-child)').addClass('text-center');
-                }
-            })
-
-
-            // $('.data-table').on( 'click', 'tr', function(e) {
-            //     e.preventDefault();
-            //     var id = console.log(table.row( this ).x) /// How can i get the UUID
-            // } );
-
-
-        });
-
-
-
-
-function zoomToLoc(x,y){
-        map.flyTo([parseFloat(y), parseFloat(x)], 16, {
-                        duration: 1.5, // Animation duration in seconds
-                        easeLinearity: 0.25,
-                    });
-                    L.marker([parseFloat(y), parseFloat(x)]).addTo(map);            
- }                
-
-
-        function filter_data_withDefects(){
-            var defect_vals=$("#choices-multiple-remove-button").val();
-            filters = defect_vals;
-
-            table.ajax.reload();
-            // console.log( defect_vals);
-
-            // $.ajax({
-            //         url: '/{{app()->getLocale()}}/get_defect_data?arr='+defect_vals,
-            //         method: 'GET',
-            //         async: false,
-            //         success: function callback(data) {
-            //         }
-            //     })
-
-        }
-
-
-    </script>
-{{-- @endsection --}}
-
-@section('content1')
-@include('partials.map-css')
-<style>
-    #map {
-        height: 60vh;
-        z-index: 1;
-    }
-</style>
-    @if (Session::has('failed'))
-        <div class="alert {{ Session::get('alert-class', 'alert-secondary') }}" role="alert">
-            {{ Session::get('failed') }}
-
-            <button type="button" class="close border-0 bg-transparent" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-
-        </div>
-    @endif
-
-   
-    <div class="container-fluid bg-white pt-2">
-
-
-        <div class="p-3 form-input  ">
-            <label for="select_layer">Select Layer : </label>
-            <span class="text-danger" id="er-select-layer"></span>
-            <div class="d-sm-flex">
-                <div class="">
-                    <input type="radio" name="select_layer" id="select_layer_main" class="with_defects"
-                        value="substation_with_defects" onchange="selectLayer(this.value)">
-                    <label for="select_layer_main">Surveyed with defects</label>
-                </div>
-
-                <div class="mx-4">
-                    <input type="radio" name="select_layer" id="substation_without_defects"
-                        value="substation_without_defects" class="without_defects" onchange="selectLayer(this.value)">
-                    <label for="substation_without_defects">Surveyed without defects</label>
-                </div>
-                @if (Auth::user()->ba != '')
-                    <div class=" mx-4">
-                        <input type="radio" name="select_layer" id="select_layer_unsurveyed" value="unsurveyed"
-                            onchange="selectLayer(this.value)" class="unsurveyed">
-                        <label for="select_layer_unsurveyed">Unsurveyed </label>
-                    </div>
-
-                    <div class=" mx-4">
-                        <input type="radio" name="select_layer" id="select_layer_pending" value="sub_pending"
-                            onchange="selectLayer(this.value)" class="pending">
-                        <label for="select_layer_pending">Pending </label>
-                    </div>
-
-
-                    <div class=" mx-4">
-                        <input type="radio" name="select_layer" id="select_layer_reject" value="sub_reject"
-                            onchange="selectLayer(this.value)" class="reject">
-                        <label for="select_layer_reject">Reject </label>
-                    </div>
-                @endif
-
-                <div class=" mx-4">
-                    <input type="radio" name="select_layer" id="select_layer_pano" value="pano"
-                        onchange="selectLayer(this.value)">
-                    <label for="select_layer_pano">Pano</label>
-                </div>
-                <div class="mx-4">
-                    <div id="the-basics">
-                        <input class="typeahead" type="text" placeholder="search substation" class="form-control">
-                    </div>
-                </div>
-
-
-            </div>
-
-          
-        </div>
-
-        <!--  START MAP CARD DIV -->
-        <div class="row m-2">
-
-            <div class="col-md-12 p-0 ">
-                <div class="card p-0 m-0"
-                    style="border: 1px solid rgb(177, 175, 175) !important; border-radius: 0px !important;">
-                    <div class="card-header text-center"><strong> MAP</strong></div>
-                    <div class="card-body p-0">
-                        <div id="map">
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-md-12">
-                <div class="card p-0 m-0"
-                    style="border: 1px solid rgb(177, 175, 175) !important; border-radius: 0px !important;">
-
-                    <div class="card-header text-center"><strong>Detail</strong></div>
-
-                    <div class="card-body p-0" style="height: 50vh ;overflow-y:scroll;" id='set-iframe'>
-
-                    </div>
-                </div>
-            </div>
-            <!-- END MAP  DIV -->
-            <div id="wg" class="windowGroup">
-
-            </div>
-
-            <div id="wg1" class="windowGroup">
-
-            </div>
-
-        </div><!--  END MAP CARD DIV -->
-    </div>
-
-
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Site Data Info</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body ">
-                    <table class="table table-bordered">
-                        <tbody id="my_data"></tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
-{{-- @section('script') --}}
     @include('partials.map-js')
+
+
     <script>
+ 
         var substringMatcher = function(strs) {
 
             return function findMatches(q, cb) {
@@ -605,90 +384,27 @@ function zoomToLoc(x,y){
 
         });
     </script>
-
+    
     <script>
         var layers = [];
         layers = ['']
 
         // for add and remove layers
-        function addRemoveBundary(param, paramY, paramX) {
+        
 
 
+        function updateLayers(param) 
+        {
 
-
-            if (work_package) {
-                map.removeLayer(work_package);
+            var q_cql = "ba ILIKE '%" + param + "%' AND qa_status ='Accept' "
+            if (from_date != '') 
+            {
+                q_cql += "AND visit_date >=" + from_date;
             }
 
-            work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:tbl_workpackage',
-                format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
-                maxZoom: 21,
-                transparent: true
-            }, {
-                buffer: 10
-            })
-            map.addLayer(work_package)
-            // work_package.bringToFront()
-
-
-
-            if (boundary !== '') {
-                map.removeLayer(boundary)
-            }
-
-
-
-            boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ba',
-                format: 'image/png',
-                cql_filter: "station ILIKE '%" + param + "%'",
-                maxZoom: 21,
-                transparent: true
-            }, {
-                buffer: 10
-            })
-            map.addLayer(boundary)
-            boundary.bringToFront()
-
-
-            if (pano_layer !== '') {
-                map.removeLayer(pano_layer)
-            }
-            pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:pano_apks',
-                format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
-                maxZoom: 21,
-                transparent: true
-            }, {
-                buffer: 10
-            });
-            // map.addLayer(pano_layer);
-            // map.addLayer(pano_layer)
-
-
-
-
-            map.flyTo([parseFloat(paramY), parseFloat(paramX)], zoom, {
-                duration: 1.5, // Animation duration in seconds
-                easeLinearity: 0.25,
-            });
-
-            updateLayers(param);
-
-        }
-
-
-        function updateLayers(param) {
-
-            var q_cql = "ba ILIKE '%" + param + "%' "
-            if (from_date != '') {
-                q_cql = q_cql + "AND visit_date >=" + from_date;
-            }
-            if (to_date != '') {
-                q_cql = q_cql + "AND visit_date <=" + to_date;
+            if (to_date !=  '') 
+            {
+                q_cql +=  "AND visit_date <=" + to_date;
             }
 
 
@@ -728,97 +444,25 @@ function zoomToLoc(x,y){
             map.addLayer(substation_with_defects)
             substation_with_defects.bringToFront()
 
-            if (ba !== '') {
-
-
-
-                if (sub_reject != '') {
-                    map.removeLayer(sub_reject)
-                }
-
-                sub_reject = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                    layers: 'cite:sub_reject',
-                    format: 'image/png',
-                    cql_filter: q_cql,
-                    maxZoom: 21,
-                    transparent: true
-                }, {
-                    buffer: 10
-                })
-
-
-                map.addLayer(sub_reject)
-                sub_reject.bringToFront()
-
-
-                if (sub_pending != '') {
-                    map.removeLayer(sub_pending)
-                }
-
-                sub_pending = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                    layers: 'cite:sub_pending',
-                    format: 'image/png',
-                    cql_filter: q_cql,
-                    maxZoom: 21,
-                    transparent: true
-                }, {
-                    buffer: 10
-                })
-
-
-                map.addLayer(sub_pending)
-                sub_pending.bringToFront()
-
-                if (unservey != '') {
-                    map.removeLayer(unservey)
-                }
-                unservey = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                    layers: 'cite:sub_unserveyed',
-                    format: 'image/png',
-                    cql_filter: "ba ILIKE '%" + param + "%'",
-                    maxZoom: 21,
-                    transparent: true
-                }, {
-                    buffer: 10
-                })
-
-                map.addLayer(unservey)
-                unservey.bringToFront()
-
-            }
-
+             
             addGroupOverLays()
 
         }
 
 
         // add group overlayes
-        function addGroupOverLays() {
-            if (layerControl != '') {
-                // console.log("inmsdanssdkjnasjnd");
+        function addGroupOverLays() 
+        {
+            if (layerControl != '') 
+            {
                 map.removeControl(layerControl);
             }
 
-            if (ba !== '') {
-
-
-            groupedOverlays = {
-                "POI": {
-                    'BA': boundary,
-                    'Pano': pano_layer,
-                    'With defects': substation_with_defects,
-                    'Without defects': substation_without_defects,
-                    'Unsurveyed': unservey,
-
-                    'Work Package': work_package,
-                    'Pending': sub_pending,
-                    'Reject': sub_reject
-                }
-            };
-        }else{
-
-            groupedOverlays = {
-                "POI": {
+          
+            groupedOverlays = 
+            {
+                "POI": 
+                {
                     'BA': boundary,
                     'Pano': pano_layer,
                     'With defects': substation_with_defects,
@@ -827,7 +471,7 @@ function zoomToLoc(x,y){
                 }
             };
 
-        }
+
             //add layer control on top right corner of map
             layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
                 collapsed: true,
@@ -843,36 +487,151 @@ function zoomToLoc(x,y){
 
 
 
-        function showModalData(data, id) {
-            var str = '';
-            var idSp = id; //.split('.');
-
-            $('#exampleModalLabel').html("Substation Info")
-            str = ` <tr><th>Zone</th><td>${data.zone}</td> </tr>
-        <tr><th>Ba</th><td>${data.ba}</td> </tr>
-        <tr><th>Type</th><td>${data.type}</td> </tr>
-        <tr><th>Voltage</th><td>${data.voltage}</td> </tr>
-        <tr><th>Coordinate</th><td>${data.coordinate}</td> </tr>
-        <tr><th>Created At</th><td>${data.created_at}</td> </tr>
-        <tr><th>Detail</th><td class="text-center">    <a href="/{{ app()->getLocale() }}/substation/${idSp[1]}" target="_blank" class="btn btn-sm btn-secondary">Detail</a>
-            </td> </tr>
-        `
-
-
-            console.log(data.id);
-            openDetails(data.id);
-
-        }
-
-        function openDetails(id) {
-            // $('#myModal').modal('hide');
+        function showModalData(data, id) 
+        {
             $('#set-iframe').html('');
-
             $('#set-iframe').html(
-                `<iframe src="/{{ app()->getLocale() }}/get-substation-edit/${id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
+                `<iframe src="/{{ app()->getLocale() }}/get-substation-edit/${data.id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
             )
-
-
+           
         }
+
+       
+    </script>
+
+    <script>
+        var lang = "{{ app()->getLocale() }}";
+        var url = "substation"
+        var auth_ba = "{{ Auth::user()->ba }}"
+      
+//         var fullscreenElement = document.getElementById('yourMapElement'); // replace 'yourMapElement' with the actual ID or class of your map container
+
+
+// // You can trigger full screen like this (e.g., on a button click)
+// document.getElementById('fullscreenButton').addEventListener('click', function() {
+//     openFullscreen();
+// });
+
+// // You can also exit full screen similarly (e.g., on another button click)
+// document.getElementById('exitFullscreenButton').addEventListener('click', function() {
+//     closeFullscreen();
+// });
+
+
+
+        $(document).ready(function() {
+
+          
+            // ADD DEFECTS  IN SLECT OPTIONS
+            $('#choices-multiple-remove-button').append(`
+                        <option value="grass">grass</option>
+                        <option value="treebranches">tree_branches_status</option>
+                        <option value="gate_loc">gate_loc</option>
+                        <option value="gate_demage">gate_demage</option>
+                        <option value="gate_other">gate_other</option>
+                        <option value="broken_gutter">broken_gutter</option>
+                        <option value="broken_roof">broken_roof</option>
+                        <option value="broken_base">broken_base</option>
+                        <option value="building_other">building_others</option>
+                        <option value="poster_status">poster_status</option>
+            `)
+
+            // DECLARE DROPDOWN AS CHOICE
+            multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount:44,
+            searchResultLimit:44,
+            renderChoiceLimit:44 });
+   
+
+     
+                // DEFINE TABLE  COLUMNS 
+            var columns = [
+                { render: function(data, type, full) 
+                    { return `<a href="/{{ app()->getLocale() }}/substation/${full.id}/edit" class="text-decoration-none text-dark">${full.name}</a>`;},
+                    name: 'name'
+                },
+                {data: 'visit_date', name: 'visit_date', orderable: true },
+                {data: 'id', name: 'id', visible: false },
+                {data: 'unlocked', name: 'unlocked' },
+                {data: 'demaged', name: 'demaged' },
+                {data: 'other_gate', name: 'other_gate' },
+                {data: 'grass_status', name: 'grass_status' },
+                {data: 'tree_branches_status', name: 'tree_branches_status' },
+                {data: 'broken_roof', name: 'broken_roof' },
+                {data: 'broken_gutter', name: 'broken_gutter' },
+                {data: 'broken_base', name: 'broken_base' },
+                {data: 'building_other', name: 'building_other' },
+                {data: 'advertise_poster_status', name: 'advertise_poster_status' },
+                {data: 'total_defects', name: 'total_defects'},
+                {data: null, render: renderDropDownActions }
+            ];
+            
+
+
+             table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                stateSave: true,
+
+                ajax: 
+                {
+                    url: '{{ route('substation.index', app()->getLocale()) }}',
+                    type: "GET",
+                    data: function(d) 
+                    {
+
+                        if (from_date) { d.from_date = from_date }
+                        if (excel_ba)  { d.ba        = excel_ba }
+                        if (to_date)   { d.to_date   = to_date }
+                        if (filters)   { d.arr       = filters }
+                        if (qa_status) { d.qa_status = qa_status }
+                        if (f_status) 
+                        { 
+                            d.status = f_status; 
+                            d.image = 'substation_image_1';
+                        }
+                    }
+                },
+                columns: columns,  // ADD COLUMNS
+                order: [ [1, 'desc'], [0, 'desc'] ],
+
+                createdRow: function(row, data, dataIndex) {
+                    $(row).find('td:not(:first-child)').addClass('text-center');
+                }
+            })
+        });
+
+
+
+           
+
+
+        function openFullscreen() {
+    if (fullscreenElement.requestFullscreen) {
+        fullscreenElement.requestFullscreen();
+    } else if (fullscreenElement.mozRequestFullScreen) { // Firefox
+        fullscreenElement.mozRequestFullScreen();
+    } else if (fullscreenElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        fullscreenElement.webkitRequestFullscreen();
+    } else if (fullscreenElement.msRequestFullscreen) { // IE/Edge
+        fullscreenElement.msRequestFullscreen();
+    }
+}
+
+function closeFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
+
     </script>
 @endsection
+

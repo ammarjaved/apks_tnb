@@ -139,23 +139,10 @@ $(function(){
        
 
 
-
-        $('#rejectReasonModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-
-            $('#reject-foam').attr('action', `/${lang}/${url}-update-QA-Status`)
-            $('#reject-id').val(id);
-        });
+ 
 });
 
-// function filter_data_withDefects(){
-//     var defect_vals=$("#choices-multiple-remove-button").val();
-//     filters = defect_vals;
-
-//     table.ajax.reload();
-// }
-
+ 
 
 
 

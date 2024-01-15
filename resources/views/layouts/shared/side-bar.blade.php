@@ -25,7 +25,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
 
-                @if (Auth::user()->is_admin != '1')
+              
                 <li class="nav-item">
                     <a href="/{{app()->getLocale()}}/dashboard" class="nav-link ">
                         <i class="fas fa-tachometer-alt"></i>
@@ -35,7 +35,7 @@
 
 
                 <li class="nav-item">
-                    <a href="/pencawang" class="nav-link ">
+                    <a href="#" class="nav-link ">
                         <i class="fas fa-road"></i>
 
                         <p>{{__('messages.patrolling')}}
@@ -65,26 +65,7 @@
                     </a>
                     <ul class="nav nav-treeview">
 
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('third-party-digging.create', app()->getLocale()) }}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.create')}} {{__('messages.notice')}}</p>
-                            </a>
-                        </li> --}}
-
-                        {{-- <li class="nav-item">
-                            <a href="/{{app()->getLocale()}}/create-patrolling" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.patrolling')}}</p>
-                            </a>
-                        </li> --}}
-
-                        {{-- <li class="nav-item">
-                            <a href="{{route('notice', app()->getLocale())}}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.update')}} {{__('messages.notice')}}</p>
-                            </a>
-                        </li> --}}
+                     
 
 
                         <li class="nav-item">
@@ -93,12 +74,7 @@
                                 <p>{{__('messages.map')}}</p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="/{{app()->getLocale()}}/get-all-work-packages" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.sbum_approval_and_detail')}}</p>
-                            </a>
-                        </li> --}}
+                       
 
                         <li class="nav-item">
                             <a href="{{ route('third-party-digging.index', app()->getLocale()) }}" class="nav-link ">
@@ -111,19 +87,13 @@
 
 
                 <li class="nav-item">
-                    <a href="/pencawang" class="nav-link ">
+                    <a href="#" class="nav-link ">
                         <i class="fas fa-building"></i>
                         <p>{{__('messages.substation')}}
                         <i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
 
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('substation.create', app()->getLocale()) }}" class="nav-link ">
-                                <p> <i class="far fa-circle nav-icon"></i>
-                               {{__('messages.create')}} {{__('messages.substation')}}</p>
-                            </a>
-                        </li> --}}
 
 
                         <li class="nav-item">
@@ -143,7 +113,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="/feeder-pillar" class="nav-link ">
+                    <a href="#" class="nav-link ">
                         <i class="fas fa-cube"></i>
                         <p>{{__('messages.feeder_pillar')}}
                         <i class="right fas fa-angle-left"></i></p>
@@ -151,12 +121,7 @@
 
                     <ul class="nav nav-treeview">
 
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('feeder-pillar.create', app()->getLocale()) }}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.create')}} {{__('messages.feeder_pillar')}}</p>
-                            </a>
-                        </li> --}}
+                       
 
                         <li class="nav-item">
                             <a href="/{{app()->getLocale()}}/feeder-pillar-map" class="nav-link ">
@@ -184,12 +149,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        {{-- <li class="nav-item">
-                            <a href="{{route('tiang-talian-vt-and-vr.create', app()->getLocale())}}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.create')}} SAVR</p>
-                            </a>
-                        </li> --}}
+                       
 
                         <li class="nav-item">
                             <a href="/{{app()->getLocale()}}/tiang-talian-vt-and-vr-map" class="nav-link ">
@@ -216,14 +176,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        {{-- <li class="nav-item">
-                            <a href="{{route('link-box-pelbagai-voltan.create', app()->getLocale())}}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.create')}}  {{__('messages.link_box_pelbagai_voltan')}}</p>
-                            </a>
-                        </li> --}}
-
-
+                      
                         <li class="nav-item">
                             <a href="/{{app()->getLocale()}}/link-box-pelbagai-voltan-map" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
@@ -249,13 +202,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        {{-- <li class="nav-item">
-                            <a href="{{route('cable-bridge.create', app()->getLocale())}}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{__('messages.create')}}  {{__('messages.cable_bridge')}}</p>
-                            </a>
-                        </li> --}}
-
+                      
 
                         <li class="nav-item">
                             <a href="/{{app()->getLocale()}}/cable-bridge-map" class="nav-link ">
@@ -275,55 +222,8 @@
 
 
 
-                {{-- <li class="nav-item ">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-road"></i>
-                        <p>
-                            PO
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('po.create', app()->getLocale())}}" class="nav-link ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('po.index', app()->getLocale())}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Index</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
 
-
-{{--
-                <li class="nav-item">
-                    <a href="/map-2" class="nav-link ">
-                        <i class="fa fa-map"></i>
-                        <p>Map</p>
-                    </a>
-                </li> --}}
-
-
-                @else
-                <li class="nav-item">
-                    <a href="{{route('team.index', app()->getLocale())}}" class="nav-link ">
-                        <i class="fa fa-map"></i>
-                        <p>Team</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{route('team-users.index', app()->getLocale())}}" class="nav-link ">
-                        <i class="fa fa-user"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                @endif
+ 
             </ul>
         </nav>
 

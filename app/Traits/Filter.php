@@ -43,35 +43,11 @@ trait Filter
             $model->where($column, '<=', $request->to_date);
         }
 
-        // if auth ba is empty then add two more conditions
-       // if (Auth::user()->ba == '') {
+ 
             $model->where('qa_status', 'Accept');
-            // $model->whereNotNull($column);
-      //  }
+            
 
-        // if request has status
-        if ($request->filled('status')) {
-            if ($request->status == 'unsurveyed') {
-                $model->whereNull($column)->whereNull($request->image);
-            } elseif ($request->status == 'surveyed_with_defects') {
-                $model
-                    ->whereNotNull($column)
-                    ->where('total_defects', '!=', '0')
-                    ->where($request->image, '!=', '');
-            } elseif ($request->status == 'surveyed_without_defects') {
-                $model
-                    ->whereNotNull($column)
-                    ->where('total_defects', '0')
-                    ->where($request->image, '!=', '');
-            }
-        }
-
-        // for accept and reject
-        if ($request->filled('qa_status')) {
-            if ($request->qa_status == 'Accept' || $request->qa_status == 'Reject' || $request->qa_status == 'pending') {
-                $model->where('qa_status', $request->qa_status);
-            }
-        }
+ 
         return $model;
     }
 

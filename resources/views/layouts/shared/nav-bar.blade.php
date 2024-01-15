@@ -1,22 +1,28 @@
-<nav class="main-header navbar navbar-expand navbar-light d-flex justify-content-between"
-    style="background-color: #708090">
+ <!-- Navbar -->
+ <nav class="main-header navbar navbar-expand navbar-white  navbar-light" style="background: #708090">
     <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars text-white"></i></a>
+      </li>
+      
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      
     
 
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i
-                    class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item   d-sm-inline-block">
-            <img src="{{ asset('assets/web-images/main-logo.png') }}" height="35" alt="">
-            {{-- <a href="index3.html" class="nav-link">Home</a> --}}
-        </li>
-        {{--    <li class="nav-item d-none d-sm-inline-block">
-      <a href="#" class="nav-link">Contact</a>
-    </li> --}}
-    </ul>
-    @auth
+      
+      
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt text-white"></i>
+        </a>
+      </li>
+      @auth
+
+       <li class="nav-item p-2">
     <div class="ms-auto ">
         <x-dropdown align="right" width="48">
             <x-slot name="trigger">
@@ -65,9 +71,9 @@
         </x-dropdown>
 
     </div>
-    @endauth
- 
+       </li>
+    @endauth 
 
-
-</nav>
-<!-- /.navbar -->
+    </ul>
+  </nav>
+  <!-- /.navbar -->

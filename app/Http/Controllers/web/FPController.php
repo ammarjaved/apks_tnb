@@ -50,6 +50,7 @@ class FPController extends Controller
                     DB::raw("CASE WHEN (gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
                     DB::raw("CASE WHEN (gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
                     DB::raw("CASE WHEN (gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
+                    DB::raw("st_x(geom) as x,st_y(geom) as y"),
                     'vandalism_status',
                     'leaning_status',
                     'rust_status',

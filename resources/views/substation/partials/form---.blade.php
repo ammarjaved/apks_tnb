@@ -1,54 +1,80 @@
 
 <div class="row">
-    <div class="col-md-4 col-sm-4 "><label for="zone">{{ __('messages.zone') }}</label></div>
-    <div class="col-md-4 col-sm-6">
-        <input type="text" name=""  id="" value="{{ $data->zone }}" class="form-control" {{$disabled ? 'disabled' : ''}}>
+    <div class="col-md-4"><label for="zone">{{ __('messages.zone') }}</label></div>
+    <div class="col-md-4">
+        <select name="zone" id="search_zone" class="form-control" required {{$disabled ? 'disabled' : ''}}>
+
+            <option value="{{ $data->zone }}" hidden>{{ $data->zone }}</option>
+            @if (Auth::user()->ba == '')
+                <option value="W1">W1</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="B4">B4</option>
+            @endif
+
+        </select>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-sm-4 "><label for="ba">{{ __('messages.ba') }}</label></div>
-    <div class="col-md-4 col-sm-6 ">
-        <input type="text" name=""  id="" value="{{ $data->ba }}" class="form-control" {{$disabled ? 'disabled' : ''}}>
-    </div>
+    <div class="col-md-4"><label for="ba">{{ __('messages.ba') }}</label></div>
+    <div class="col-md-4"><select name="ba" id="ba" class="form-control" required {{$disabled ? 'disabled' : ''}}
+            onchange="getWp(this)">
+            <option value="{{ $data->ba }}" hidden>{{ $data->ba }}</option>
+
+
+        </select></div>
 </div>
 
 
 <div class="row">
-    <div class="col-md-4 col-sm-4 "><label for="fl">{{ __('messages.fl_substation') }}</label></div>
-    <div class="col-md-4 col-sm-6 ">
-        <input type="text" name="fl" id="fl" {{$disabled ? 'disabled' : ''}} value="{{ $data->fl }}" class="form-control" required>
+    <div class="col-md-4"><label for="fl">{{ __('messages.fl_substation') }}</label></div>
+    <div class="col-md-4">
+        <input type="text" name="fl" id="fl" {{$disabled ? 'disabled' : ''}}
+            value="{{ $data->fl }}" class="form-control"
+            required>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-sm-4 "><label for="name">{{ __('messages.substation_feeder_pillar_name') }}</label></div>
-    <div class="col-md-4 col-sm-6 ">
+    <div class="col-md-4"><label for="name">{{ __('messages.substation_feeder_pillar_name') }}</label></div>
+    <div class="col-md-4">
         <input type="text" name="name" id="name" class="form-control" required value="{{ $data->name }}" {{$disabled ? 'disabled' : ''}}>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="type">{{ __('messages.type') }}</label></div>
-    <div class="col-md-4 col-sm-6">
-        <input type="text" name="name" id="name" class="form-control" required value="{{ $data->type }}" {{$disabled ? 'disabled' : ''}}>
-
+    <div class="col-md-4"><label for="type">{{ __('messages.type') }}</label></div>
+    <div class="col-md-4">
+        <select name="type" id="type" class="form-control" {{$disabled ? 'disabled' : ''}}>
+            <option value="{{$data->type}}" hidden>{{$data->type == '' ? 'select' : $data->type}}select</option>
+            <option value="Indoor">Indoor</option>
+            <option value="Attach Building">Attach Building</option>
+            <option value="Outdoor">Outdoor</option>
+            <option value="Padat">Padat</option>
+            <option value="Pencawang Atas Tiang (PAT)">Pencawang Atas Tiang (PAT)</option>
+        </select>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="area">{{ __('messages.voltage') }}</label></div>
-    <div class="col-md-4 col-sm-6">
-        <input type="text" name="name" id="name" class="form-control" required value="{{ $data->voltage }}" {{$disabled ? 'disabled' : ''}}>
+    <div class="col-md-4"><label for="area">{{ __('messages.voltage') }}</label></div>
+    <div class="col-md-4">
+        <select name="voltage" id="voltage" class="form-control" {{$disabled ? 'disabled' : ''}}>
+            <option value="{{$data->voltage}}" hidden>{{$data->voltage == '' ? 'select' : $data->voltage}}select</option>
+            <option value="11kw">11kv</option>
+            <option value="13kw">13kv</option>
+        </select>
     </div>
 </div>
 
 
 
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="visit_date">{{ __('messages.survey_date') }}</label></div>
-    <div class="col-md-4 col-sm-6">
-        <input type="date" name="name" id="name" class="form-control" required value="{{ $data->visit_date }}" {{$disabled ? 'disabled' : ''}}>
+    <div class="col-md-4"><label for="visit_date">{{ __('messages.survey_date') }}</label></div>
+    <div class="col-md-4">
+        <input type="date" name="visit_date" id="visit_date" class="form-control" {{$disabled ? 'disabled' : ''}}
+            value="{{ date('Y-m-d', strtotime($data->visit_date)) }}" required>
     </div>
 </div>
 
@@ -56,27 +82,37 @@
 
 
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="patrol_time">{{ __('messages.patrol_time') }}</label></div>
-    <div class="col-md-4 col-sm-6">
-        <input type="time" name="name" id="name" class="form-control" required value="{{ $data->patrol_time }}" {{$disabled ? 'disabled' : ''}}>
-     </div>
+    <div class="col-md-4"><label for="patrol_time">{{ __('messages.patrol_time') }}</label>
+    </div>
+    <div class="col-md-4">
+        <input type="time" name="patrol_time" id="patrol_time" class="form-control" {{$disabled ? 'disabled' : ''}}
+            value="{{ $data->patrol_time =='' ? now('Asia/Kuala_Lumpur')->format('H:i') : date('H:i:s', strtotime($data->patrol_time)) }}" required>
+    </div>
 </div>
+
+
+
+
+
+
+
+@if ($disabled)
 
 
 
   <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="coordinate">{{ __('messages.coordinate') }}</label>
+    <div class="col-md-4"><label for="coordinate">{{ __('messages.coordinate') }}</label>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-4">
         <input type="text" name="coordinate" id="coordinate"
             value="{{ $data->coordinate }}" class="form-control" required readonly disabled>
     </div>
 </div>
 
-
+@endif
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="pipe_staus">{{ __('messages.gate') }}</label></div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-4"><label for="pipe_staus">{{ __('messages.gate') }}</label></div>
+    <div class="col-md-4">
         <div class="  d-flex">
             <input type="radio" name="gate_status[locked]" {{$disabled ? 'disabled' : ''}}
                 {{ substaionCheckBox('locked', $data->gate_status) }} id="gate_status_locked" value="locked" >
@@ -112,25 +148,39 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="grass_status">{{ __('messages.long_grass') }}</label>
+    <div class="col-md-4"><label for="grass_status">{{ __('messages.long_grass') }}</label>
     </div>
-    <div class="col-md-4 col-sm-6">
-        <input type="text" name="name" id="name" class="form-control" required value="{{ $data->grass_status }}" {{$disabled ? 'disabled' : ''}}>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4 col-sm-4"><label  for="tree_branches_status">{{ __('messages.tree_branches_in_PE') }}</label></div>
-    <div class="col-md-4 col-sm-6">
-        <input type="text" name="name" id="name" class="form-control" required value="{{ $data->tree_branches_status }}" {{$disabled ? 'disabled' : ''}}>
+    <div class="col-md-4">
+        <select name="grass_status" id="grass_status" class="form-control" required {{$disabled ? 'disabled' : ''}}>
+            <option value="{{ $data->grass_status }}" hidden>{{ $data->grass_status }}
+            </option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
 
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-sm-4"><label for="building_status">{{ __('messages.building_defects') }}</label></div>
+    <div class="col-md-4"><label
+            for="tree_branches_status">{{ __('messages.tree_branches_in_PE') }}</label></div>
+    <div class="col-md-4">
 
-    <div class="col-md-4 col-sm-6">
+        <select name="tree_branches_status" id="tree_branches_status" class="form-control" {{$disabled ? 'disabled' : ''}}
+            required>
+            <option value="{{ $data->tree_branches_status }}" hidden>
+                {{ $data->tree_branches_status }}</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4"><label
+            for="building_status">{{ __('messages.building_defects') }}</label></div>
+
+    <div class="col-md-4">
         <div class="d-flex">
             <input type="checkbox" name="building_status[broken_roof]" {{$disabled ? 'disabled' : ''}}
                 {{ substaionCheckBox('broken_roof', $data->building_status) }}
@@ -171,11 +221,17 @@
 
 
 <div class="row">
-    <div class="col-md-4 col-sm-4">
-        <label for="collapsed_status">{{ __('messages.cleaning_illegal_ads_banners') }}</label>
+    <div class="col-md-4"><label
+            for="collapsed_status">{{ __('messages.cleaning_illegal_ads_banners') }}</label>
     </div>
-    <div class="col-md-4 col-sm-6">
-        <input type="text" name="name" id="name" class="form-control" required value="{{ $data->advertise_poster_status }}" {{$disabled ? 'disabled' : ''}}>
+    <div class="col-md-4">
+        <select name="advertise_poster_status" id="advertise_poster_status" {{$disabled ? 'disabled' : ''}}
+            class="form-control" required>
+            <option value="{{ $data->advertise_poster_status }}" hidden>
+                {{ $data->advertise_poster_status }}</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
     </div>
 </div>
 

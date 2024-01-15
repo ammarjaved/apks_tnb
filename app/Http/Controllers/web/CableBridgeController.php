@@ -46,7 +46,7 @@ class CableBridgeController extends Controller
             }
 
             $result->when(true, function ($query) {
-                return $query->select('id', 'ba', 'zone', 'team', 'visit_date', 'total_defects', 'qa_status','qa_status' , 'reject_remarks');
+                return $query->select('id', 'ba', 'zone', 'team', 'visit_date', 'total_defects', 'qa_status','qa_status' , 'reject_remarks',DB::raw("st_x(geom) as x,st_y(geom) as y"));
             });
 
             return datatables()

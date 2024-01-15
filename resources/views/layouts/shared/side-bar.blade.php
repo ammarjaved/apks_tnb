@@ -40,9 +40,10 @@
 
                         <p>{{__('messages.patrolling')}}
 
-                        <i class="right fas fa-angle-left"></i></p>
+                        {{-- <i class="right fas fa-angle-left"></i> --}}
+                    </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
 
 
                         <li class="nav-item">
@@ -52,7 +53,7 @@
                             </a>
                         </li>
 
-                    </ul>
+                    </ul> --}}
                 </li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link">
@@ -90,9 +91,10 @@
                     <a href="#" class="nav-link ">
                         <i class="fas fa-building"></i>
                         <p>{{__('messages.substation')}}
-                        <i class="right fas fa-angle-left"></i></p>
+                        {{-- <i class="right fas fa-angle-left"></i> --}}
+                    </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
 
 
 
@@ -110,7 +112,7 @@
                             </a>
                         </li>
 
-                    </ul>
+                    </ul> --}}
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link ">

@@ -35,7 +35,7 @@
 
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="{{ route('patroling.index', app()->getLocale()) }}" class="nav-link ">
                         <i class="fas fa-road"></i>
 
                         <p>{{__('messages.patrolling')}}

@@ -35,14 +35,15 @@
 
 
                 <li class="nav-item">
-                    <a href="/pencawang" class="nav-link ">
+                    <a href="{{ route('patroling.index', app()->getLocale()) }}" class="nav-link ">
                         <i class="fas fa-road"></i>
 
                         <p>{{__('messages.patrolling')}}
 
-                        <i class="right fas fa-angle-left"></i></p>
+                        {{-- <i class="right fas fa-angle-left"></i> --}}
+                    </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
 
 
                         <li class="nav-item">
@@ -52,7 +53,7 @@
                             </a>
                         </li>
 
-                    </ul>
+                    </ul> --}}
                 </li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link">
@@ -111,19 +112,20 @@
 
 
                 <li class="nav-item">
-                    <a href="/pencawang" class="nav-link ">
+                    <a href="{{ route('substation.index', app()->getLocale()) }}" class="nav-link ">
                         <i class="fas fa-building"></i>
                         <p>{{__('messages.substation')}}
-                        <i class="right fas fa-angle-left"></i></p>
+                        {{-- <i class="right fas fa-angle-left"></i> --}}
+                    </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
 
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{{ route('substation.create', app()->getLocale()) }}" class="nav-link ">
                                 <p> <i class="far fa-circle nav-icon"></i>
                                {{__('messages.create')}} {{__('messages.substation')}}</p>
                             </a>
-                        </li> --}}
+                        </li>
 
 
                         <li class="nav-item">
@@ -140,7 +142,7 @@
                             </a>
                         </li>
 
-                    </ul>
+                    </ul> --}}
                 </li>
                 <li class="nav-item">
                     <a href="/feeder-pillar" class="nav-link ">

@@ -573,7 +573,7 @@ var sub_reject = '';
 
             var inBa = $('#search_ba').val() ??'';
             if(inBa==''){
-                inBa=$('#excelBa').val();
+                inBa=$('#excelBa').val() ??'';
             }
             if (param.id == 'from_date') {
                 from_date = param.value;

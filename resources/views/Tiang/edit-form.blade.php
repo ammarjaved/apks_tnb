@@ -11,9 +11,9 @@
             min-width: 16px !important;
             margin-right: 12px;
         }
-        a[href='#finish'] {
+        /* a[href='#finish'] {
             display: none !important;
-        }
+        } */
         input[type='radio'] {
             border-radius: 50% !important;
         }
@@ -124,10 +124,10 @@
 
 
 
-                // onFinished: function(event, currentIndex) {
-                //     form.submit();
-                // },
-                // autoHeight: true,
+                onFinished: function(event, currentIndex) {
+                    form.submit();
+                },
+                autoHeight: true,
             })
 
         function getLocation() {
@@ -188,8 +188,13 @@
 
         });
 
+
         var total_defects = parseInt({{ $data->total_defects }});
 
+
+        function submitForm() {
+            
+        }
         function addReomveImageField(checkbox) {
             var element = $(checkbox);
             var id = element.attr('id');

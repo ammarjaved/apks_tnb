@@ -258,7 +258,7 @@
     </div>
     @endif
 
-    <div class="col-md-4 col-sm-4 text-center mb-3">
+    <div class="col-md-8 col-sm-8 text-center mb-3">
         @if (file_exists(public_path($data->other_image)) && $data->other_image != '')
             <a href="{{ URL::asset($data->other_image) }}" data-lightbox="roadtrip">
                 <img src="{{ URL::asset($data->other_image) }}" alt=""
@@ -268,3 +268,28 @@
         @endif
     </div>
 </div>
+
+<form action="{{ route('feeder-pillar.update',[app()->getLocale(),$data->id]) }} " id="myForm"
+    method="POST" enctype="multipart/form-data">
+    @method('PATCH')
+    @csrf
+
+    @if ($data->repair_date != '')
+        <div class="row">
+            <div class="col-md-4 col-sm-6"><label for="repair_date">Repair Date</label></div>
+            <div class="col-md-4 col-sm-6">
+                <input  disabled  type="date" id="repair_date" class="form-control" value="{{ date('Y-m-d' , strtotime($data->repair_date)) }}" required>
+            </div>
+        </div>
+    @endif
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-6"><label for="repair_date">{{$data->repair_date != '' ?'Update ' : 'Add '}}Repair Date</label></div>
+        <div class="col-md-4 col-sm-6">
+            <input type="date" name="repair_date" id="repair_date" class="form-control" required>
+        </div>
+    </div>
+
+    <div class="text-center p-4"><button class="btn btn-sm btn-success"> <strong>{{ __('messages.update') }}</strong></button></div>
+
+</form>

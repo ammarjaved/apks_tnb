@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class LinkBoxController extends Controller
 {
@@ -173,60 +175,24 @@ class LinkBoxController extends Controller
     {
         //
 
-        $currentDate = Carbon::now()->toDateString();
-        $combinedDateTime = $currentDate . ' ' . $request->patrol_time;
-        try {
+        try 
+        {
 
-            $defects = [];
-            $defects =['leaning_status','vandalism_status','advertise_poster_status','rust_status','bushes_status' ,'cover_status'];
-            $total_defects = 0;
-            $data = LinkBox::find($id);
-            $data->zone = $request->zone;
-            $data->ba = $request->ba;
-            // $data->team = $request->team;
-            $data->visit_date = $request->visit_date;
-            $data->patrol_time = $combinedDateTime;
-            $data->feeder_involved = $request->feeder_involved;
-            $user = Auth::user()->id;
-
-            $data->updated_by = $user;
-            if ($data->qa_status == '') {
-                $data->qa_status = 'pending';
+            $data = LinkBox::find($id);  
+            if ($data ) 
+            {
+                $data->repair_date = $request->repair_date;
+                $data->update();
             }
-            $data->start_date = $request->start_date;
-            $data->end_date = $request->end_date;
-            $data->type = $request->type;
-            $data->coordinate = $request->coordinate;
-            foreach ($defects as  $value) {
-                $data->{$value} = $request->{$value};
-               $request->has($value)&& $request->{$value} == 'Yes' ? $total_defects++ : '';
-            }
-           $data->total_defects = $total_defects;
-           $data->leaning_angle = $request->leaning_angle;
-            $destinationPath = 'assets/images/link-box/';
-
-            foreach ($request->all() as $key => $file) {
-                // Check if the input is a file and it is valid
-                if ($request->hasFile($key) && $request->file($key)->isValid()) {
-                    $uploadedFile = $request->file($key);
-                    $img_ext = $uploadedFile->getClientOriginalExtension();
-                    $filename = $key . '-' . strtotime(now()) . '.' . $img_ext;
-                    $uploadedFile->move($destinationPath, $filename);
-                    $data->{$key} = $destinationPath . $filename;
-                }
-            }
-
-            $data->save();
-
-            return redirect()
-                ->route('link-box-pelbagai-voltan.index', app()->getLocale())
-                ->with('success', 'Form Update');
-        } catch (\Throwable $th) {
+            Session::flash('success', 'Request Success');
+        } 
+        catch (\Throwable $th) 
+        {
             return $th->getMessage();
-            return redirect()
-                ->route('link-box-pelbagai-voltan.index', app()->getLocale())
-                ->with('failed', 'Request Failed');
+            return "something wrong...";
+            Session::flash('failed', 'Request Failed');
         }
+        return redirect()->back();
     }
 
     /**

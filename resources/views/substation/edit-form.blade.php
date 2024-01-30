@@ -55,16 +55,13 @@
                     <div class="form-input ">
                         <h3 class="text-center p-2">Substation</h3>
 
-                        <form action="{{ route('update-substation-map-edit', [app()->getLocale(), $data->id]) }} " id="myForm"
-                            method="POST" enctype="multipart/form-data">
-
-                            @csrf
+                        
 
                            @include('substation.partials.form')
 
                             {{-- <div class="text-center p-4"><button
                                     class="btn btn-sm btn-success">{{ __('messages.update') }}</button></div> --}}
-                        </form>
+                       
                     </div>
                 </div>
             </div>

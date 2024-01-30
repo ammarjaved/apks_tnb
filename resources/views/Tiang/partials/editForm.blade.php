@@ -1,5 +1,5 @@
 <form id="framework-wizard-form"
-                            action="/{{app()->getLocale()}}/{{$url }}/{{$data->id}}"
+                            action="/{{app()->getLocale()}}/tiang-talian-vt-and-vr/{{$data->id}}"
                             enctype="multipart/form-data" style="display: none" method="POST">
                             @method('PATCH')
                             @csrf
@@ -10,129 +10,86 @@
                             <fieldset class=" form-input">
 
                                 <div class="row">
-                                    <div class="col-md-4"><label for="ba">{{ __('messages.ba') }}</label></div>
-                                    <div class="col-md-4"><select name="ba" id="ba" class="form-control"
-                                            required {{'disabled'}}>
-
-                                            <option value="{{ $data->ba }}">{{ $data->ba }}</option>
-
-                                            @if (Auth::user()->ba == '')
-                                                <optgroup label="W1">
-                                                    <option value="KUALA LUMPUR PUSAT">KL PUSAT</option>
-                                                </optgroup>
-                                                <optgroup label="B1">
-                                                    <option value="PETALING JAYA">PETALING JAYA</option>
-                                                    <option value="RAWANG">RAWANG</option>
-                                                    <option value="KUALA SELANGOR">KUALA SELANGOR</option>
-                                                </optgroup>
-                                                <optgroup label="B2">
-                                                    <option value="KLANG">KLANG</option>
-                                                    <option value="PELABUHAN KLANG">PELABUHAN KLANG</option>
-                                                </optgroup>
-                                                <optgroup label="B4">
-                                                    <option value="CHERAS">CHERAS</option>
-                                                    <option value="BANTING">BANTING</option>
-                                                    <option value="BANGI">BANGI</option>
-                                                    <option value="PUTRAJAYA & CYBERJAYA">PUTRAJAYA & CYBERJAYA</option>
-                                                </optgroup>
-                                            @endif
-
-
-                                        </select>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="fp_name"> {{ __('messages.name_of_substation') }} /
-                                            {{ __('messages.Name_of_Feeder_Pillar') }} </label></div>
-
-                                    <div class="col-md-4"><input type="text" name="fp_name" value="{{ $data->fp_name }}"
-                                            id="fp_name" class="form-control" required {{'disabled'}}></div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="fp_road"> {{ __('messages.Feeder_Name') }} /
-                                            {{ __('messages.Street_Name') }}</label></div>
-
-                                    <div class="col-md-4"><input type="text" name="fp_road" value="{{ $data->fp_road }}"
-                                            id="fp_road" class="form-control" required {{'disabled'}}>
+                                    <div class="col-md-4 col-sm-4"><label for="ba">{{ __('messages.ba') }}</label></div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" class="form-control" value="{{ $data->ba }}" id="" disabled> 
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4"><label for="">{{ __('messages.Section') }} </label>
+                                    <div class="col-md-4 col-sm-4">
+                                        <label for="fp_name"> {{ __('messages.name_of_substation') }} / {{ __('messages.Name_of_Feeder_Pillar') }} </label>
                                     </div>
-
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="section_from">{{ __('messages.from') }} </label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" name="fp_name" value="{{ $data->fp_name }}" id="fp_name" class="form-control" required {{'disabled'}}>
                                     </div>
-                                    <div class="col-md-4"><input type="text" name="section_from"
-                                            value="{{ $data->section_from }}" id="section_from" class="form-control" {{'disabled'}}></div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="section_to">{{ __('messages.to') }}</label></div>
-                                    <div class="col-md-4"><input type="text" name="section_to"
-                                            value="{{ $data->section_to }}" id="section_to" class="form-control" {{'disabled'}}></div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="tiang_no">{{ __('messages.Tiang_No') }}</label>
-                                    </div>
-                                    <div class="col-md-4"><input type="text" name="tiang_no"
-                                            value="{{ $data->tiang_no }}" id="tiang_no" class="form-control" required {{'disabled'}}>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="review_date">{{__('messages.visit_date')}}</label>
-                                    </div>
-                                    <div class="col-md-4"><input type="date" name="review_date" id="review_date"
-                                            class="form-control" required  value="{{ $data->review_date }}" {{'disabled'}}></div>
                                 </div>
 
 
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4">
+                                        <label for="fp_road"> {{ __('messages.Feeder_Name') }} / {{ __('messages.Street_Name') }}</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" name="fp_road" value="{{ $data->fp_road }}" id="fp_road" class="form-control" required {{'disabled'}}>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4"><label for="">{{ __('messages.Section') }} </label></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4"><label for="section_from">{{ __('messages.from') }} </label></div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" name="section_from" value="{{ $data->section_from }}" id="section_from" class="form-control" {{'disabled'}}>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4"><label for="section_to">{{ __('messages.to') }}</label></div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" name="section_to" value="{{ $data->section_to }}" id="section_to" class="form-control" {{'disabled'}}>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4"><label for="tiang_no">{{ __('messages.Tiang_No') }}</label></div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" name="tiang_no" value="{{ $data->tiang_no }}" id="tiang_no" class="form-control" required {{'disabled'}}>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4"><label for="review_date">{{__('messages.visit_date')}}</label></div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="date" name="review_date" id="review_date" class="form-control" required  value="{{ $data->review_date }}" {{'disabled'}}>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4">
                                         <label for="main_line">{{__('messages.main_line_service_line')}}</label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <select name="talian_utama" id="main_line" class="form-control"   {{'disabled'}}>
-                                            <option value="{{$data->talian_utama_connection ?? ''}}" hidden>{{$data->talian_utama_connection == 'main_line' ? 'M' : 'S'}}</option>
-                                            <option value="main_line">Main Line</option>
-                                            <option value="service_line">Service Line</option>
-                                        </select>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="text" class="form-control" id="" value="{{$data->talian_utama_connection}}" disabled>    
+                                    </div>
                                 </div>
-                                </div>
+
                                 <div class="row " id="main_line_connection">
-                                    <div class="col-md-4">
-                                        <label for="">
-                                            Number of Services Involves 1 user only
-
-                                        </label>
+                                    <div class="col-md-4 col-sm-4">  <label for=""> Number of Services Involves 1 user only </label> </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input type="number" name="talian_utama_connection" value="{{$data->talian_utama}}" class="form-control" id="main_line_connection_one"   {{'disabled'}}>  
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="number" name="talian_utama_connection" value="{{$data->talian_utama}}" class="form-control" id="main_line_connection_one"   {{'disabled'}}>
-                                            
-                                        </div>
-
-
                                 </div>
+
                                 <div class="row">
-                                    <div class="col-md-4"><label for="pole_image-1">{{ __('messages.pole') }} Image 1
+                                    <div class="col-md-4 col-sm-4"><label for="pole_image-1">{{ __('messages.pole') }} Image 1
                                         </label>
                                     </div>
-                                    {{-- <div class="col-md-5 p-2 pr-5"><input type="file" name="pole_image_1"
-                                            id="pole_image_1" class="form-control"  {{'disabled'}}>
-                                    </div> --}}
-
-                                    <div class="col-md-3">
+                                   
+                                    <div class="col-md-4 col-sm-4">
                                         @if ($data->pole_image_1 != '' )
                                             <a href="{{config('custom.image_url').$data->pole_image_1}}" data-lightbox="roadtrip">
                                                 <img src="{{config('custom.image_url').$data->pole_image_1}}" alt=""
@@ -145,13 +102,9 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4"><label for="pole_image-2">{{ __('messages.pole') }} Image
-                                            2</label>
-                                    </div>
-                                    {{-- <div class="col-md-5 p-2 pr-5"><input type="file" name="pole_image_2"
-                                            id="pole_image_2" class="form-control"  {{'disabled'}}>
-                                    </div> --}}
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 col-sm-4"><label for="pole_image-2">{{ __('messages.pole') }} Image 2</label></div>
+                                  
+                                    <div class="col-md-4 col-sm-4">
                                         @if ($data->pole_image_2 != '')
                                             <a href="{{config('custom.image_url').$data->pole_image_2}}" data-lightbox="roadtrip">
                                                 <img src="{{config('custom.image_url').$data->pole_image_2}}" alt=""
@@ -162,11 +115,6 @@
                                         @endif
                                     </div>
                                 </div>
-
-
-
-
-
 
                             </fieldset>
                             {{-- END Info (1) --}}
@@ -864,6 +812,30 @@
                                     </div>
 
                                 </div>
+
+                       
+        
+                                    @if ($data->repair_date != '')
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6"><label for="repair_date">Repair Date</label></div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <input  disabled  type="date" name="repair_date"   id="repair_date" class="form-control" value="{{ date('Y-m-d' , strtotime($data->repair_date)) }}" required>
+                                            </div>
+                                        </div>
+            
+                                    @endif
+
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-6"><label for="repair_date">{{$data->repair_date != '' ?'Update ' : 'Add '}}Repair Date</label></div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <input type="date" name="repair_date"   id="repair_date" class="form-control" required>
+                                        </div>
+                                    </div>
+        
+                    
+                                    {{-- <div class="text-center p-4"><button class="btn btn-sm btn-success" type="button" onclick="$('#subit-form').submit();"> <strong>{{ __('messages.update') }}</strong></button></div> --}}
+        
+                            
                             </fieldset>
                             {{-- END Kebocoran Arus (5) --}}
 

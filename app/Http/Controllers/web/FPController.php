@@ -162,24 +162,25 @@ class FPController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$language,$id , FeederPillarRepo $feederPillar)
+    public function update(Request $request,$language,$id)
     {
         try {
 
             $data = FeederPillar::find($id);
-            $user = Auth::user()->id;
-
-            $data->updated_by = $user;
-            $feederPillar->store($data,$request);
-            $data->update();
-
+            // $user = Auth::user()->id;
+            if ($data ) {
+                $data->repair_date = $request->repair_date;
+                $data->update();
+            }
+            
+ 
         Session::flash('success', 'Request Success');
 
         } catch (\Throwable $th) {
             Session::flash('failed', 'Request Failed');
         }
 
-        return redirect()->route('feeder-pillar.index', app()->getLocale());
+        return redirect()->back();
 
     }
 

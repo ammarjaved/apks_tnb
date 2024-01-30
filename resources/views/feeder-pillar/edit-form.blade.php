@@ -56,7 +56,9 @@
 
 
                             @include('feeder-pillar.partials.form')
- 
+
+                            
+                       
                     </div>
                 </div>
             </div>

@@ -191,27 +191,24 @@ class SubstationController extends Controller
      */
     public function update(Request $request, $language, $id)
     {
-        try {
+        try 
+        {
 
-
-            $data = Substation::find($id);
-            if (!$data) {
-               return abort(404);
+            $data = Substation::find($id);  
+            if ($data ) 
+            {
+                $data->repair_date = $request->repair_date;
+                $data->update();
             }
-
-            $user = Auth::user()->id;
-            $data->updated_by = $user;
-
-            $res = $this->substationRepository->store($data, $request);
-            $res->update();
-        Session::flash('success', 'Request Success');
-
-
-        } catch (\Throwable $th) {
+            Session::flash('success', 'Request Success');
+        } 
+        catch (\Throwable $th) 
+        {
+            return $th->getMessage();
+            return "something wrong...";
             Session::flash('failed', 'Request Failed');
         }
-
-        return redirect()->route('substation.index', app()->getLocale());
+        return redirect()->back();
     }
 
     /**

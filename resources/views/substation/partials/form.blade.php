@@ -209,93 +209,58 @@
 
 
 </div>
-<div class="row">
-    <div class="col-md-4"><label for="image_grass">{{ __('messages.image_grass') }}</label>
+
+
+    <div class="row">
+        <div class="col-md-4"><label for="images_gate_after_lock">{{ __('messages.images_gate_after_lock') }}</label>
+        </div>
+        <div class="col-md-8 row">
+            {!!  viewAndUpdateImage($data->image_building , 'images_gate_after_lock' , $disabled )  !!}
+            {!!  viewAndUpdateImage($data->image_building_2 , 'image_building_2' , $disabled )  !!}
+        </div>
     </div>
 
-    <div class="col-md-8 row">
-        {!!  viewAndUpdateImage($data->image_grass , 'image_grass' , $disabled )  !!}
-
-        {!!  viewAndUpdateImage($data->image_grass_2 , 'image_grass_2' , $disabled )  !!}
-
-
-
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <label for="image_tree_branches">{{ __('messages.image_tree_branches') }}</label>
-    </div>
-
-
-            <div class="col-md-8 row">
-                {!!  viewAndUpdateImage($data->image_tree_branches , 'image_tree_branches' , $disabled )  !!}
-
-                {!!  viewAndUpdateImage($data->image_tree_branches_2 , 'image_tree_branches_2' , $disabled )  !!}
-
-            </div>
-
-</div>
-
-<div class="row">
-    <div class="col-md-4"><label
-            for="images_gate_after_lock">{{ __('messages.images_gate_after_lock') }}</label>
-    </div>
-
-    <div class="col-md-8 row">
-        {!!  viewAndUpdateImage($data->image_building , 'images_gate_after_lock' , $disabled )  !!}
-
-        {!!  viewAndUpdateImage($data->image_building_2 , 'image_building_2' , $disabled )  !!}
-
+    <div class="row">
+        <div class="col-md-4"><label for="image_grass">{{ __('messages.image_grass') }}</label></div>
+        <div class="col-md-8 row">
+            {!!  viewAndUpdateImage($data->image_grass , 'image_grass' , $disabled )  !!}
+            {!!  viewAndUpdateImage($data->image_grass_2 , 'image_grass_2' , $disabled )  !!}
+        </div>
     </div>
 
 
-</div>
-
-
-
-<div class="row">
-    <div class="col-md-4">
-        <label for="image_building">{{ __('messages.image_building') }}</label>
+    <div class="row">
+        <div class="col-md-4"><label for="image_tree_branches">{{ __('messages.image_tree_branches') }}</label></div>
+        <div class="col-md-8 row">
+            {!!  viewAndUpdateImage($data->image_tree_branches , 'image_tree_branches' , $disabled )  !!}
+            {!!  viewAndUpdateImage($data->image_tree_branches_2 , 'image_tree_branches_2' , $disabled )  !!}
+        </div>
     </div>
 
-    <div class="col-md-8 row">
-        {!!  viewAndUpdateImage($data->image_building , 'image_building' , $disabled )  !!}
 
-        {!!  viewAndUpdateImage($data->image_building_2 , 'image_building_2' , $disabled )  !!}
-
+    <div class="row">
+        <div class="col-md-4"><label for="image_building">{{ __('messages.image_building') }}</label></div>
+        <div class="col-md-8 row">
+            {!!  viewAndUpdateImage($data->image_building , 'image_building' , $disabled )  !!}
+            {!!  viewAndUpdateImage($data->image_building_2 , 'image_building_2' , $disabled )  !!}
+        </div>
     </div>
 
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <label for="image_building">{{ __('messages.image_advertise_poster') }}</label>
+    <div class="row">
+        <div class="col-md-4"><label for="image_building">{{ __('messages.image_advertise_poster') }}</label></div>
+        <div class="col-md-8 row">
+            {!!  viewAndUpdateImage($data->image_advertisement_before_1 , 'image_advertisement_before_1' , $disabled )  !!}
+            {!!  viewAndUpdateImage($data->image_advertisement_before_2 , 'image_advertisement_before_2' , $disabled )  !!}
+        </div>
     </div>
 
-    <div class="col-md-8 row">
-        {!!  viewAndUpdateImage($data->image_advertisement_before_1 , 'image_advertisement_before_1' , $disabled )  !!}
-
-        {!!  viewAndUpdateImage($data->image_advertisement_before_2 , 'image_advertisement_before_2' , $disabled )  !!}
-
+    <div class="row">
+        <div class="col-md-4"><label for="image_building">{{ __('messages.image_advertise_poster_removal') }}</label></div>
+        <div class="col-md-8 row">
+            {!!  viewAndUpdateImage($data->image_advertisement_after_1 , 'image_advertisement_after_1' , $disabled )  !!}
+            {!!  viewAndUpdateImage($data->image_advertisement_after_2 , 'image_advertisement_after_2' , $disabled )  !!}
+        </div>
     </div>
-
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <label for="image_building">{{ __('messages.image_advertise_poster_removal') }}</label>
-    </div>
-
-    <div class="col-md-8 row">
-        {!!  viewAndUpdateImage($data->image_advertisement_after_1 , 'image_advertisement_after_1' , $disabled )  !!}
-
-        {!!  viewAndUpdateImage($data->image_advertisement_after_2 , 'image_advertisement_after_2' , $disabled )  !!}
-
-    </div>
-
-</div>
 
 
 

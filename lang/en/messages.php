@@ -142,7 +142,9 @@ return [
     'image_rust' => 'Gambar Berkarat',
 
 
-
+    'fp_gaurd'=>'FP Gaurd',
+    'paint_faded'=>'Paint Faded',
+    'name_plate'=>'Name Plate',
 
 
     /********************END Feeder Pillar */

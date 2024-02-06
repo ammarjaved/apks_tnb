@@ -131,8 +131,8 @@
 
 
 <div class="row">
-    <div class="col-md-4"><label for="fp_gaurd">{{ __('messages.fp_gaurd') }}</label></div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-4"><label for="fp_gaurd">{{ __('messages.fp_gaurd') }}</label></div>
+    <div class="col-md-4 col-sm-6">
         <input type="text" name=""  id="" value="{{ $data->guard_status }}" class="form-control" {{$disabled ? 'disabled' : ''}}>
 
     </div>
@@ -140,8 +140,8 @@
 
 
 <div class="row">
-    <div class="col-md-4"><label for="paint_status">{{ __('messages.paint_faded') }}</label></div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-4"><label for="paint_status">{{ __('messages.paint_faded') }}</label></div>
+    <div class="col-md-4 col-sm-6">
         <input type="text" name=""  id="" value="{{ $data->paint_status }}" class="form-control" {{$disabled ? 'disabled' : ''}}>
 
  
@@ -179,22 +179,12 @@
 
 
 <div class="row">
-    <div class="col-md-4"><label for="image_name_plate">{{__('messages.name_plate')}}</label></div>
-    @if (!$disabled)
-        <div class="col-md-4 form-input pr-3">
-            <input {{$disabled ? 'disabled' : '' }}  type="file" accept="image/*" name="image_name_plate" id="image_name_plate" class="form-control">
-        </div>
-    @endif
+    <div class="col-md-4 col-sm-4"><label for="image_name_plate">{{__('messages.name_plate')}}</label></div>
+    <div class="col-md-8 col-sm-8 row">
+        {!!  viewAndUpdateImage($data->image_name_plate , 'image_name_plate' , $disabled )  !!}
 
-    <div class="col-md-4 text-center mb-3">
-        @if (file_exists(public_path($data->image_name_plate)) && $data->image_name_plate != '')
-            <a href="{{ URL::asset($data->image_name_plate) }}" data-lightbox="roadtrip">
-                <img src="{{ URL::asset($data->image_name_plate) }}" alt="" height="70" class="adjust-height ml-5  ">
-            </a>
-        @else
-            <strong>{{__('messages.no_image_found')}}</strong>
-        @endif
     </div>
+    
 </div>
 
 

@@ -111,11 +111,57 @@
     </div>
 </div>
 
+
+ {{-- DANGER SIGN --}}
+ <div class="row">
+    <div class="col-md-4 col-sm-4"><label for="danger_sign">{{__("messages.danger_sign")}}</label></div>
+    <div class="col-md-4 col-sm-6">
+        <input {{$disabled ? 'disabled' : '' }}  type="text" name="end_date_" id="end_date_" value="{{ $data->danger_sign }}" class="form-control" >
+
+    </div>
+</div>
+
+{{-- ANTI CROSSING DEVICE --}}
+<div class="row">
+    <div class="col-md-4 col-sm-4"><label for="anti_crossing_device">{{__("messages.anti_crossing_device")}}</label></div>
+    <div class="col-md-4 col-sm-6">
+        <input {{$disabled ? 'disabled' : '' }}  type="text" name="end_date_" id="end_date_" value="{{ $data->anti_crossing_device }}" class="form-control" >
+
+    </div>
+</div>
+
+{{-- LEANING --}}
+<div class="row">
+    <div class="col-md-4 col-sm-4"><label for="condong">{{__("messages.leaning")}}</label></div>
+    <div class="col-md-4 col-sm-6">
+        <input {{$disabled ? 'disabled' : '' }}  type="text" name="end_date_" id="end_date_" value="{{ $data->condong }}" class="form-control" >
+
+    
+    </div>
+</div>
+
+{{-- TREAPASS --}}
+<div class="row">
+    <div class="col-md-4 col-sm-4"><label for="pencerobohan">{{__("messages.trespass")}}</label></div>
+    <div class="col-md-4 col-sm-6">
+        <input {{$disabled ? 'disabled' : '' }}  type="text" name="end_date_" id="end_date_" value="{{ $data->pencerobohan }}" class="form-control" >
+
+    </div>
+</div>  
+
 <div class="row">
     <div class="col-md-4 col-sm-4"><label for="bushes_status">{{__("messages.bushy")}}</label></div>
     <div class="col-md-4 col-sm-6">
         <input {{$disabled ? 'disabled' : '' }}  type="text" name="end_date_" id="end_date_" value="{{ $data->bushes_status }}" class="form-control" >
  
+    </div>
+</div>
+
+ {{-- CLEANLINESS --}}
+ <div class="row">
+    <div class="col-md-4 col-sm-4"><label for="kebersihan_jabatan">{{__("messages.cleanliness")}}</label></div>
+    <div class="col-md-4 col-sm-6">
+        <input {{$disabled ? 'disabled' : '' }}  type="text" name="end_date_" id="end_date_" value="{{ $data->rust_status }}" class="form-control" >
     </div>
 </div>
 
@@ -127,6 +173,15 @@
 
         {!!  viewAndUpdateImage($data->cable_bridge_image_2 , 'cable_bridge_image_2' , $disabled )  !!}
 
+    </div>
+</div>
+     {{-- VANDALISM IMAGE 1 & 2 --}}
+
+<div class="row">
+    <div class="col-md-4 col-sm-4"><label for="image_vandalism">{{__("messages.image_vandalism")}}</label></div>
+    <div class="col-md-8 col-sm-8 row">
+        {!!  viewAndUpdateImage($data->image_vandalism , 'image_vandalism' , $disabled )  !!}
+        {!!  viewAndUpdateImage($data->image_vandalism_2 , 'image_vandalism_2' , $disabled )  !!}
     </div>
 </div>
 
@@ -141,19 +196,7 @@
 
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-4 col-sm-4"><label for="image_vandalism">{{__("messages.image_vandalism")}}</label></div>
-
-    <div class="col-md-8 col-sm-8 row">
-        {!!  viewAndUpdateImage($data->image_vandalism , 'image_vandalism' , $disabled )  !!}
-
-        {!!  viewAndUpdateImage($data->image_vandalism_2 , 'image_vandalism_2' , $disabled )  !!}
-
-
-    </div>
-</div>
-
+ 
 <div class="row">
     <div class="col-md-4 col-sm-4"><label for="image_collapsed">{{__("messages.image_collapsed")}}</label></div>
 
@@ -179,6 +222,21 @@
 </div>
 
 
+ {{-- DANGER SIGN --}}
+ <div class="row">
+    <div class="col-md-4 col-sm-4"><label for="danger_sign_img">{{__("messages.danger_sign")}} {{__("messages.image")}}</label></div>
+    <div class="col-md-8 col-sm-8 row">
+        {!!  viewAndUpdateImage($data->image_vandalism , 'image_vandalism' , $disabled )  !!}
+    </div>
+</div>
+
+{{-- ANTI CROSSING DECIVE --}}
+<div class="row">
+    <div class="col-md-4 col-sm-4 "><label for="anti_cross_device_img">{{__("messages.anti_crossing_device")}} {{__("messages.image")}}</label></div>
+    <div class="col-md-8 col-sm-8 row">
+        {!!  viewAndUpdateImage($data->anti_cross_device_img , 'anti_cross_device_img' , $disabled )  !!}
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-4 col-sm-4"><label for="images_bushes">{{__("messages.image_bushes")}}</label></div>
@@ -191,23 +249,11 @@
     </div>
 </div>
 
-<div class="row">
+ {{-- OHTER IMAGE --}}
+ <div class="row">
     <div class="col-md-4 col-sm-4"><label for="other_image">{{__("messages.other_image")}}</label></div>
-    @if (!$disabled)
-
-
-    <div class="col-md-4 col-sm-8 col-sm-4">
-        <input    type="file" name="other_image" id="other_image" class="form-control">
-    </div>
-    @endif
-    <div class="col-md-4 col-sm-8 text-center mb-3">
-        @if (file_exists(public_path($data->other_image)) && $data->other_image != '')
-            <a href="{{ URL::asset($data->other_image) }}" data-lightbox="roadtrip">
-                <img src="{{ URL::asset($data->other_image) }}" alt=""
-                    height="70" class="adjust-height ml-5  "></a>
-        @else
-            <strong>{{__("messages.no_image_found")}}</strong>
-        @endif
+    <div class="col-md-8 col-sm-8 row">
+        {!!  viewAndUpdateImage($data->other_image , 'other_image' , $disabled )  !!}
     </div>
 </div>
 

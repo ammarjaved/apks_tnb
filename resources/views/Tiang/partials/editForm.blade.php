@@ -296,7 +296,7 @@
                                         </thead>
                                         {{-- POLE --}}
                                         <tr>
-                                            <th rowspan="5">{{ __('messages.pole') }}</th>
+                                            <th rowspan="6">{{ __('messages.pole') }}</th>
 
                                             {!! getImageShow('cracked', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'cracked',false) !!}
 
@@ -316,7 +316,10 @@
                                             {!! getImageShow('creepers', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'creepers',false) !!}
 
                                         </tr>
-
+                                        
+                                        <tr>
+                                            {!! getImageShow('current_leakage', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'current_leakage',false) !!}
+                                        </tr>
 
                                         <tr>
                                             {!! getImageShow('other', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'others',false) !!}
@@ -359,7 +362,7 @@
                                         {{-- Umbang --}}
 
                                         <tr>
-                                            <th rowspan="5">{{ __('messages.Umbang') }}</th>
+                                            <th rowspan="6">{{ __('messages.Umbang') }}</th>
                                             {!! getImageShow('breaking', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'Sagging_Breaking',false) !!}
 
                                         </tr>
@@ -389,7 +392,11 @@
                                             ) !!}
 
                                         </tr>
+                                        <tr>
+                                            {!! getImageShow('current_leakage', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'current_leakage',false) !!}
 
+
+                                        </tr>
                                         <tr>
                                             {!! getImageShow('other', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'others',false) !!}
 

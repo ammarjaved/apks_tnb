@@ -204,6 +204,7 @@ return [
             'leaning'=>'Condong',
             'no_dim_post_none'=>'No. Tiang Pudar / Tiada',
             'creepers'=>'Creepers',
+            'current_leakage'=>'Current Leakage',
 
         'line_main_service'=>'Talian (Utama / Servis)',
             'joint'=>'Penggunaan IPC/Maruku Joint Bagi sambungan tengah',
@@ -299,6 +300,14 @@ return [
  'Total_Supervision'=>'Total Supervision',
 
 
+
+ // ************************CABLE BRIDGE */
+
+ 'danger_sign'=>'Danger Sign',
+ 'anti_crossing_device'=>'Anti Crossing Device',
+ 'trespass'=>'Trespass',
+ 'cleanliness'=>'Cleanliness',
+ 'image'=>'Image',
 
 /**************End Patroling */
 

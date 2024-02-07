@@ -301,6 +301,7 @@
     </div>
 </div>
 
+@if ($data->total_defects > 0)
 <form action="{{ route('feeder-pillar.update',[app()->getLocale(),$data->id]) }} " id="myForm"
     method="POST" enctype="multipart/form-data">
     @method('PATCH')
@@ -325,3 +326,5 @@
     <div class="text-center p-4"><button class="btn btn-sm btn-success"> <strong>{{ __('messages.update') }}</strong></button></div>
 
 </form>
+
+@endif

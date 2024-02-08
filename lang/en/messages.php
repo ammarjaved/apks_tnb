@@ -124,6 +124,8 @@ return [
     'image_advertise_poster' => 'Gambar Iklan Haram/Banner',
     'other_image' => 'Lain-lain Gambar',
     'coordinate' => 'Coordinate',
+        'tree'=>'Tree',
+
 
 
     /*******************End substation  */

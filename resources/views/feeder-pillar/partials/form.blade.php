@@ -216,3 +216,38 @@
             {!!  viewAndUpdateImage($data->other_image , 'other_image' , $disabled )  !!}
         </div>
     </div>
+
+
+    @if ($data->total_defects > 0)
+    {{-- REPAIR DATE FORM --}}
+    <form action="{{ route('feeder-pillar.update',[app()->getLocale(),$data->id]) }} " id="myForm" method="POST"  >
+        @method('PATCH')
+        @csrf
+
+        {{-- SHOW REPAIR DATE --}}
+        @if ($data->repair_date != '')
+            <div class="row">
+                <div class="col-md-4 col-sm-6"><label for="repair_date">Repair Date</label></div>
+                <div class="col-md-4 col-sm-6">
+                    <input  disabled  type="date"    id="repair_date" class="form-control" value="{{ date('Y-m-d' , strtotime($data->repair_date)) }}" required>
+                </div>
+            </div>
+
+        @else
+
+            {{-- UPDATE REPAIR DATE --}}
+            <div class="row">
+                <div class="col-md-4 col-sm-6"><label for="repair_date">{{$data->repair_date != '' ?'Update ' : 'Add '}}Repair Date</label></div>
+                <div class="col-md-4 col-sm-6">
+                    <input type="date" name="repair_date" id="repair_date" class="form-control" required>
+                </div>
+            </div>
+            
+        @endif
+
+       
+
+        <div class="text-center p-4"><button class="btn btn-sm btn-success"> <strong>{{ __('messages.update') }}</strong></button></div>
+
+    </form>
+    @endif

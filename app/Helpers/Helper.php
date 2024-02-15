@@ -130,7 +130,7 @@ function getImage2($key, $arr, $arr_name, $img_arr, $lab_name, $status)
                 <label class='text-capitalize' for='$id'> $lab_name</label>";
 
     if ($key == 'other') {
-        $key2 = $key . '_input';
+        $key2 = $key . '_value';
         $otherValue = isset($arr[$key2]) ? $arr[$key2] : '';
         $html .= "<input type='text' name='{$arr_name}[{$key2}]' id='{$id}-input'  value='$otherValue' class='form-control " . ($key_exist ? '' : 'd-none') . "' placeholder='mention other defect' $disable>";
     }
@@ -198,7 +198,7 @@ function getImageShow($key, $arr, $arr_name, $img_arr, $lab_name)
                 <label class='text-capitalize' for='$id'> $lab_name</label>";
 
     if ($key == 'other') {
-        $key2 = $key . '_input';
+        $key2 = $key . '_value';
         $otherValue = isset($arr[$key2]) ? $arr[$key2] : '';
         $html .= "<input type='text'  id='{$id}-input'  value='$otherValue' class='form-control " . ($key_exist ? '' : 'd-none') . "' placeholder='mention other defect' disabled>";
     }
@@ -221,15 +221,15 @@ function getImageShow($key, $arr, $arr_name, $img_arr, $lab_name)
         }
 
         // if (array_key_exists($key . '_2', $img_arr) && file_exists(public_path($img_arr[$key . '_2'])) && $img_arr[$key . '_2'] != '') {
-        if (array_key_exists($key . '_2', $img_arr)  && $img_arr[$key . '_2'] != '') {
+        if (array_key_exists($key . '2', $img_arr)  && $img_arr[$key . '2'] != '') {
            
             $html .=
                 "<a href='" 
-                .(config('custom.image_url').$img_arr[$key.'_2']).
+                .(config('custom.image_url').$img_arr[$key.'2']).
 
                 "' data-lightbox='roadtrip'>
                     <img src='" 
-                    .(config('custom.image_url').$img_arr[$key.'_2']).
+                    .(config('custom.image_url').$img_arr[$key.'2']).
 
                 "' class='adjust-height mb-1' style='height:30px; width:30px !important'>
                 </a>";

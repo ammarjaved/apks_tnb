@@ -198,7 +198,7 @@ class CableBridgeController extends Controller
         try 
         {
             $data = CableBridge::find($id); 
-            if ($data ) 
+            if ($data && $data->repair_date == '' ) 
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();

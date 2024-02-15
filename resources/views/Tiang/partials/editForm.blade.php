@@ -594,14 +594,17 @@
                                 <input  disabled  type="date" name="repair_date"   id="repair_date" class="form-control" value="{{ date('Y-m-d' , strtotime($data->repair_date)) }}" required>
                             </div>
                         </div>
+
+                    @else
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6"><label for="repair_date">{{$data->repair_date != '' ?'Update ' : 'Add '}}Repair Date</label></div>
+                            <div class="col-md-4 col-sm-6">
+                                <input type="date" name="repair_date"   id="repair_date" class="form-control" required>
+                            </div>
+                        </div>
                     @endif
 
-                    <div class="row">
-                        <div class="col-md-4 col-sm-6"><label for="repair_date">{{$data->repair_date != '' ?'Update ' : 'Add '}}Repair Date</label></div>
-                        <div class="col-md-4 col-sm-6">
-                            <input type="date" name="repair_date"   id="repair_date" class="form-control" required>
-                        </div>
-                    </div>
+                    
                 @else
                 <style>
                     a[href='#finish'] {

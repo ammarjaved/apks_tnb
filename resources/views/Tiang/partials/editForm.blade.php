@@ -282,12 +282,13 @@
 
                         {{-- POLE --}}
                         <tr>
-                            <th rowspan="6">{{ __('messages.pole') }}</th>
+                            <th rowspan="7">{{ __('messages.pole') }}</th>
                             {!! getImageShow('cracked', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'cracked',false) !!}
                         </tr>
                         <tr>{!! getImageShow('leaning', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'leaning',false) !!}</tr>
                         <tr>{!! getImageShow('dim', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'no_dim_post_none',false) !!}</tr>
                         <tr>{!! getImageShow('creepers', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'creepers',false) !!}</tr>
+                        <tr>{!! getImageShow('creepers_after', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'Creepers') !!}</tr>              
                         <tr>{!! getImageShow('current_leakage', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'current_leakage',false) !!}</tr>
                         <tr>{!! getImageShow('other', $data->tiang_defect, 'tiang_defect', $data->tiang_defect_image, 'others',false) !!}</tr>
 
@@ -302,10 +303,11 @@
 
                         {{-- Umbang --}}
                         <tr>
-                            <th rowspan="6">{{ __('messages.Umbang') }}</th>
+                            <th rowspan="7">{{ __('messages.Umbang') }}</th>
                             {!! getImageShow('breaking', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'Sagging_Breaking',false) !!}
                         </tr>
                         <tr>{!! getImageShow('creepers', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'Creepers',false) !!}</tr>
+                        <tr>{!! getImageShow('creepers_after', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'Creepers') !!}</tr>              
                         <tr>{!! getImageShow('cracked', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'No_Stay_Insulator_Damaged',false) !!}</tr>
                         <tr>{!! getImageShow('stay_palte', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'Stay_Plate_Base_Stay_Blocked',false) !!}</tr>
                         <tr>{!! getImageShow('current_leakage', $data->umbang_defect, 'umbang_defect', $data->umbang_defect_image, 'current_leakage',false) !!}</tr>

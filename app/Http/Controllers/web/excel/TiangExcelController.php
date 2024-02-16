@@ -259,10 +259,10 @@ class TiangExcelController extends Controller
                         $secondWorksheet->setCellValue('AY' . $i, excelCheckBOc('burn', $kaki_lima_defect));
                     }
                     // $secondWorksheet->setCellValue('AK' . $i, $secondRec->total_defects);
-                    $secondWorksheet->setCellValue('BC' . $i, $secondRec->images);
-                    $secondWorksheet->setCellValue('BD' . $i, $secondRec->coords);
+                    $secondWorksheet->setCellValue('BL' . $i, $secondRec->images);
+                    $secondWorksheet->setCellValue('BC' . $i, $secondRec->coords);
                     $repair_date = $rec->repair_date != ''?date('Y-m-d', strtotime($rec->repair_date)) : '';
-                    $secondWorksheet->setCellValue('BG' . $i, $repair_date);
+                    $secondWorksheet->setCellValue('BF' . $i, $repair_date);
                     $secondWorksheet->setCellValue('AN' . $i, $secondRec->remarks);
 
 
@@ -323,17 +323,17 @@ class TiangExcelController extends Controller
 
                     if ($rec->tapak_condition != '') {
                         $tapak_condition = json_decode($rec->tapak_condition);
-                        $thirdWorksheet->setCellValue('F' . $i, excelCheckBOc('road', $tapak_condition) == 'Yes' ?? '/' );
-                        $thirdWorksheet->setCellValue('G' . $i, excelCheckBOc('side_walk', $tapak_condition) == 'Yes' ?? '/' );
-                        $thirdWorksheet->setCellValue('H' . $i, excelCheckBOc('vehicle_entry', $tapak_condition) == 'Yes' ?? '/' );
+                        $thirdWorksheet->setCellValue('F' . $i, excelCheckBOc('road', $tapak_condition) == '1' ?? '/' );
+                        $thirdWorksheet->setCellValue('G' . $i, excelCheckBOc('side_walk', $tapak_condition) == '1' ?? '/' );
+                        $thirdWorksheet->setCellValue('H' . $i, excelCheckBOc('vehicle_entry', $tapak_condition) == '1' ?? '/' );
                     }
 
                     if ($rec->kawasan != '') {
                         $kawasan = json_decode($rec->kawasan);
-                        $thirdWorksheet->setCellValue('I' . $i, excelCheckBOc('bend', $kawasan) == 'Yes' ?? '/' );
-                        $thirdWorksheet->setCellValue('J' . $i, excelCheckBOc('raod', $kawasan) == 'Yes' ?? '/' );
-                        $thirdWorksheet->setCellValue('K' . $i, excelCheckBOc('forest', $kawasan) == 'Yes' ?? '/' );
-                        $thirdWorksheet->setCellValue('L' . $i, excelCheckBOc('other', $kawasan) == 'Yes' ?? '/' );
+                        $thirdWorksheet->setCellValue('I' . $i, excelCheckBOc('bend', $kawasan) == '1' ?? '/' );
+                        $thirdWorksheet->setCellValue('J' . $i, excelCheckBOc('raod', $kawasan) == '1' ?? '/' );
+                        $thirdWorksheet->setCellValue('K' . $i, excelCheckBOc('forest', $kawasan) == '1' ?? '/' );
+                        $thirdWorksheet->setCellValue('L' . $i, excelCheckBOc('other', $kawasan) == '1' ?? '/' );
                     }
 
                     $thirdWorksheet->setCellValue('M' . $i, $rec->jarak_kelegaan);
@@ -343,7 +343,7 @@ class TiangExcelController extends Controller
                         $thirdWorksheet->setCellValue('O' . $i, $rec->talian_spec == "uncomply" ? '/' : '');
                     }
 
-                    $thirdWorksheet->setCellValue('O' . $i, $rec->arus_pada_tiang == "Yes" ? '1' : '');
+                    $thirdWorksheet->setCellValue('O' . $i, $rec->arus_pada_tiang == "Yes" ? '/' : '');
                     $thirdWorksheet->setCellValue('S' . $i, 'AEROSYNERGY SOLUTIONS');
                     $thirdWorksheet->setCellValue('S' . $i, $rec->fp_road);
                     $thirdWorksheet->setCellValue('S' . $i, $rec->coords);

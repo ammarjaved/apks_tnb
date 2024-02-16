@@ -1,5 +1,5 @@
-@extends('layouts.map_layout', ['page_title' => 'Link Box'])
  
+@extends('layouts.map_layout')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">

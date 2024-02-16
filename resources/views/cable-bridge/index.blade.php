@@ -1,5 +1,4 @@
-@extends('layouts.map_layout', ['page_title' => 'Cable Bridge'])
-
+@extends('layouts.app', ['page_title' => 'Index'])
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">

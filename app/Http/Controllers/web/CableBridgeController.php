@@ -4,12 +4,9 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Models\CableBridge;
-use App\Models\Team;
 use App\Traits\Filter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 
@@ -23,27 +20,23 @@ class CableBridgeController extends Controller
      */
     public function index(Request $request)
     {
-        //
-
-        if ($request->ajax()) {
-            if ($request->filled('arr')) {
-
+        if ($request->ajax()) 
+        {
+            if ($request->filled('arr')) 
+            {
                 $getIds = DB::table('cable_bridge_all_defects');
-        
-                foreach($request->arr as $res){
-        
+                foreach($request->arr as $res)
+                {
                     $getIds->orWhere($res,'Yes');
-               }
-        
+                }
                 $ids = $getIds->pluck('id');
             }
 
-       
-            $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
             $result = CableBridge::query();
 
             $result = $this->filter($result , 'visit_date',$request);
-            if ($request->filled('arr')) {
+            if ($request->filled('arr')) 
+            {
                 $result->whereIn('id',$ids);
             }
 
@@ -55,26 +48,7 @@ class CableBridgeController extends Controller
                 ->of($result->get())
                 ->addColumn('cable_bridge_id', function ($row) {
                     return 'CB-' . $row->id;
-                })
-                // ->addColumn('qa_status_action', function ($row) {
-                    
-                //     if ($row->visit_date != '' && $row->cable_bridge_image_1 != '') {
-                //         return "SDfsdfsd";
-                //         if ($row->qa_status === 'Accept' || $row->qa_status === 'Reject') {
-                //             if ($row->qa_status == 'Accept') {
-                //                 return "<span class='badge bg-success'>Accept</span>";
-                //             }
-                //             return "<span class='badge bg-danger'>Reject</span>";
-                //         } else {
-                //             return "<div class='d-flex text-center' id='status-$row->id'>
-                //                         <a type='button' class='btn btn-sm btn-success' onclick='updateQaStatus('Accept',$row->id)'>Accept</a>/
-                //                         <a type='button' class='btn btn-sm btn-danger ' onclick='updateQaStatus('Reject',$row->id)'> Reject </a>
-                //                     </div>";
-                //         }
-                //     }
-                //     return '';
-                // })
-                ->make(true);
+                })->make(true);
         }
         return view('cable-bridge.index');
     }
@@ -87,10 +61,7 @@ class CableBridgeController extends Controller
     public function create()
     {
         //
-
-        $team_id = auth()->user()->id_team;
-        $team = Team::find($team_id)->team_name;
-        return view('cable-bridge.create', ['team' => $team]);
+        return abort(404); 
     }
 
     /**
@@ -101,63 +72,7 @@ class CableBridgeController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $defects = [];
-            $defects = ['pipe_staus', 'vandalism_status', 'collapsed_status', 'rust_status', 'bushes_status'];
-
-            $currentDate = Carbon::now()->toDateString();
-            $combinedDateTime = $currentDate . ' ' . $request->patrol_time;
-            $total_defects = 0;
-
-            $data = new CableBridge();
-            $data->zone = $request->zone;
-            $data->ba = $request->ba;
-            $data->team = $request->team;
-            $data->visit_date = $request->visit_date;
-            $data->patrol_time = $combinedDateTime;
-            $data->feeder_involved = $request->feeder_involved;
-
-            $data->start_date = $request->start_date;
-            $data->end_date = $request->end_date;
-            $data->qa_status = 'pending';
-            $user = Auth::user()->id;
-
-            $data->created_by = $user;
-            $data->voltage = $request->voltage;
-            $data->coordinate = $request->coordinate;
-
-            foreach ($defects as $value) {
-                $data->{$value} = $request->{$value};
-                $request->has($value) && $request->{$value} == 'Yes' ? $total_defects++ : '';
-            }
-            $data->total_defects = $total_defects;
-
-            $destinationPath = 'assets/images/cable-bridge/';
-
-            foreach ($request->all() as $key => $file) {
-                // Check if the input is a file and it is valid
-                if ($request->hasFile($key) && $request->file($key)->isValid()) {
-                    $uploadedFile = $request->file($key);
-                    $img_ext = $uploadedFile->getClientOriginalExtension();
-                    $filename = $key . '-' . strtotime(now()) . '.' . $img_ext;
-                    $uploadedFile->move($destinationPath, $filename);
-                    $data->{$key} = $destinationPath . $filename;
-                }
-            }
-
-            $data->geom = DB::raw("ST_GeomFromText('POINT(" . $request->log . ' ' . $request->lat . ")',4326)");
-
-            $data->save();
-
-            return redirect()
-                ->route('cable-bridge.index', app()->getLocale())
-                ->with('success', 'Form Intserted');
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-            return redirect()
-                ->route('cable-bridge.index', app()->getLocale())
-                ->with('failed', 'Form Intserted Failed');
-        }
+        return abort(404);
     }
 
     /**
@@ -181,9 +96,8 @@ class CableBridgeController extends Controller
      */
     public function edit($language, $id)
     {
-        //
-        $data = CableBridge::find($id);
-        return $data ? view('cable-bridge.edit', ['data' => $data, 'disabled' => false]) : abort(404);
+
+        return abort(404);
     }
 
     /**
@@ -198,20 +112,17 @@ class CableBridgeController extends Controller
         try 
         {
             $data = CableBridge::find($id); 
-            if ($data ) 
+            if ($data && $data->repair_date == '' ) 
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();
             }
-            
             Session::flash('success', 'Request Success');
-
         } 
         catch (\Throwable $th) 
         {
             Session::flash('failed', 'Request Failed');
         }
-
         return redirect()->back();
     }
 
@@ -223,36 +134,19 @@ class CableBridgeController extends Controller
      */
     public function destroy($language, $id)
     {
-        try {
-            CableBridge::find($id)->delete();
+        // try {
+        //     CableBridge::find($id)->delete();
 
-            return redirect()
-                ->route('cable-bridge.index', app()->getLocale())
-                ->with('success', 'Recored Removed');
-        } catch (\Throwable $th) {
-            // return $th->getMessage();
-            return redirect()
-                ->route('cable-bridge.index', app()->getLocale())
-                ->with('failed', 'Request Failed');
-        }
+        //     return redirect()
+        //         ->route('cable-bridge.index', app()->getLocale())
+        //         ->with('success', 'Recored Removed');
+        // } catch (\Throwable $th) {
+        //     // return $th->getMessage();
+        //     return redirect()
+        //         ->route('cable-bridge.index', app()->getLocale())
+        //         ->with('failed', 'Request Failed');
+        // }
     }
 
-    public function updateQAStatus(Request $req)
-    {
-        try {
-            $qa_data = CableBridge::find($req->id);
-            $qa_data->qa_status = $req->status;
-            if ($req->status == 'Reject') {
-                $qa_data->reject_remarks = $req->reject_remakrs;
-            }
-            $user = Auth::user()->id;
-
-            $qa_data->updated_by = $user;
-            $qa_data->update();
-
-            return redirect()->back();
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'Request failed']);
-        }
-    }
+    
 }

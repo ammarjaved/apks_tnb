@@ -85,7 +85,7 @@ class ThirdPartyDiggingController extends Controller
             $data->road_name = $request->road_name;
 
             // $data->km_actual = $request->km_actual;
-        $user = Auth::user()->id;
+            $user = Auth::user()->id;
 
             $data->created_by = $user;
             $data->digging = $request->digging;
@@ -262,6 +262,7 @@ class ThirdPartyDiggingController extends Controller
     {
         try {
             $qa_data = ThirdPartyDiging::find($req->id);
+
             $qa_data->qa_status = $req->status;
             if ($req->status == 'Reject') {
                 $qa_data->reject_remarks = $req->reject_remakrs;
@@ -269,8 +270,8 @@ class ThirdPartyDiggingController extends Controller
             $qa_data->update();
 
             return redirect()->back();
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'Request failed']);
-        }
+        } catch (\Throwable $th) {}
+        return response()->json(['status' => 'Request failed']);
+
     }
 }

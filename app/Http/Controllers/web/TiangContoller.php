@@ -250,7 +250,7 @@ class TiangContoller extends Controller
         try 
         {
             $data = Tiang::find($id); 
-            if ($data ) 
+            if ($data  && $data->repair_date == '' ) 
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();

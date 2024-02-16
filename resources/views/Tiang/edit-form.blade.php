@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.map_layout', ['page_title' => 'Tiang Svar'])
 
 @section('css')
     <!-- Fonts and icons -->

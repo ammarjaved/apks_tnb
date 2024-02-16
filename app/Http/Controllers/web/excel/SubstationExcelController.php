@@ -11,29 +11,29 @@ use Illuminate\Support\Facades\DB;
 
 class SubstationExcelController extends Controller
 {
-    
+
     use Filter;
 
     public function generateSubstationExcel(Request $req)
     {
 
-        try 
+        try
         {
-            if ($req->filled('defects')) 
+            if ($req->filled('defects'))
             {
                 $getIds = DB::table('substation_all_defects');
-        
+
                 foreach($req->defects as $res)
                 {
                     $getIds->orWhere($res,'Yes');
                 }
-        
+
                 $ids = $getIds->pluck('id');
             }
 
             $result = Substation::query();
 
-            if ($req->filled('defects')) 
+            if ($req->filled('defects'))
             {
                 $result->whereIn('id',$ids);
             }
@@ -41,15 +41,15 @@ class SubstationExcelController extends Controller
             $result = $this->filter($result , 'visit_date',$req);
 
             $result = $result->whereNotNull('visit_date')->select('*', DB::raw('ST_X(geom) as x'), DB::raw('ST_Y(geom) as y'))->get();
-  
-            if ($result) 
+
+            if ($result)
             {
                 $excelFile = public_path('assets/excel-template/substation.xlsx');
                 $spreadsheet = IOFactory::load($excelFile);
                 $worksheet = $spreadsheet->getActiveSheet();
 
                 $i = 3;
-                foreach ($result as $rec) 
+                foreach ($result as $rec)
                 {
 
                     $worksheet->setCellValue('A' . $i, $i - 2);
@@ -62,9 +62,9 @@ class SubstationExcelController extends Controller
                     $worksheet->setCellValue('H' . $i, $rec->voltage);
                     $worksheet->setCellValue('I' . $i, $rec->name);
                     $worksheet->setCellValue('J' . $i, $rec->type);
-                    $worksheet->setCellValue('K' . $i, number_format( $rec->y, 2) .",". number_format( $rec->x , 2));
+                    $worksheet->setCellValue('K' . $i, number_format( $rec->y, 5) .",". number_format( $rec->x , 5));
 
-                    if ($rec->gate_status) 
+                    if ($rec->gate_status)
                     {
                         $gate_status = json_decode($rec->gate_status);
                         $worksheet->setCellValue('L' . $i, substaionCheckBox('unlocked', $gate_status ) == 'checked' ? 'yes' : 'no' );
@@ -76,7 +76,7 @@ class SubstationExcelController extends Controller
                     $worksheet->setCellValue('P' . $i, $rec->tree_branches_status);
 
 
-                    if ($rec->building_status) 
+                    if ($rec->building_status)
                     {
                         $building_status = json_decode($rec->building_status);
                         $worksheet->setCellValue('Q' . $i, substaionCheckBox('broken_roof', $building_status ) == 'checked' ? 'yes' : 'no' );
@@ -94,15 +94,15 @@ class SubstationExcelController extends Controller
                 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
                 $writer->save(public_path('assets/updated-excels/') . 'substation.xlsx');
                 return response()->download(public_path('assets/updated-excels/') . 'substation.xlsx');
-            } 
-            else 
+            }
+            else
             {
                 return redirect()->back()->with('failed', 'No records found ');
             }
         }
-        catch (\Throwable $th) 
+        catch (\Throwable $th)
         {
-            
+
             return redirect()->back()->with('failed', 'Request Failed '. $th->getMessage());
         }
     }

@@ -15,9 +15,10 @@ class LinkBoxExcelController extends Controller
     //
 
     use Filter;
-    public function generateLinkBoxExcel(Request $req){
-        try{ 
-            
+    public function generateLinkBoxExcel(Request $req)
+    {
+        try
+        { 
             if ($req->filled('defects')) {
 
                 $getIds = DB::table('link_box_all_defects');

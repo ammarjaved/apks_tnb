@@ -37,7 +37,7 @@ class CableBridgeExcelController extends Controller
 
             $result = $this->filter($result , 'visit_date',$req);
             $result = $result->whereNotNull('visit_date')->get();
-
+            
             if ($result) 
             {
                 $excelFile = public_path('assets/excel-template/cable-bridge.xlsx');
@@ -69,6 +69,7 @@ class CableBridgeExcelController extends Controller
                     $worksheet->setCellValue('T' . $i, $rec->rust_status);
                     $worksheet->setCellValue('U' . $i, '');
                     $worksheet->setCellValue('V' . $i, $rec->bushes_status);
+
                     $worksheet->setCellValue('W' . $i, $rec->repair_date != ''?date('Y-m-d', strtotime($rec->repair_date)) : '');
 
                     $i++;

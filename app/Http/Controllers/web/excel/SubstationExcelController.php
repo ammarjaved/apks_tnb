@@ -115,9 +115,10 @@ class SubstationExcelController extends Controller
                 }
 
                 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+                $filename = 'substationx'.rand(2,10000).'.xlsx';
+                $writer->save(public_path('assets/updated-excels/') . $filename);
+                return response()->download(public_path('assets/updated-excels/') . $filename)->deleteFileAfterSend(true);
 
-                            $writer->save(public_path('assets/updated-excels/') . 'substation.xlsx');
-                return response()->download(public_path('assets/updated-excels/') . 'substation.xlsx');
             }
             else
             {

@@ -129,6 +129,9 @@
                 },
                 autoHeight: true,
             })
+            $('form li').removeClass('disabled')
+
+            $('form li').addClass('done')
 
         function getLocation() {
             if (navigator.geolocation) {

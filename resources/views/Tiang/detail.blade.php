@@ -117,7 +117,12 @@
                 headerTag: "h3",
                 bodyTag: "fieldset",
                 transitionEffect: "slideLeft",
+                
 
             })
+
+            $('form li').removeClass('disabled')
+
+            $('form li').addClass('done')
     </script>
 @endsection

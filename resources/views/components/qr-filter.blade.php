@@ -18,7 +18,7 @@
         <div class="-collapse" id="collapseQr">
             <div class="card card-body">
                 {{-- FORM START --}}
-                <form action="{{ isset($url) ? route($url, app()->getLocale()) : '#' }}" onsubmit="collapseFilter()" method="post">
+                <form action="{{ isset($url) ? route($url, app()->getLocale()) : '#' }}" onsubmit="collapseFilter()" method="post" target="_blank">
                     
                     @csrf
 

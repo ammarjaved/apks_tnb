@@ -105,205 +105,57 @@
 
 
     <script>
+        var id = {{$data->id}};
         var form = $("#framework-wizard-form").show();
         form
             .steps({
                 headerTag: "h3",
                 bodyTag: "fieldset",
                 transitionEffect: "slideLeft",
-
-                onStepChanging: function(event, currentIndex, newIndex) {
-                    // Allways allow previous action even if the current form is not valid!
-                    if (currentIndex > newIndex) {
-                        return true;
-                    }
-
-                    form.validate().settings.ignore = ":disabled,:hidden";
-                    return form.valid();
-                },
-
-
-
-                onFinished: function(event, currentIndex) {
-                    form.submit();
-                },
                 autoHeight: true,
             })
-            $('form li').removeClass('disabled')
 
+            $('form li').removeClass('disabled')
             $('form li').addClass('done')
 
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
 
-        function showPosition(position) {
+            function addRepairDate(name) 
+            {
+                var dateInput = $(`#repair_date-${name}`);
+                var dateErr = $(`#err-${name}`);
+                var button = $(`#reapir_date_button-${name}`);
 
-            $('#lat').val(position.coords.latitude)
-            $('#log').val(position.coords.longitude)
-
-        }
-
-        $(document).ready(function() {
-
-            $('.defects input[type="checkbox"]').on('click', function() {
-                addReomveImageField(this)
-
-            })
-
-            $('.high-clearance input[type="checkbox"]').on('click', function() {
-                addReomveImageHighClearanceField(this)
-
-            })
-
-            $('input[name="arus_pada_tiang"]').on('change', function() {
-                if (this.value == 'Yes') {
-                    if ($('#arus_pada_tiang_amp_div').hasClass('d-none')) {
-                        $('#arus_pada_tiang_amp_div').removeClass('d-none');
-                    }
-                } else {
-                    if (!$('#arus_pada_tiang_amp_div').hasClass('d-none')) {
-                        $('#arus_pada_tiang_amp_div').addClass('d-none');
-                    }
-                }
-            })
-
-            $('.select-radio-value').on('change',function(){
-                var val = this.value;
-                var id = `${this.name}_input`;
-                var input = $(`#${id}`)
-                if (val === 'other') {
-                    input.val('');
-                    input.removeClass('d-none');
+                var date = dateInput.val();
+                if (date == '') {
+                    dateErr.html('This feild is required');
                 }else{
-                    input.val(val);
-                    if (!input.hasClass('d-none')) {
-                        input.addClass('d-none')
-                    }
-                }
-            });
 
+                    $.ajax(
+                    {
+                        url: `/{{app()->getLocale()}}/add-tiang-repair-date?name=${name}&date=${date}&id=${id}`,
+                        method: 'GET',
+                        success: function(response)
+                        {
+                            button.remove();
+                            dateInput.remove();
+                            dateErr.html(date);
 
-
-        });
-
-
-        var total_defects = parseInt({{ $data->total_defects }});
-
-
-        function submitForm() {
-            
-        }
-        function addReomveImageField(checkbox) {
-            var element = $(checkbox);
-            var id = element.attr('id');
-            var input = $(`#${id}-image`)
-            var input_2 = $(`#${id}-image-2`)
-            var input_val = $(`#${id}-input`)
-
-            if (checkbox.checked) {
-                if (input.hasClass('d-none')) {
-                    input.removeClass('d-none');
-                    input_2.removeClass('d-none');
-                    input_val.removeClass('d-none');
-                    total_defects += 1;
-                }
-            } else {
-
-                if (!input.hasClass('d-none')) {
-                    input.addClass('d-none');
-                    input_2.addClass('d-none');
-                    input_val.addClass('d-none');
-
-                    total_defects -= 1;
-                    if (input.hasClass('error')) {
-                        input.removeClass('error')
-                        input_2.removeClass('error')
-                    }
-                    var span = input.parent().find('label');
-                    if (span.length > 0) {
-                        span.html('')
-                    }
-                    var span_val = $(`#${id}-input-error`);
-                    if (span_val.length > 0) {
-                        span.html('')
-                    }
-                }
-                console.log('unchecked');
-            }
-
-            $('.select-radio-value').on('change',function(){
-                var val = this.value;
-                var id = `${this.name}_input`;
-                var input = $(`#${id}`)
-                if (val === 'other') {
-                    input.val('');
-                    input.removeClass('d-none');
-                }else{
-                    input.val(val);
-                    if (!input.hasClass('d-none')) {
-                        input.addClass('d-none')
-                    }
-                }
-            });
-            $('#total_defects').val(total_defects)
-
-        }
-
-        function addReomveImageHighClearanceField(checkbox) {
-            var element = $(checkbox);
-            var id = element.attr('id');
-            var input = $(`#${id}-img`)
-            var input_val = $(`#${id}-input`)
-
-            if (checkbox.checked) {
-                if (input.hasClass('d-none')) {
-                    input.removeClass('d-none');
-
-                    input_val.removeClass('d-none');
-
-                }
-            } else {
-
-                if (!input.hasClass('d-none')) {
-                    input.addClass('d-none');
-
-
-                    input_val.addClass('d-none');
-                    input_val.val('');
-
-                    if (input.hasClass('error')) {
-                        input.removeClass('error')
-
-                    }
-                    var span = input.parent().find('label');
-                    if (span.length > 0) {
-                        span.html('')
-                    }
-
-                    var span_val = $(`#${id}-input-error`);
-                    if (span_val.length > 0) {
-                        span_val.html('')
-                    }
-                }
-
-            }
-        }
-
-        function getMainLine(val){
-            if (val == 'service_line') {
-                $('#main_line_connection').removeClass('d-none')
-            }else{
-                if (!$('#main_line_connection').hasClass('d-none')) {
-                $('#main_line_connection').addClass('d-none')
-                $('#main_line_connection_one , #main_line_connection_many').prop('checked', false);
+                        },
+                        error: function(error)
+                        {
+                            console.error('Error:', error);
+                            alert('Request  Failed')
+                        }
+                    });
 
                 }
             }
-        }
+     
+
+
+     
+
+        
+        
     </script>
 @endsection

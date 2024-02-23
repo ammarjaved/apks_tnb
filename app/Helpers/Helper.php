@@ -323,3 +323,52 @@ function tiangSpanRadio($value , $key , $subkey , $status)
     }
 
 //  for show and update images end
+
+
+
+function  verifyDefectExistOrNot($keys , $arr){
+
+    if (!empty($arr) ) 
+    {
+        foreach ($keys as $key) 
+        {
+            if (array_key_exists($key, $arr) && $arr[$key] == true) 
+            {
+               return true;
+            }
+        }
+    }
+    return false;
+}
+
+function getSingleJsonImage($key , $arr){
+    $html ="";
+    if (array_key_exists($key , $arr) &&  $arr[$key] != '')
+    { 
+        $html.= "<a href='".config('custom.image_url').$arr[$key]. "' data-lightbox='roadtrip'>
+                    <img src='".config('custom.image_url').$arr[$key ] ."' class='adjust-height mb-1'  style='height:30px; width:30px !important'>
+                </a>";
+    }
+    return $html;
+}
+
+
+function addRepairDate($name){
+
+
+    $html = "<tr>
+                <th>Repair Date</th>
+                <td><input id='repair_date-$name' type='date' class='form-control'><span id='err-$name'></span></td>
+                <td><button class='btn btn-sm btn-success' id='reapir_date_button-$name' type='button' onclick='addRepairDate(\"$name\")'>Update</button></td>
+            </tr>";
+    return $html;
+}
+
+function showRepairDate($date){
+    $html = "<tr>
+                <th>Repair Date</th>
+                <td>$date</td>
+                <td></td>
+            </tr>";
+    return $html;
+}

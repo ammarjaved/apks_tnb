@@ -104,7 +104,7 @@ Route::group(
                 Route::get('/search/find-tiang/{q}', [TiangMapController::class, 'seacrh'])->name('tiang-search');
                 Route::get('/search/find-tiang-cordinated/{q}', [TiangMapController::class, 'seacrhCoordinated'])->name('tiang-coordinated');
                 Route::get('/get-tiang-edit/{id}', [TiangMapController::class, 'editMap'])->name('get-tiang-edit');
-                Route::post('/tiang-talian-vt-and-vr-map-edit/{id}', [TiangMapController::class, 'editMapStore'])->name('tiang-talian-vt-and-vr-map-edit'); 
+                Route::get('/add-tiang-repair-date', [TiangMapController::class, 'addReapirDate'])->name('add-tiang-repair-date'); 
 
 
 

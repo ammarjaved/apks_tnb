@@ -206,6 +206,8 @@ return [
             'leaning'=>'Condong',
             'no_dim_post_none'=>'No. Tiang Pudar / Tiada',
             'creepers'=>'Creepers',
+            'creepers_after'=>'Creepers After',
+
             'current_leakage'=>'Current Leakage',
 
         'line_main_service'=>'Talian (Utama / Servis)',

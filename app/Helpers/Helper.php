@@ -364,11 +364,11 @@ function addRepairDate($name){
     return $html;
 }
 
-function showRepairDate($date){
-    $html = "<tr>
-                <th>Repair Date</th>
-                <td>$date</td>
-                <td></td>
-            </tr>";
-    return $html;
+function getRepairDate($key , $array){
+    // return $key;
+    if ($array != null && array_key_exists($key , $array)) {
+        return  $array[$key];
+     }
+     return "";
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web\excel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tiang;
+use App\Models\TiangRepairDate;
 use App\Traits\Filter;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -310,9 +311,16 @@ class TiangExcelController extends Controller
 
 
 
+                $dates =  TiangRepairDate::where('savr_id', $secondRec->id)->get();
+
+                $sortedDates = [];
+
+                foreach ($dates as $value) {
+                    $sortedDates[$value->name] = $value->date;
+                }
 
 
-                $secondWorksheet->setCellValue('L' . $i, $repair_date);
+                $secondWorksheet->setCellValue('L' . $i, $sortedDates['tiang_defect']);
                 $secondWorksheet->setCellValue('N' . $i, $repair_date);
                 $secondWorksheet->setCellValue('P' . $i, $repair_date);
                 $secondWorksheet->setCellValue('R' . $i, $repair_date);

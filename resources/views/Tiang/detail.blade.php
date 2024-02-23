@@ -124,5 +124,39 @@
             $('form li').removeClass('disabled')
 
             $('form li').addClass('done')
+
+            function addRepairDate(name) 
+            {
+                var dateInput = $(`#repair_date-${name}`);
+                var dateErr = $(`#err-${name}`);
+                var button = $(`#reapir_date_button-${name}`);
+
+                var date = dateInput.val();
+                if (date == '') {
+                    dateErr.html('This feild is required');
+                }else{
+
+                    $.ajax(
+                    {
+                        url: `/{{app()->getLocale()}}/add-tiang-repair-date?name=${name}&date=${date}&id=${id}`,
+                        method: 'GET',
+                        success: function(response)
+                        {
+                            button.remove();
+                            dateInput.remove();
+                            dateErr.html(date);
+
+                        },
+                        error: function(error)
+                        {
+                            console.error('Error:', error);
+                            alert('Request  Failed')
+                        }
+                    });
+
+                }
+            }
+     
+
     </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Tiang;
+use App\Models\TiangRepairDate;
 use Illuminate\Support\Facades\DB;
 
 class TiangRepository
@@ -47,6 +48,8 @@ class TiangRepository
             $data['pembumian_defect_image'] = json_decode($data->pembumian_defect_image, true);
             $data['bekalan_dua_defect_image'] = json_decode($data->bekalan_dua_defect_image, true);
             $data['kaki_lima_defect_image'] = json_decode($data->kaki_lima_defect_image, true);
+
+           
 
         }
 

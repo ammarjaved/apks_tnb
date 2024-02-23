@@ -15,4 +15,9 @@ class Tiang extends Model
      'remarks', 'tapak_condition', 'kawasan', 'jarak_kelegaan', 'talian_spec', 'arus_pada_tiang' ,  'kawasan_other_img' , 'kawasan_forest_img' , 'kawasan_road_img' ,'kawasan_bend_img' , 'tapak_no_vehicle_entry_img'  , 'tapak_sidewalk_img' , 'tapak_road_img' ,'kaki_lima_defect_image' , 'bekalan_dua_defect_image ', 'Pembumian_defect_image' , 'servis_defect_image' , 'kilat_defect_image' , 'jumper_image' , 'blackbox_defect_image' , 'ipc_defect_image' , 'umbang_defect_image' , 'talian_defect_image'
      ,'tiang_defect_image' , 'talian_utama' ,'talian_utama_connection'];
 
+    public function repairDates()
+    {
+        return $this->hasMany(TiangRepairDate::class, 'savr_id');
+    }
+
 }

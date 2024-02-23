@@ -129,10 +129,11 @@ $(function(){
             var defect_vals=$("#choices-multiple-remove-button").val();
             filters = defect_vals;
             table.ajax.reload();
+            localStorage.setItem(url_split[0]+'_defects', JSON.stringify(defect_vals));
 
-        localStorage.setItem(url_split[0]+'_defects', JSON.stringify(defect_vals));
+            console.log(filters);
+            updateLayers($('#excelBa').val());
 
-        console.log(filters);
 
 
         })

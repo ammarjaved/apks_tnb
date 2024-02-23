@@ -289,14 +289,28 @@
         {
 
             var q_cql = "ba ILIKE '%" + param + "%' AND qa_status ='Accept' "
+
+
+           
             if (from_date != '') 
             {
-                q_cql += "AND review_date >=" + from_date;
+                q_cql += " AND review_date >=" + from_date;
             }
 
             if (to_date !=  '') 
             {
-                q_cql +=  "AND review_date <=" + to_date;
+                q_cql +=  " AND review_date <=" + to_date;
+            }
+
+            var q_f_cql = q_cql;
+            for (let index = 0; index < filters.length; index++) {
+                const element = filters[index];
+                if (index == 0) {
+                    q_f_cql += " AND " + element + "= 'YES' ";
+                }else{
+                    q_f_cql += " OR " + element + "= 'YES' AND " + q_cql;
+                }
+                
             }
 
             if (road != '') {
@@ -318,9 +332,9 @@
             }
 
             ts_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ts_with_defects',
+                layers: 'cite:ts_with_filters_defects',
                 format: 'image/png',
-                cql_filter: q_cql,
+                cql_filter: q_f_cql,
                 maxZoom: 21,
                 transparent: true
             }, {
@@ -337,7 +351,7 @@
             ts_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:ts_without_defects',
                 format: 'image/png',
-                cql_filter: q_cql,
+                cql_filter: q_f_cql,
                 maxZoom: 21,
                 transparent: true
             }, {

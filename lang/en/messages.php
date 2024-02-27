@@ -221,6 +221,7 @@ return [
             'No_Stay_Insulator_Damaged'=>'Tiada Stay Insulator/Rosak',
             'Stay_Plate_Base_Stay_Blocked'=>'Stay Plate / Pangkal Stay Terbongkah',
 
+            'Inspection_of_current_leakage_on_the_umbang' =>'Pemeriksaan Kebocoran Arus pada Umbang',
         'IPC'=>'IPC',
             'Burn Effect'=>'Kesan Bakar',
 

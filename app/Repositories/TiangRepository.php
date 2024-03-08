@@ -49,7 +49,11 @@ class TiangRepository
             $data['bekalan_dua_defect_image'] = json_decode($data->bekalan_dua_defect_image, true);
             $data['kaki_lima_defect_image'] = json_decode($data->kaki_lima_defect_image, true);
 
-           
+            $talian = $data->talian_utama_connection ;
+            $talian = $talian != '' ? explode(',',$talian) : '';
+            
+            $data['service_line'] = isset($talian[0]) ? $talian[0] : '';
+            $data['main_line'] = isset($talian[1]) ? $talian[1] : '';
 
         }
 

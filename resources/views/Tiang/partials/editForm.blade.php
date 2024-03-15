@@ -76,15 +76,22 @@
                     </div>
                 </div>
 
-                {{-- MAIN LINE OR SERVICE LINE --}}
-                <div class="row">
-                    <div class="col-md-4 col-sm-4">
-                        <label for="main_line">{{__('messages.main_line_service_line')}}</label>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <input type="text" class="form-control" id="" value="{{$data->talian_utama_connection}}" disabled>    
-                    </div>
+                {{-- MAIN LINE SERVICE LINE --}}
+        <div class="row">
+            <div class="col-md-4">
+                <label for="main_line">{{__('messages.main_line_service_line')}}</label>
+            </div>
+            <div class="col-md-5 d-sm-flex">
+                <div class="col-md-6">
+                    <input type="checkbox" name="main_line" id="main_line" {{$data->service_line != '' ? 'checked' : ''}}>
+                    <label for="main_line">Main Line</label>
                 </div>
+                <div class="col-md-6">
+                    <input type="checkbox" name="service_line" id="service_line"  {{$data->main_line != '' ? 'checked' : ''}}>
+                    <label for="service_line">Service Line</label>
+                </div>
+            </div>
+        </div>
 
                 {{-- NUMBER OF SERVICE INVOLVES --}}
                 <div class="row " id="main_line_connection">
@@ -94,37 +101,53 @@
                     </div>
                 </div>
 
-                {{-- POLE IMAGE 1 --}}
-                <div class="row">
-                    <div class="col-md-4 col-sm-4"><label for="pole_image-1">{{ __('messages.pole') }} Image 1</label></div>
-                    <div class="col-md-4 col-sm-4">
-                        @if ($data->pole_image_1 != '' )
-                            <a href="{{config('custom.image_url').$data->pole_image_1}}" data-lightbox="roadtrip">
-                                <img src="{{config('custom.image_url').$data->pole_image_1}}" alt="" class="adjust-height " style="height:30px; width:30px !important">
-                            </a>
-                        @else
-                            <strong>{{ __('messages.no_image_found') }} </strong>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- POLE IMAGE 2 --}}
-                <div class="row">
-                    <div class="col-md-4 col-sm-4"><label for="pole_image-2">{{ __('messages.pole') }} Image 2</label></div>
-                    <div class="col-md-4 col-sm-4">
-                        @if ($data->pole_image_2 != '')
-                            <a href="{{config('custom.image_url').$data->pole_image_2}}" data-lightbox="roadtrip">
-                                <img src="{{config('custom.image_url').$data->pole_image_2}}" alt="" class="adjust-height " style="height:30px; width:30px !important">
-                            </a>
-                        @else
-                            <strong>{{ __('messages.no_image_found') }} </strong>
-                        @endif
-                    </div>
-                </div>
+ 
 
             </fieldset>
             {{-- END Info (1) --}}
 
+
+             {{-- IMAGES --}}
+             <h3>{{__('messages.images')}}</h3>
+
+             <fieldset class="form-input">
+                 
+                 {{-- POLE IMAGE 1 --}}
+                 <div class="row">
+                     <div class="col-md-4"><label for="pole_image-1">{{ __('messages.pole') }} Image 1 </label></div>
+                     <div class="col-md-8 row">{!!  viewAndUpdateImage($data->pole_image_1 , 'pole_image_1' , true )  !!}</div>
+                 </div>
+
+                 {{-- POLE IMAGE 2 --}}
+
+                 <div class="row">
+                     <div class="col-md-4"><label for="pole_image-2">{{ __('messages.pole') }} Image 2</label></div>
+                     <div class="col-md-8 row">{!!  viewAndUpdateImage($data->pole_image_1 , 'pole_image_1' , true )  !!}</div>
+
+                 </div>
+
+                 {{-- POLE IMAGE 3 --}}
+
+                 <div class="row">
+                     <div class="col-md-4"><label for="pole_image-3">{{ __('messages.pole') }} Image 3 </label></div>
+                     <div class="col-md-8 row">{!!  viewAndUpdateImage($data->pole_image_3 , 'pole_image_3' , true )  !!}</div>
+                 </div>
+
+                 {{-- POLE IMAGE 4 --}}
+                 <div class="row">
+                     <div class="col-md-4"><label for="pole_image-4">{{ __('messages.pole') }} Image 4</label></div>
+                     <div class="col-md-8 row">{!!  viewAndUpdateImage($data->pole_image_4 , 'pole_image_4' , true )  !!}</div>
+                 </div>
+
+                 {{-- POLE IMAGE 5 --}}
+                 <div class="row">
+                     <div class="col-md-4"><label for="pole_image-5">{{ __('messages.pole') }} Image 5 </label></div>
+                     <div class="col-md-8 row">{!!  viewAndUpdateImage($data->pole_image_5 , 'pole_image_5' , true )  !!}</div>
+                 </div>
+
+             </fieldset>
+
+             {{-- END IMAGES --}}
 
             {{-- START Asset Register (2) --}}
             <h3> {{ __('messages.Asset_Register') }} </h3>
@@ -533,6 +556,51 @@
                     </div>
 
                 </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="five_feet_away">{{ __('messages.five_feet_away') }} </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="five_feet_away" value="{{$data->five_feet_away}}" disabled id="five_feet_away" class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="ffa_no_of_houses">{{ __('messages.ffa_no_of_houses') }} </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="ffa_no_of_houses" value="{{$data->ffa_no_of_houses}}" disabled id="ffa_no_of_houses" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 ">
+                        <label for="ffa_house_no">{{ __('messages.ffa_house_no') }} </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="ffa_house_no" value="{{$data->ffa_house_no}}" disabled id="ffa_house_no" class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4"><label for="clean_banner_image">{{ __('messages.clean_banner') }} Image </label></div>
+                    <div class="col-md-8 row">{!!  viewAndUpdateImage($data->clean_banner_image , 'clean_banner_image' , true )  !!}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4"><label for="remove_creepers_image">{{ __('messages.remove_creepers') }} Image </label></div>
+                    <div class="col-md-8 row">{!!  viewAndUpdateImage($data->remove_creepers_image , 'remove_creepers_image' , true )  !!}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4"><label for="current_leakage_image">{{ __('messages.current_leakage') }} Image </label></div>
+                    <div class="col-md-8 row">{!!  viewAndUpdateImage($data->current_leakage_image , 'current_leakage_image' , true )  !!}</div>
+                </div>
+
 
                 <style>
                     a[href='#finish'] {

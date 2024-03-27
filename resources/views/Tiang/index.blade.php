@@ -285,10 +285,11 @@
       
 
 
-        function updateLayers(param) 
+        function updateLayers(param , cql) 
         {
+            console.log(cql);
 
-            var q_cql = "ba ILIKE '%" + param + "%' AND qa_status ='Accept' "
+            var q_cql = cql + " AND qa_status ='Accept' "
 
 
            

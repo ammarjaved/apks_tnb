@@ -580,7 +580,7 @@
             pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:pano_apks',
                 format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
+                cql_filter: q_cql,
                 maxZoom: 21,
                 transparent: true
             }, {
@@ -599,7 +599,7 @@
             work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:tbl_workpackage',
                 format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
+                cql_filter: q_cql,
                 maxZoom: 21,
                 transparent: true
             }, {
@@ -699,7 +699,7 @@
             road = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:tbl_roads',
                 format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
+                cql_filter: q_cql,
                 maxZoom: 21,
                 transparent: true
             }, {
@@ -753,7 +753,7 @@
             lb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:lb_with_defects',
                 format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
+                cql_filter: q_cql,
                 maxZoom: 21,
                 transparent: true
             }, {

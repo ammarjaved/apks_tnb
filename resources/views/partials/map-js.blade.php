@@ -348,6 +348,15 @@ var sub_reject = '';
 
     function addRemoveBundary(param, paramY, paramX) 
         {
+            var baBoundaryFilter = '';
+            var baFilter = '';
+            if (param != '') {
+                baBoundaryFilter = "station ='" + param + "' "
+                baFilter = "ba ='" + param + "' "
+            }else{
+                baBoundaryFilter = "station ILIKE '%" + param + "%' "
+                baFilter = "ba ILIKE '%" + param + "%' "
+            }
 
             // WORK PACKAGE 
             if (work_package) {
@@ -357,7 +366,7 @@ var sub_reject = '';
             work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:tbl_workpackage',
                 format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
+                cql_filter: baFilter,
                 maxZoom: 21,
                 transparent: true
             }, { buffer: 10 })
@@ -375,7 +384,7 @@ var sub_reject = '';
             boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:ba',
                 format: 'image/png',
-                cql_filter: "station ILIKE '%" + param + "%'",
+                cql_filter: baBoundaryFilter,
                 maxZoom: 21,
                 transparent: true
             }, { buffer: 10 })
@@ -394,7 +403,7 @@ var sub_reject = '';
             pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:pano_apks',
                 format: 'image/png',
-                cql_filter: "ba ILIKE '%" + param + "%'",
+                cql_filter: baFilter,
                 maxZoom: 21,
                 transparent: true
             }, { buffer: 10 }); 
@@ -407,7 +416,7 @@ var sub_reject = '';
                 easeLinearity: 0.25,
             });
 
-            updateLayers(param);
+            updateLayers(param , baFilter);
 
         }
 

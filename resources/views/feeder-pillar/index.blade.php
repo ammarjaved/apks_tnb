@@ -357,10 +357,10 @@
       
 
 
-        function updateLayers(param) 
+        function updateLayers(param , cql) 
         {
 
-            var q_cql = "ba ILIKE '%" + param + "%' AND qa_status ='Accept' "
+            var q_cql = cql + " AND qa_status ='Accept' "
             if (from_date != '') 
             {
                 q_cql += "AND visit_date >=" + from_date;

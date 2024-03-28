@@ -499,8 +499,18 @@
         zoom = 9;
 
         function addRemoveBundary(param, paramY, paramX) {
+            console.log(param);
+            var baFilter = '';
+            var q_cql = '';
 
-            var q_cql = "ba ILIKE '%" + param + "%' "
+            if (param == '') {
+                baFilter = "station ILIKE '%" + param + "%' "
+                q_cql = "ba ILIKE '%" + param + "%' "
+            }else{
+                baFilter = "station ='" + param + "' "
+                q_cql =  "ba ='" + param + "' "
+            }
+             
             var t_cql = q_cql;
             var p_cql = q_cql;
             if (from_date != '') {
@@ -526,7 +536,7 @@
             boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
                 layers: 'cite:ba',
                 format: 'image/png',
-                cql_filter: "station ILIKE '%" + param + "%'",
+                cql_filter: baFilter,
                 maxZoom: 21,
                 transparent: true
             }, {

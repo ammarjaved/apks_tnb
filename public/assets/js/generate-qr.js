@@ -33,7 +33,7 @@ var url_split = '';
 
 
 var table = '';
-
+var searchTH = '';
 
 $(function(){
 
@@ -267,6 +267,7 @@ function resetIndex(){
 
     qa_status = '' ;
     f_status = '' ;
+    searchTH = '';
     if (filters.length > 0) {
     multipleCancelButton.removeActiveItems();
         
@@ -282,7 +283,7 @@ function resetIndex(){
     $('#excel_from_date').val('');
     $('#excel_to_date').val('');
     $('#qa_status').val('');
-    $('#status').val('');
+    $('#status, .typeahead').val('');
 
     localStorage.removeItem(url_split[0]+"_to");
     localStorage.removeItem(url_split[0]+"_from");

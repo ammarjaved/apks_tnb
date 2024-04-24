@@ -30,25 +30,31 @@ class TiangContoller extends Controller
      */
     public function index(Request $request)
     {
+        // return $request;
         //
         if ($request->ajax()) {
-            if ($request->filled('arr')) {
+        
 
+            if ($request->filled('arr')) 
+            {
                 $getIds = DB::table('savr_all_defects');
                 foreach ($request->arr as $res) {
                     $getIds->orWhere($res, 'YES');
                 }
-                $ids = $getIds->pluck('id');
-                
+                $ids = $getIds->pluck('id');   
             }
 
-            $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
+            // $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
+
             $result = Tiang::query();
             if ($request->filled('arr')) {
                 $result->whereIn('id', $ids);
             }
-
-           $result = $this->filter($result , 'review_date' , $request);
+            
+            $result = $this->filter($result , 'review_date' , $request);
+            if ($request->has('searchTH') && !empty($request->searchTH)) {
+                    $result->where('tiang_no' , $request->searchTH);
+            }
 
             $result->when(true, function ($query) {
                 return $query->select('id', 'ba' ,'qa_status' , 'reject_remarks', 'review_date', 'tiang_no', 'total_defects',  DB::raw("st_x(geom) as x,st_y(geom) as y"));

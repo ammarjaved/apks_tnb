@@ -37,8 +37,8 @@
     <td>
         @if ( $key != 'creepers_after' && $key_exist )
 
-            @if (!empty($repairDates) && isset($repairName ,$repairDates ) && $repairDates[$repairName] != '')
-                {{-- {{$repairDates[$repairName]}} --}}
+            @if (!empty($repairDates) && isset($repairDates[$repairName] ) && $repairDates[$repairName] != '')
+                {{$repairDates[$repairName]}}
             @else
                 <input id='repair_date-{{$repairName}}' type='date' class='form-control'><span id='err-{{$repairName}}'></span>
                 <button class='btn btn-sm btn-success mt-2' id='reapir_date_button-{{$repairName}}' type='button' onclick="addRepairDate('{{$repairName}}')">Update</button>

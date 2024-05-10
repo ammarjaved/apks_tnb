@@ -62,6 +62,9 @@ class TiangContoller extends Controller
 
             return datatables()
                 ->of($result->get())
+                ->addColumn('tiang_id', function ($row) {  
+                    return "SAVR-" .$row->id;
+                })
                 ->make(true);
         }
 

@@ -91,6 +91,10 @@ class SubstationController extends Controller
 
             return datatables()
                 ->of($result->get())
+                ->addColumn('substation_id', function ($row) {
+                    
+                    return "SUB-" .$row->id;
+                }) 
                 ->make(true);
 
                 // $result->orderBy('visit_date', 'desc');

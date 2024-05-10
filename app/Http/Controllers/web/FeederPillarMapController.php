@@ -49,8 +49,11 @@ class FeederPillarMapController extends Controller
     {
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
-        $data = FeederPillar::where('ba', 'LIKE', '%' . $ba . '%')
-            ->where('id', 'LIKE', '%' . $q . '%')
+        $data = FeederPillar::query();
+        if (!empty($ba)) {
+            $data->where('ba',  $ba );
+        }
+        $data =    $data->where('id', 'LIKE', '%' . $q . '%')
             ->select('id')
             ->limit(10)
             ->get();
@@ -61,6 +64,7 @@ class FeederPillarMapController extends Controller
     public function seacrhCoordinated($lang, $name)
     {
         $name = urldecode($name);
+
         $data = FeederPillar::where('id', $name)
             ->select('id', \DB::raw('ST_X(geom) as x'), \DB::raw('ST_Y(geom) as y'))
             ->first();

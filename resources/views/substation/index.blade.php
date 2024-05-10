@@ -121,7 +121,7 @@
         <div class="container-fluid">
 
             {{-- ADD FILTERS --}}
-            @include('components.qr-filter', ['url' => 'generate-substation-excel'])
+            @include('components.qr-filter', ['url' => 'generate-substation-excel' , 'serachBy'=>'search by id'])
 
             <div class="row">
                 {{-- START TABLE --}}
@@ -167,6 +167,7 @@
                                 <table id="" class="table table-bordered  table-hover data-table">
                                     <thead>
                                         <tr>
+                                            <th rowspan="2">ID</th>
                                             <th rowspan="2">{{ __('messages.name') }}</th>
                                             <th rowspan="2">{{ __('messages.visit_date') }} </th>
                                             <th rowspan="2">asdas</th>
@@ -336,7 +337,7 @@
                     success: function callback(data) {
                         $.each(data, function(i, str) {
 
-                            matches.push(str.name);
+                            matches.push(str.id);
 
                         });
                     }
@@ -503,19 +504,8 @@
         var lang = "{{ app()->getLocale() }}";
         var url = "substation"
         var auth_ba = "{{ Auth::user()->ba }}"
-      
-//         var fullscreenElement = document.getElementById('yourMapElement'); // replace 'yourMapElement' with the actual ID or class of your map container
 
-
-// // You can trigger full screen like this (e.g., on a button click)
-// document.getElementById('fullscreenButton').addEventListener('click', function() {
-//     openFullscreen();
-// });
-
-// // You can also exit full screen similarly (e.g., on another button click)
-// document.getElementById('exitFullscreenButton').addEventListener('click', function() {
-//     closeFullscreen();
-// });
+        
 
 
 
@@ -547,11 +537,9 @@
      
                 // DEFINE TABLE  COLUMNS 
             var columns = [
-                { render: function(data, type, full) 
-                    { return `<a href="/{{ app()->getLocale() }}/substation/${full.id}/edit" class="text-decoration-none text-dark">${full.name}</a>`;},
-                    name: 'name'
-                },
-                {data: 'visit_date', name: 'visit_date', orderable: true },
+                {data: 'substation_id', name: 'substation_id', orderable: true },
+                {data: 'name', name: 'name' },
+                {data: 'visit_date', name: 'visit_date' },
                 {data: 'id', name: 'id', visible: false },
                 {data: 'unlocked', name: 'unlocked' },
                 {data: 'demaged', name: 'demaged' },

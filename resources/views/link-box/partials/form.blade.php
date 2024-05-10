@@ -1,5 +1,14 @@
 
 
+
+    {{-- ID --}}
+    <div class="row">
+        <div class="col-md-4  col-sm-4 "><label for="id">ID</label></div>
+        <div class="col-md-4   col-sm-6">
+            <input type="text" name=""  id="" value="{{ $data->id }}" class="form-control" {{$disabled ? 'disabled' : ''}}>
+        </div>
+    </div>
+
     {{-- ZONE --}}
     <div class="row">
         <div class="col-md-4 col-sm-4 "><label for="zone">{{ __('messages.zone') }}</label></div>

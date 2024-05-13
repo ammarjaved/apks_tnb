@@ -697,4 +697,13 @@ var marker = '';
                 map.removeLayer(marker)
             }
         }
+
+        function typeaheadSearch(event){
+            if (marker != '') {
+                map.removeLayer(marker)
+            }
+            searchTH = '';    
+            $('.typeahead').val('');
+            // table.ajax.reload();
+        } 
 </script>

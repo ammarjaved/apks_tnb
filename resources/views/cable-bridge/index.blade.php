@@ -111,7 +111,7 @@
         <div class="container-fluid">
 
             {{-- ADD FILTERS --}}
-            @include('components.qr-filter', ['url' => 'generate-cable-bridge-excel'])
+            @include('components.qr-filter', ['url' => 'generate-cable-bridge-excel' ,'serachBy' =>'search by ID'])
 
             <div class="row">
                 {{-- START TABLE --}}
@@ -275,6 +275,71 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
     @include('partials.map-js')
 
+    <script>
+        var substringMatcher = function(strs) {
+
+            return function findMatches(q, cb) {
+
+                var matches;
+
+                matches = [];
+                $.ajax({
+                    url: '/{{ app()->getLocale() }}/search/find-cable-bridge/' + q,
+                    dataType: 'JSON',
+                    //data: data,
+                    method: 'GET',
+                    async: false,
+                    success: function callback(data) {
+                        $.each(data, function(i, str) {
+
+                            matches.push(str.id);
+
+                        });
+                    }
+                })
+
+                cb(matches);
+            };
+        };
+
+
+        var marker = '';
+        $('#the-basics .typeahead').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: 'states',
+            source: substringMatcher()
+        });
+
+        $('.typeahead').on('typeahead:select', function(event, suggestion) {
+            var name = encodeURIComponent(suggestion);
+
+            if (marker != '') {
+                map.removeLayer(marker)
+            }
+            $.ajax({
+                url: '/{{ app()->getLocale() }}/search/find-cable-bridge-cordinated/' + encodeURIComponent(
+                    name),
+                dataType: 'JSON',
+                //data: data,
+                method: 'GET',
+                async: false,
+                success: function callback(data) {
+                    console.log(data);
+                    map.flyTo([parseFloat(data.y), parseFloat(data.x)], 16, {
+                        duration: 1.5, // Animation duration in seconds
+                        easeLinearity: 0.25,
+                    });
+
+                    marker = new L.Marker([data.y, data.x]);
+                    map.addLayer(marker);
+                }
+            })
+
+        });
+    </script>
  
     
     <script>

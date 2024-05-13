@@ -85,19 +85,19 @@
                             <input type="date" name="to_date" id="excel_to_date" onchange="setMaxDate(this.value,'{{explode('-',$url)[1]}}')" class="form-control">
                         </div>
 
-                        @if ($url == 'generate-tiang-talian-vt-and-vr-excel')
+                        @isset($serachBy)
                             <div class="col-md-3 ">
-                                <label for="excel_from_date">Seacrh By Tiang No </label>
+                                <label for="excel_from_date">Seacrh </label>
                                 <div class="d-flex">
                                     <div id="the-basics" >
-                                        <input class="typeahead form-control" type="text"  placeholder="search by Tiang No" class="form-control">  
+                                        <input class="typeahead form-control" type="text"  placeholder="{{$serachBy}}" class="form-control">  
                                     </div>
                                     <div>
                                         <button type="button" onclick="typeaheadSearch()" class="btn btn-secondary btn-sm">clear</button>
                                     </div>
                                 </div>
                             </div>
-                        @endif
+                        @endisset
 
                         @isset($url)
 

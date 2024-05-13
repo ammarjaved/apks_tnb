@@ -111,7 +111,7 @@
         <div class="container-fluid">
 
             {{-- ADD FILTERS --}}
-            @include('components.qr-filter', ['url' => 'generate-feeder-pillar-excel'])
+            @include('components.qr-filter', ['url' => 'generate-feeder-pillar-excel' ,'serachBy' =>'search by ID'])
 
             <div class="row">
                 {{-- START TABLE --}}
@@ -292,7 +292,7 @@
 
                 matches = [];
                 $.ajax({
-                    url: '/{{ app()->getLocale() }}/search/find-substation/' + q,
+                    url: '/{{ app()->getLocale() }}/search/find-feeder-pillar/' + q,
                     dataType: 'JSON',
                     //data: data,
                     method: 'GET',
@@ -300,7 +300,7 @@
                     success: function callback(data) {
                         $.each(data, function(i, str) {
 
-                            matches.push(str.name);
+                            matches.push(str.id);
 
                         });
                     }
@@ -328,7 +328,7 @@
                 map.removeLayer(marker)
             }
             $.ajax({
-                url: '/{{ app()->getLocale() }}/search/find-substation-cordinated/' + encodeURIComponent(
+                url: '/{{ app()->getLocale() }}/search/find-feeder-pillar-cordinated/' + encodeURIComponent(
                     name),
                 dataType: 'JSON',
                 //data: data,

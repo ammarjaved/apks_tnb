@@ -49,11 +49,11 @@ class SubstationMapController extends Controller
     {
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
-        $data = Substation::where('ba', 'LIKE', '%' . $ba . '%')
-            ->where('name', 'LIKE', '%' . $q . '%')
-            ->select('name')
-            ->limit(10)
-            ->get();
+        $data = Substation::query();
+        if (!empty($ba)) {
+            $data->where('ba',  $ba );
+        }
+        $data =    $data->where('id', 'LIKE', '%' . $q . '%')->select('id') ->limit(10)->get();
 
         return response()->json($data, 200);
     }
@@ -61,7 +61,7 @@ class SubstationMapController extends Controller
     public function seacrhCoordinated($lang, $name)
     {
         $name = urldecode($name);
-        $data = Substation::where('name', 'LIKE', '%' . $name . '%')
+        $data = Substation::where('id', $name)
             ->select('name', DB::raw('ST_X(geom) as x'), DB::raw('ST_Y(geom) as y'))
             ->first();
 

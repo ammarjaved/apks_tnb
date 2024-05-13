@@ -55,11 +55,15 @@ class TiangMapController extends Controller
 
     public function seacrh($lang ,  $q)
     {
-
+     
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
-        $data = Tiang::where('ba', 'LIKE', '%' . $ba . '%')->where('tiang_no' , 'LIKE' , '%' . $q . '%')->select('tiang_no')->limit(10)->get();
-
+        $data = Tiang::query();
+        if (!empty($ba)) {
+            $data->where('ba',  $ba );
+        }
+        $data =    $data->where('tiang_no' , 'LIKE' , '%' . $q . '%')->select('tiang_no')->limit(10)->get();
+        //  $data;
         return response()->json($data, 200);
     }
 

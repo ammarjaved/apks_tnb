@@ -174,7 +174,7 @@
         <div class="container-fluid">
 
             {{-- ADD FILTERS --}}
-            @include('components.qr-filter', ['url' => 'generate-tiang-talian-vt-and-vr-excel'])
+            @include('components.qr-filter', ['url' => 'generate-tiang-talian-vt-and-vr-excel' , 'serachBy'=>'search by Tiang no'])
 
             <div class="row">
                 {{-- START TABLE --}}
@@ -203,6 +203,7 @@
                             <div class="table-responsive add-substation" id="add-substation">
                                 <table id="" class="table table-bordered  table-hover data-table">
                                     <thead>
+                                        <th>TIANG ID</th>
                                         <th>TIANG NO</th>
                                         <th>BA</th>
                                         <th></th>
@@ -346,10 +347,10 @@
             return function findMatches(q, cb) {
 
                 
-                if (q == '' && searchTH != '') {
-                    searchTH = '';
-                    table.ajax.reload();
-                }
+                // if (q == '' && searchTH != '') {
+                //     searchTH = '';
+                //     table.ajax.reload();
+                // }
 
 
                 var matches;
@@ -392,7 +393,7 @@
             var name = encodeURIComponent(suggestion);
             searchTH = suggestion;
             
-            table.ajax.reload();
+            // table.ajax.reload();
 
             if (marker != '') {
                 map.removeLayer(marker)
@@ -418,14 +419,7 @@
 
         });
 
-        function typeaheadSearch(event){
-            if (marker != '') {
-                map.removeLayer(marker)
-            }
-            searchTH = '';    
-            $('.typeahead').val('');
-            table.ajax.reload();
-        }           
+                  
     </script>
 
     <script>
@@ -632,7 +626,11 @@
 
 
             // DEFINE TABLE  COLUMNS 
-            var columns = [{
+            var columns = [
+                {
+                    data: 'tiang_id',
+                    name: 'tiang_id'
+                },{
                     data: 'tiang_no',
                     name: 'tiang_no'
                 },
@@ -690,9 +688,9 @@
                             d.status = f_status;
                             d.image = 'pole_image_1';
                         }
-                        if (searchTH) {
-                            d.searchTH = searchTH 
-                        }
+                        // if (searchTH) {
+                        //     d.searchTH = searchTH 
+                        // }
                     }
                 },
                 columns: columns, // ADD COLUMNS

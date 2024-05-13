@@ -11,6 +11,14 @@
             {{-- START Info (1) --}}
             <fieldset class=" form-input">
 
+                {{-- ID --}}
+                <div class="row">
+                    <div class="col-md-4 col-sm-4"><label for="ba">ID</label></div>
+                    <div class="col-md-4 col-sm-6">
+                        <input type="text" class="form-control" value="{{ $data->id }}" id="" disabled> 
+                    </div>
+                </div>
+
                 {{-- BA --}}
                 <div class="row">
                     <div class="col-md-4 col-sm-4"><label for="ba">{{ __('messages.ba') }}</label></div>

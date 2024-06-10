@@ -112,7 +112,7 @@ class SubstationController extends Controller
                                 });
 
             return datatables()
-                ->of($result->limit(100)->get())
+                ->of($result->get())
                 ->addColumn('substation_id', function ($row) {
 
                     return "SUB-" .$row->id;

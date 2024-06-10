@@ -60,7 +60,7 @@ class FPController extends Controller
                 );
             });
 
-            return datatables()->of($result->limit(100)->get())->addColumn('feeder_pillar_id', function ($row) {
+            return datatables()->of($result->get())->addColumn('feeder_pillar_id', function ($row) {
 
                 return "FP-" .$row->id;
             })->make(true);

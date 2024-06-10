@@ -128,23 +128,22 @@
                                 class="form-control">
                         </div>
 
-                        <div class="col-md-2 pt-2 ">
-
-                            <button type="submit" class="btn text-white btn-sm mt-4 " class="form-control"
-                                style="background-color: #708090">Download QR </button>
+                        <div class=" col-md-2">
+                            <label for="cycle">Cycle: </label>
+                            <select name="cycle" id="cycle" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
                         </div>
+
 
                         <div class="col-md-6">
                             <br>
                             <div class="d-flex">
-                                <button class="btn btn-secondary btn-sm mt-2   m-2 " type="button"
-                                    onclick="removeLines()">Clear
-                                    Lines</button>
-                                <button class="btn btn-secondary btn-sm mt-2   m-2 " type="button"
-                                    onclick="removePoint()">Clear
-                                    Points</button>
-                                <button class="btn bt-sm btn-secondary mt-2 m-2" type="button"
-                                    onclick="resetPatrlloingMapFilters()"> Reset</button>
+                                <button type="submit" class="btn btn-secondary text-white btn-sm m-2 " class="form-control"  >Download QR </button>
+                                <button class="btn btn-secondary btn-sm mt-2   m-2 " type="button" onclick="removeLines()">Clear Lines</button>
+                                <button class="btn btn-secondary btn-sm mt-2   m-2 " type="button" onclick="removePoint()">Clear Points</button>
+                                <button class="btn bt-sm btn-secondary mt-2 m-2" type="button" onclick="resetPatrlloingMapFilters()"> Reset</button>
                             </div>
 
                         </div>
@@ -282,11 +281,14 @@
         var lang = "{{ app()->getLocale() }}";
         var url = "patrolling";
         var auth_ba = "{{Auth::user()->ba}}";
+        var cycle = $('#cycle').val()
 
             //this function just add and remove boundary
         function addRemoveBundary(param, paramY, paramX) {
 
             var q_cql = "ba ILIKE '%" + param + "%' "
+            q_cql =  q_cql + ` AND cycle = ${cycle} `
+            console.log(q_cql);
             if (from_date != '') {
                 q_cql = q_cql + "AND visit_date>=" + from_date;
             }
@@ -321,8 +323,8 @@
             }
 
 
-            patroling = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:patroling_lines',
+            patroling = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:patroling_lines_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -399,6 +401,8 @@
 
         $(function() {
 
+
+
             var columns =  [{
                         data: 'wp_name',
                         name: 'wp_name'
@@ -471,11 +475,11 @@
                     }
                 ];
 
-    //             if (auth_ba !== '') {
-    //     columns.push({ data: null, render: renderQaStatus });
-    // }
+            //             if (auth_ba !== '') {
+            //     columns.push({ data: null, render: renderQaStatus });
+            // }
 
-    columns.push({ data: null, render: renderDropDownActions });
+            columns.push({ data: null, render: renderDropDownActions });
 
             table = $('.data-table').DataTable({
                 processing: true,
@@ -497,6 +501,9 @@
                         if (to_date) {
                             d.to_date = to_date;
                         }
+                        if (cycle) {
+                            d.cycle = cycle;
+                        }
                     }
                 },
                 columns: columns,
@@ -512,6 +519,14 @@
 
 
                 }
+            });
+
+            $('#cycle').on('change', function() {
+                cycle = $(this).val();
+                callLayers(excel_ba)
+                table.ajax.reload(function() {
+                    // table.draw('page');
+                });
             });
 
         });

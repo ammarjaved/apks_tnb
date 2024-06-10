@@ -101,10 +101,10 @@ Route::group(
                 Route::resource('tiang-talian-vt-and-vr', TiangContoller::class);
                 Route::post('generate-tiang-talian-vt-and-vr-excel', [TiangExcelController::class, 'generateTiangExcel'])->name('generate-tiang-talian-vt-and-vr-excel');
                 Route::view('/tiang-talian-vt-and-vr-map', 'Tiang.map')->name('tiang-talian-vt-and-vr-map');
-                Route::get('/search/find-tiang/{q}', [TiangMapController::class, 'seacrh'])->name('tiang-search');
+                Route::get('/search/find-tiang/{q}/{cycle}', [TiangMapController::class, 'seacrh'])->name('tiang-search');
                 Route::get('/search/find-tiang-cordinated/{q}', [TiangMapController::class, 'seacrhCoordinated'])->name('tiang-coordinated');
                 Route::get('/get-tiang-edit/{id}', [TiangMapController::class, 'editMap'])->name('get-tiang-edit');
-                Route::get('/add-tiang-repair-date', [TiangMapController::class, 'addReapirDate'])->name('add-tiang-repair-date'); 
+                Route::get('/add-tiang-repair-date', [TiangMapController::class, 'addReapirDate'])->name('add-tiang-repair-date');
 
 
 
@@ -114,8 +114,8 @@ Route::group(
                 Route::view('/link-box-pelbagai-voltan-map', 'link-box.map')->name('link-box-pelbagai-voltan-map');
                 Route::get('/get-link-box-edit/{id}', [LinkBoxMapController::class, 'editMap'])->name('get-link-box-edit');
                 Route::post('/update-link-box-map-edit/{id}', [LinkBoxMapController::class, 'update'])->name('update-link-box-map-edit');
-                Route::get('/search/find-link-box/{q}', [LinkBoxMapController::class, 'seacrh'])->name('link-box-search');
-                Route::get('/search/find-link-box-cordinated/{q}', [LinkBoxMapController::class, 'seacrhCoordinated'])->name('link-box-coordinated'); 
+                Route::get('/search/find-link-box/{q}/{cycle}', [LinkBoxMapController::class, 'seacrh'])->name('link-box-search');
+                Route::get('/search/find-link-box-cordinated/{q}', [LinkBoxMapController::class, 'seacrhCoordinated'])->name('link-box-coordinated');
 
 
                 //// Cable Bridge
@@ -125,12 +125,12 @@ Route::group(
                 Route::view('/cable-bridge-map', 'cable-bridge.map')->name('cable-bridge-map');
                 Route::get('/get-cable-bridge-edit/{id}', [CableBridgeMapController::class, 'editMap'])->name('get-cable-bridge-edit');
                 Route::post('/update-cable-bridge-map-edit/{id}', [CableBridgeMapController::class, 'update'])->name('update-cable-bridge-map-edit');
-                Route::get('/search/find-cable-bridge/{q}', [CableBridgeMapController::class, 'seacrh'])->name('cable-bridge-search');
-                Route::get('/search/find-cable-bridge-cordinated/{q}', [CableBridgeMapController::class, 'seacrhCoordinated'])->name('cable-bridge-coordinated'); 
+                Route::get('/search/find-cable-bridge/{q}/{cycle}', [CableBridgeMapController::class, 'seacrh'])->name('cable-bridge-search');
+                Route::get('/search/find-cable-bridge-cordinated/{q}', [CableBridgeMapController::class, 'seacrhCoordinated'])->name('cable-bridge-coordinated');
 
                 ////third party digging routes
                 Route::resource('third-party-digging', ThirdPartyDiggingController::class);
-                Route::post('generate-third-party-digging-excel', [ThirdPartyExcelController::class, 'generateThirdPartExcel'])->name('generate-third-party-digging-excel'); 
+                Route::post('generate-third-party-digging-excel', [ThirdPartyExcelController::class, 'generateThirdPartExcel'])->name('generate-third-party-digging-excel');
 
                 ////substation routes
                 Route::resource('substation', SubstationController::class);
@@ -139,8 +139,8 @@ Route::group(
                 Route::get('/substation-paginate', [SubstationController::class, 'paginate'])->name('substation-paginate');
                 Route::get('/get-substation-edit/{id}', [SubstationMapController::class, 'editMap'])->name('get-substation-edit');
                 Route::post('/update-substation-map-edit/{id}', [SubstationMapController::class, 'update'])->name('update-substation-map-edit');
-                Route::get('/search/find-substation/{q}', [SubstationMapController::class, 'seacrh'])->name('subsation-search');
-                Route::get('/search/find-substation-cordinated/{q}', [SubstationMapController::class, 'seacrhCoordinated'])->name('subsation-coordinated'); 
+                Route::get('/search/find-substation/{q}/{cycle}', [SubstationMapController::class, 'seacrh'])->name('subsation-search');
+                Route::get('/search/find-substation-cordinated/{q}', [SubstationMapController::class, 'seacrhCoordinated'])->name('subsation-coordinated');
                 Route::get('/get_defect_data', [SubstationController::class, 'get_defects_data'])->name('substation.get_defect_data');
 
 
@@ -150,9 +150,9 @@ Route::group(
                 Route::post('generate-feeder-pillar-excel', [FeederPillarExcelController::class, 'generateFeederPillarExcel'])->name('generate-feeder-pillar-excel');
                 Route::get('/get-feeder-pillar-edit/{id}', [FeederPillarMapController::class, 'editMap'])->name('get-feeder-pillar-edit');
                 Route::post('/update-feeder-pillar-map-edit/{id}', [FeederPillarMapController::class, 'update'])->name('update-feeder-pillar-map-edit');
-                Route::get('/search/find-feeder-pillar/{q}', [FeederPillarMapController::class, 'seacrh'])->name('feeder-pillar-search');
+                Route::get('/search/find-feeder-pillar/{q}/{cycle}', [FeederPillarMapController::class, 'seacrh'])->name('feeder-pillar-search');
 
-                Route::get('/search/find-feeder-pillar-cordinated/{q}', [FeederPillarMapController::class, 'seacrhCoordinated'])->name('feeder-pillar-coordinated'); 
+                Route::get('/search/find-feeder-pillar-cordinated/{q}', [FeederPillarMapController::class, 'seacrhCoordinated'])->name('feeder-pillar-coordinated');
 
 
                 //generate notice pdf
@@ -171,7 +171,7 @@ Route::group(
                 Route::get('/get-patrolling-json/{id}', [PatrollingController::class, 'getGeoJson'])->name('get-patrolling-json');
                 Route::get('/patrolling', [PatrollingController::class, 'index'])->name('patroling.index');
                 Route::get('/patrolling-paginate', [PatrollingController::class, 'paginate'])->name('patrolling-paginate');
-                Route::post('/generate-patrolling-excel', [PatrollingExcelController::class, 'generateExcel'])->name('generate-patrolling-excel'); 
+                Route::post('/generate-patrolling-excel', [PatrollingExcelController::class, 'generateExcel'])->name('generate-patrolling-excel');
 
 
                 Route::get('/get-roads-name/{id}', [PatrollingController::class, 'getRoads']);

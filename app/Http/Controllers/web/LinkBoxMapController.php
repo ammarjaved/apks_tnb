@@ -70,12 +70,12 @@ class LinkBoxMapController extends Controller
     }
 
 
-    public function seacrh($lang ,  $q)
+    public function seacrh($lang ,  $q, $cycle)
     {
 
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
-        $data = LinkBox::where('ba', 'LIKE', '%' . $ba . '%')->where('id' , 'LIKE' , '%' . $q . '%')->select('id')->limit(10)->get();
+        $data = LinkBox::where('ba', 'LIKE', '%' . $ba . '%')->where('id' , 'LIKE' , '%' . $q . '%')->where('cycle',$cycle)->select('id')->limit(10)->get();
 
         return response()->json($data, 200);
     }

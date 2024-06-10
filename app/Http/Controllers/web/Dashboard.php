@@ -299,6 +299,7 @@ function statsTable(Request $request){
 
         $from_date  = $request->from_date;
         $to_date    = $request->to_date;
+        $cycle      = $request->cycle;
         $query      = DB::table($table)
                         ->select('ba', DB::raw("$date::date as visit_date"), $sbar)
                         ->whereNotNull($date)
@@ -311,6 +312,9 @@ function statsTable(Request $request){
 
                         if ($from_date) {
                             $query->where($date, '>=', $from_date);
+                        }
+                        if ($cycle) {
+                            $query->where('cycle', $cycle);
                         }
 
                         if ($to_date) {
@@ -334,6 +338,8 @@ function statsTable(Request $request){
 
          $from_date  = $request->from_date;
          $to_date    = $request->to_date;
+         $cycle      = $request->cycle;
+
          $query      = DB::table($table)
                          ->select('ba', DB::raw("$date::date as visit_date"), DB::raw('count(*) as bar' ))
                          ->whereNotNull($date)
@@ -346,7 +352,9 @@ function statsTable(Request $request){
                          if ($from_date) {
                              $query->where($date, '>=', $from_date);
                          }
-
+                         if ($cycle) {
+                            $query->where('cycle', $cycle);
+                        }
                          if ($to_date) {
                              $query->where($date, '<=' , $to_date);
                          }

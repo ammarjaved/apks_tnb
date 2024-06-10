@@ -16,10 +16,10 @@ class FeederPillarMapController extends Controller
     public function editMap($lang, $id)
     {
         $data = FeederPillar::find($id);
-         
+
         if ($data) {
             $data->gate_status = json_decode($data->gate_status);
-        
+
 
         return view('feeder-pillar.edit-form', ['data' => $data, 'disabled' => true]) ;
         }
@@ -45,7 +45,7 @@ class FeederPillarMapController extends Controller
         }
     }
 
-    public function seacrh($lang, $q)
+    public function seacrh($lang, $q, $cycle)
     {
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
@@ -53,7 +53,7 @@ class FeederPillarMapController extends Controller
         if (!empty($ba)) {
             $data->where('ba',  $ba );
         }
-        $data =    $data->where('id', 'LIKE', '%' . $q . '%')
+        $data =    $data->where('id', 'LIKE', '%' . $q . '%')->where('cycle',$cycle)
             ->select('id')
             ->limit(10)
             ->get();

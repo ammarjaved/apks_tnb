@@ -32,11 +32,18 @@ font-family: 'Poppins', sans-serif;
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed ">
+    <div id="overlay2"></div>
+
+
+    <div id="loader">
+        <div class="loader"></div>
+
+    </div>
     <div class="wrapper">
         @include('layouts.shared.nav-bar')
-   
+
         @include('layouts.shared.side-bar')
-      
+
 
         <div class="content-wrapper">
 

@@ -40,10 +40,10 @@ class SubstationController extends Controller
 
         $ids = $getIds->pluck('id');
 
-       
-          
 
-       
+
+
+
 
      }
 
@@ -60,20 +60,20 @@ class SubstationController extends Controller
 
             if ($request->filled('arr')) {
                 # code...
-           
+
                 // $input_req=explode(',',$request);
 
                 $getIds = DB::table('substation_all_defects');
-        
+
                 foreach($request->arr as $res){
-        
+
                     $getIds->orWhere($res,'Yes');
-        
+
                }
-        
+
                 $ids = $getIds->pluck('id');
- }
-          
+             }
+
 
 
 
@@ -82,19 +82,41 @@ class SubstationController extends Controller
             $result = $this->filter($result, 'visit_date', $request);
 
             if ($request->filled('arr')) {
-               $result->whereIn('id',$ids);
+               $result->whereIn('tbl_substation.id',$ids);
             }
 
             $result->when(true, function ($query) {
-                return $query->select('id','updated_at',DB::raw("st_x(geom) as x,st_y(geom) as y"), 'name', DB::raw("CASE WHEN (gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"), DB::raw("CASE WHEN (gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"), DB::raw("CASE WHEN (gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"), DB::raw("CASE WHEN (building_status->>'broken_roof')::text='true' THEN 'Yes' ELSE 'No' END as broken_roof"), DB::raw("CASE WHEN (building_status->>'broken_gutter')::text='true' THEN 'Yes' ELSE 'No' END as broken_gutter"), DB::raw("CASE WHEN (building_status->>'broken_base')::text='true' THEN 'Yes' ELSE 'No' END as broken_base"), DB::raw("CASE WHEN (building_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as building_other"), 'grass_status', 'tree_branches_status', 'advertise_poster_status', 'total_defects', 'visit_date', 'substation_image_1', 'substation_image_2', 'qa_status' ,'reject_remarks');
-            });
+                return $query->leftJoin('tbl_substation_geom', 'tbl_substation.geom_id', '=', 'tbl_substation_geom.id')
+                             ->select(
+                                        'tbl_substation.id',
+                                        'tbl_substation.updated_at',
+                                        DB::raw("ST_X(tbl_substation_geom.geom::geometry) as x, ST_Y(tbl_substation_geom.geom::geometry) as y"),
+                                        'name',
+                                        DB::raw("CASE WHEN (tbl_substation.gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
+                                        DB::raw("CASE WHEN (tbl_substation.gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
+                                        DB::raw("CASE WHEN (tbl_substation.gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
+                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_roof')::text='true' THEN 'Yes' ELSE 'No' END as broken_roof"),
+                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_gutter')::text='true' THEN 'Yes' ELSE 'No' END as broken_gutter"),
+                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_base')::text='true' THEN 'Yes' ELSE 'No' END as broken_base"),
+                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as building_other"),
+                                        'tbl_substation.grass_status',
+                                        'tbl_substation.tree_branches_status',
+                                        'tbl_substation.advertise_poster_status',
+                                        'tbl_substation.total_defects',
+                                        'tbl_substation.visit_date',
+                                        'tbl_substation.substation_image_1',
+                                        'tbl_substation.substation_image_2',
+                                        'tbl_substation.qa_status' ,
+                                        'tbl_substation.reject_remarks'
+                                    );
+                                });
 
             return datatables()
-                ->of($result->get())
+                ->of($result->limit(100)->get())
                 ->addColumn('substation_id', function ($row) {
-                    
+
                     return "SUB-" .$row->id;
-                }) 
+                })
                 ->make(true);
 
                 // $result->orderBy('visit_date', 'desc');
@@ -195,18 +217,18 @@ class SubstationController extends Controller
      */
     public function update(Request $request, $language, $id)
     {
-        try 
+        try
         {
 
-            $data = Substation::find($id);  
-            if ($data  && $data->repair_date == '' ) 
+            $data = Substation::find($id);
+            if ($data  && $data->repair_date == '' )
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();
             }
             Session::flash('success', 'Request Success');
-        } 
-        catch (\Throwable $th) 
+        }
+        catch (\Throwable $th)
         {
             return $th->getMessage();
             return "something wrong...";

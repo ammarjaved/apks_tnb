@@ -18,12 +18,12 @@ class TiangMapController extends Controller
     {
         $this->tiangRepository = $tiaRepository;
     }
-    
+
     public function editMap($lang, $id)
     {
         // return $id;
        $data = $this->tiangRepository->getRecoreds($id);
-        
+
        $dates = TiangRepairDate::where('savr_id',$data->id)->get();
 
        $repairDates = [];
@@ -53,16 +53,16 @@ class TiangMapController extends Controller
         }
     }
 
-    public function seacrh($lang ,  $q)
+    public function seacrh($lang ,  $q, $cycle)
     {
-     
+
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
         $data = Tiang::query();
         if (!empty($ba)) {
             $data->where('ba',  $ba );
         }
-        $data =    $data->where('tiang_no' , 'LIKE' , '%' . $q . '%')->select('tiang_no')->limit(10)->get();
+        $data =    $data->where('tiang_no' , 'LIKE' , '%' . $q . '%')->where('cycle',$cycle)->select('tiang_no')->limit(10)->get();
         //  $data;
         return response()->json($data, 200);
     }

@@ -25,6 +25,7 @@ var qa_status = $('#qa_status').val() ?? '';
 var f_status = $('#status').val() ?? '';
 var filters =[];
 var multipleCancelButton = '';
+var cycle = $('#cycle').val();
 
 
 
@@ -43,8 +44,8 @@ $(function(){
     to_date= localStorage[url_split[0] + '_to']??'';
     from_date= localStorage[url_split[0] + '_from']??'';
 
-    
-    
+
+
 
 
     $('#excel_from_date').val(from_date)
@@ -86,6 +87,14 @@ $(function(){
 
     $('#status').on('change', function() {
         f_status = $(this).val();
+        table.ajax.reload(function() {
+            // table.draw('page');
+        });
+    });
+
+    $('#cycle').on('change', function() {
+        cycle = $(this).val();
+        callLayers(excel_ba)
         table.ajax.reload(function() {
             // table.draw('page');
         });
@@ -137,13 +146,13 @@ $(function(){
 
 
         })
-       
 
 
- 
+
+
 });
 
- 
+
 
 
 
@@ -270,7 +279,7 @@ function resetIndex(){
     searchTH = '';
     if (filters.length > 0) {
     multipleCancelButton.removeActiveItems();
-        
+
     }
 
     filters = [];

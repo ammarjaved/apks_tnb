@@ -19,7 +19,7 @@
             <div class="card card-body">
                 {{-- FORM START --}}
                 <form action="{{ isset($url) ? route($url, app()->getLocale()) : '#' }}" onsubmit="collapseFilter()" method="post" target="_blank">
-                    
+
                     @csrf
 
                     <div class="row form-input ">
@@ -53,7 +53,7 @@
                             <label for="status">Status</label>
                             <select name="status" id="status" class="form-control">
                                 <option value="" >All</option>
-                                  <option value="unsurveyed">Unurveyed</option>  
+                                  <option value="unsurveyed">Unurveyed</option>
                                 <option value="surveyed_with_defects">Surveyed with defects</option>
                                 <option value="surveyed_without_defects">Surveyed without defects</option>
 
@@ -66,12 +66,12 @@
                             <select name="qa_status" id="qa_status" class="form-control">
                                 <option value="" >All</option>
                                 <option value="Accept">Accept</option>
-                                  <option value="Reject">Reject</option>  
+                                  <option value="Reject">Reject</option>
                                 <option value="pending">Pending</option>
 
                             </select>
                         </div>
-                    @endif --}}    
+                    @endif --}}
 
 
                         <div class=" col-md-2">
@@ -85,15 +85,25 @@
                             <input type="date" name="to_date" id="excel_to_date" onchange="setMaxDate(this.value,'{{explode('-',$url)[1]}}')" class="form-control">
                         </div>
 
+
+                        <div class=" col-md-2">
+                            <label for="cycle">Cycle : </label>
+                            <select name="cycle" id="cycle" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+
+
                         @isset($serachBy)
                             <div class="col-md-3 ">
                                 <label for="excel_from_date">Seacrh </label>
                                 <div class="d-flex">
                                     <div id="the-basics" >
-                                        <input class="typeahead form-control" type="text"  placeholder="{{$serachBy}}" class="form-control">  
+                                        <input class="typeahead form-control" type="text"  placeholder="{{$serachBy}}" class="form-control">
                                     </div>
                                     <div>
-                                        <button type="button" onclick="typeaheadSearch()" class="btn btn-secondary btn-sm">clear</button>
+                                        <button type="button" onclick="typeaheadSearch()" class="btn btn-secondary  ">clear</button>
                                     </div>
                                 </div>
                             </div>
@@ -102,14 +112,14 @@
                         @isset($url)
 
                         <div class="col-md-1 pt-2 ">
-                            <button type="button" class="btn text-white btn-sm mt-4 " class="form-control" style="background-color: #708090" onclick="resetIndex()">Reset</button>
+                            <button type="button" class="btn text-white   mt-4 " class="form-control" style="background-color: #708090" onclick="resetIndex()">Reset</button>
                         </div>
 
                         {{-- <div class="col-md-2 pt-2 ">
                             <button type="submit" class="btn text-white btn-sm mt-4 " class="form-control" style="background-color: #708090">Download QR </button>
                         </div> --}}
                         @endisset
-      
+
                     </div>
 
 
@@ -118,16 +128,16 @@
                     <div class="row">
                         <div class="row d-flex justify-content- mt-100 px-4" >
                             <label for="excelZone">Filter Defects :</label>
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
                                 <select id="choices-multiple-remove-button" class="form-control" name="defects[]" placeholder="Select tags" multiple>
                                 </select>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                     </form>
                     @endif
 
-                    
+
 
     </div>
 </div>

@@ -346,7 +346,7 @@
 
             return function findMatches(q, cb) {
 
-                
+
                 // if (q == '' && searchTH != '') {
                 //     searchTH = '';
                 //     table.ajax.reload();
@@ -355,10 +355,10 @@
 
                 var matches;
 
-                
+
                 matches = [];
                 $.ajax({
-                    url: '/{{ app()->getLocale() }}/search/find-tiang/' + q,
+                    url: `/{{ app()->getLocale() }}/search/find-tiang/${q}/${cycle}`,
                     dataType: 'JSON',
                     //data: data,
                     method: 'GET',
@@ -374,7 +374,7 @@
 
                 cb(matches);
 
-                
+
             };
         };
 
@@ -392,7 +392,7 @@
         $('.typeahead').on('typeahead:select', function(event, suggestion) {
             var name = encodeURIComponent(suggestion);
             searchTH = suggestion;
-            
+
             // table.ajax.reload();
 
             if (marker != '') {
@@ -419,7 +419,7 @@
 
         });
 
-                  
+
     </script>
 
     <script>
@@ -433,8 +433,8 @@
         function updateLayers(param, cql) {
             console.log(cql);
 
-            var q_cql = cql + " AND qa_status ='Accept' "
-
+            var q_cql = cql
+            q_cql = q_cql +` AND cycle=${cycle} `;
 
 
             if (from_date != '') {
@@ -474,8 +474,8 @@
                 map.removeLayer(ts_with_defects)
             }
 
-            ts_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ts_with_filters_defects',
+            ts_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:ts_with_defects_2',
                 format: 'image/png',
                 cql_filter: q_f_cql,
                 maxZoom: 21,
@@ -491,8 +491,8 @@
                 map.removeLayer(ts_without_defects)
             }
 
-            ts_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ts_without_defects',
+            ts_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:ts_without_defects_2',
                 format: 'image/png',
                 cql_filter: q_f_cql,
                 maxZoom: 21,
@@ -557,7 +557,7 @@
         var lang = "{{ app()->getLocale() }}";
         var url = "tiang-talian-vt-and-vr"
         var auth_ba = "{{ Auth::user()->ba }}"
-        
+
 
         const defectsNames = {
             bekalan_dua_damage: 'bekalan_dua_rosak/tiada',
@@ -621,11 +621,11 @@
                 renderChoiceLimit: 44
             });
 
-            
 
 
 
-            // DEFINE TABLE  COLUMNS 
+
+            // DEFINE TABLE  COLUMNS
             var columns = [
                 {
                     data: 'tiang_id',
@@ -684,12 +684,15 @@
                         if (qa_status) {
                             d.qa_status = qa_status
                         }
+                        if (cycle) {
+                            d.cycle = cycle
+                        }
                         if (f_status) {
                             d.status = f_status;
                             d.image = 'pole_image_1';
                         }
                         // if (searchTH) {
-                        //     d.searchTH = searchTH 
+                        //     d.searchTH = searchTH
                         // }
                     }
                 },

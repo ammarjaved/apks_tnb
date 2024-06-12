@@ -24,6 +24,10 @@ trait Filter
                // return $ba;
         }
 
+        if ($request->filled('cycle')) {
+            $model->where('cycle', $request->cycle);
+        }
+
      //   dd($ba);
 
         //cheeck if request has ba and ba is not empty then  add where ba = request ba
@@ -43,11 +47,9 @@ trait Filter
             $model->where($column, '<=', $request->to_date);
         }
 
- 
-            $model->where('qa_status', 'Accept');
-            
 
- 
+            $model->where('qa_status', 'Accept');
+
         return $model;
     }
 
@@ -61,6 +63,9 @@ trait Filter
 
          if (!empty($ba)) {
             $model->where('ba', $ba);
+        }
+        if ($request->filled('cycle')) {
+            $model->where('cycle', $request->cycle);
         }
 
         if ($request->filled('from_date')) {

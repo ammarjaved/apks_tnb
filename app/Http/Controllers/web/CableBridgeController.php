@@ -20,9 +20,9 @@ class CableBridgeController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) 
+        if ($request->ajax())
         {
-            if ($request->filled('arr')) 
+            if ($request->filled('arr'))
             {
                 $getIds = DB::table('cable_bridge_all_defects');
                 foreach($request->arr as $res)
@@ -35,13 +35,25 @@ class CableBridgeController extends Controller
             $result = CableBridge::query();
 
             $result = $this->filter($result , 'visit_date',$request);
-            if ($request->filled('arr')) 
+            if ($request->filled('arr'))
             {
-                $result->whereIn('id',$ids);
+                $result->whereIn('tbl_cable_bridge.id',$ids);
             }
 
             $result->when(true, function ($query) {
-                return $query->select('id', 'ba', 'zone', 'team', 'visit_date', 'total_defects', 'qa_status','qa_status' , 'reject_remarks',DB::raw("st_x(geom) as x,st_y(geom) as y"));
+                return $query->leftJoin('tbl_cable_bridge_geom', 'tbl_cable_bridge.geom_id', '=', 'tbl_cable_bridge_geom.id')
+                             ->select(
+                                'tbl_cable_bridge.id',
+                                'tbl_cable_bridge.ba',
+                                'tbl_cable_bridge.zone',
+                                'tbl_cable_bridge.team',
+                                'tbl_cable_bridge.visit_date',
+                                'tbl_cable_bridge.total_defects',
+                                'tbl_cable_bridge.qa_status',
+                                'tbl_cable_bridge.qa_status' ,
+                                'tbl_cable_bridge.reject_remarks',
+                                DB::raw("st_x(tbl_cable_bridge_geom.geom) as x,st_y(tbl_cable_bridge_geom.geom) as y")
+                            );
             });
 
             return datatables()
@@ -61,7 +73,7 @@ class CableBridgeController extends Controller
     public function create()
     {
         //
-        return abort(404); 
+        return abort(404);
     }
 
     /**
@@ -109,17 +121,17 @@ class CableBridgeController extends Controller
      */
     public function update(Request $request, $language, $id)
     {
-        try 
+        try
         {
-            $data = CableBridge::find($id); 
-            if ($data && $data->repair_date == '' ) 
+            $data = CableBridge::find($id);
+            if ($data && $data->repair_date == '' )
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();
             }
             Session::flash('success', 'Request Success');
-        } 
-        catch (\Throwable $th) 
+        }
+        catch (\Throwable $th)
         {
             Session::flash('failed', 'Request Failed');
         }
@@ -148,5 +160,5 @@ class CableBridgeController extends Controller
         // }
     }
 
-    
+
 }

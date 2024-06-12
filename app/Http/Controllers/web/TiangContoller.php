@@ -33,36 +33,46 @@ class TiangContoller extends Controller
         // return $request;
         //
         if ($request->ajax()) {
-        
 
-            if ($request->filled('arr')) 
+
+            if ($request->filled('arr'))
             {
                 $getIds = DB::table('savr_all_defects');
                 foreach ($request->arr as $res) {
                     $getIds->orWhere($res, 'YES');
                 }
-                $ids = $getIds->pluck('id');   
+                $ids = $getIds->pluck('id');
             }
 
             // $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
 
             $result = Tiang::query();
             if ($request->filled('arr')) {
-                $result->whereIn('id', $ids);
+                $result->whereIn('tbl_savr.id', $ids);
             }
-            
+
             $result = $this->filter($result , 'review_date' , $request);
             if ($request->has('searchTH') && !empty($request->searchTH)) {
                     $result->where('tiang_no' , $request->searchTH);
             }
 
             $result->when(true, function ($query) {
-                return $query->select('id', 'ba' ,'qa_status' , 'reject_remarks', 'review_date', 'tiang_no', 'total_defects',  DB::raw("st_x(geom) as x,st_y(geom) as y"));
+                return $query->leftJoin('tbl_savr_geom', 'tbl_savr.geom_id', '=', 'tbl_savr_geom.id')
+                ->select(
+                            'tbl_savr.id',
+                            'tbl_savr.ba' ,
+                            'tbl_savr.qa_status' ,
+                            'tbl_savr.reject_remarks',
+                            'tbl_savr.review_date',
+                            'tbl_savr.tiang_no',
+                            'tbl_savr.total_defects',
+                            DB::raw("ST_X(tbl_savr_geom.geom::geometry) as x, ST_Y(tbl_savr_geom.geom::geometry) as y"),
+                        );
             });
 
             return datatables()
                 ->of($result->get())
-                ->addColumn('tiang_id', function ($row) {  
+                ->addColumn('tiang_id', function ($row) {
                     return "SAVR-" .$row->id;
                 })
                 ->make(true);
@@ -190,7 +200,7 @@ class TiangContoller extends Controller
             $data->arus_pada_tiang = $request->arus_pada_tiang;
             // return $data;
             $data->total_defects = $total_defects;
-            
+
 
             $data->talian_spec = $request->talian_spec;
 
@@ -256,15 +266,15 @@ class TiangContoller extends Controller
      */
     public function update(Request $request, $language, $id)
     {
-        try 
+        try
         {
-            $data = Tiang::find($id); 
-            if ($data  && $data->repair_date == '' ) 
+            $data = Tiang::find($id);
+            if ($data  && $data->repair_date == '' )
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();
             }
-            
+
             Session::flash('success', 'Request Success');
 
         } catch (\Throwable $th) {

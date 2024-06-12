@@ -58,7 +58,7 @@
         th {
             white-space: nowrap;
         }
- 
+
         #map {
             height: 60vh;
             z-index: 1;
@@ -70,7 +70,7 @@
     /* display: none; */
     min-width: 20px !important;
     width: 47px !important;
-} 
+}
 
     </style>
 
@@ -103,7 +103,7 @@
 
 
 
-    
+
 
     {{-- section content --}}
     <section class="content-  ">
@@ -132,7 +132,7 @@
                               </ul>
                             </div>
                         </div>
- 
+
 
 
                         <div class="card-body" id="yourMapElement">
@@ -142,14 +142,14 @@
                                     <thead>
                                         <th>ID</th>
                                         <th>ZONE</th>
-                                        <th>BA</th> 
+                                        <th>BA</th>
                                         <th>VISIT DATE</th>
-                                        <th>TOTAL DEFECTS</th> 
+                                        <th>TOTAL DEFECTS</th>
                                         <th>ACTION</th>
-                                    
+
                                     </thead>
 
-                                    <tbody>  
+                                    <tbody>
                                         {{-- comming from script --}}
                                     </tbody>
                                 </table>
@@ -161,7 +161,7 @@
 
 
                 <section class="col-md-6 connectedSortable ui-sortable">
-                    
+
                     <div class="card" style="position: relative; left: 0px; top: 0px;">
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
 
@@ -188,13 +188,13 @@
                                             value="cb_with_defects" onchange="selectLayer(this.value)">
                                         <label for="select_layer_main">Defects</label>
                                     </div>
-                    
+
                                     <div class="mx-4 d-flex">
                                         <input type="radio" name="select_layer" id="substation_without_defects"
                                             value="cb_without_defects" class="without_defects" onchange="selectLayer(this.value)">
                                         <label for="substation_without_defects">Without defects</label>
                                     </div>
-                    
+
                                     <div class="  d-flex">
                                         <input type="radio" name="select_layer" id="select_layer_pano" value="pano"
                                             onchange="selectLayer(this.value)">
@@ -207,14 +207,14 @@
                                         </div>
                                     </div>
                                     --}}
-                    
+
                                 </div>
 
                                 <div id="map">
 
                                 </div>
-                    
-                              
+
+
                             </div>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                         </div>
                     </div>
                 </section>
- 
+
 
             </div>
         </div>
@@ -255,7 +255,7 @@
     <div id="wg1" class="windowGroup">
 
     </div>
- 
+
 @endsection
 
 
@@ -284,7 +284,7 @@
 
                 matches = [];
                 $.ajax({
-                    url: '/{{ app()->getLocale() }}/search/find-cable-bridge/' + q,
+                    url: `/{{ app()->getLocale() }}/search/find-cable-bridge/${q}/${cycle}`,
                     dataType: 'JSON',
                     //data: data,
                     method: 'GET',
@@ -340,38 +340,40 @@
 
         });
     </script>
- 
-    
+
+
     <script>
         var layers = [];
         layers = ['']
 
         // for add and remove layers
-      
 
 
-        function updateLayers(param , cql) 
+
+        function updateLayers(param , cql)
         {
 
-            var q_cql = cql + " AND qa_status ='Accept' "
-            if (from_date != '') 
+            var q_cql = cql ;
+            q_cql = q_cql +` AND cycle=${cycle} `;
+
+            if (from_date != '')
             {
                 q_cql += "AND visit_date >=" + from_date;
             }
 
-            if (to_date !=  '') 
+            if (to_date !=  '')
             {
                 q_cql +=  "AND visit_date <=" + to_date;
             }
 
-            
+
 
             if (cb_with_defects != '') {
                 map.removeLayer(cb_with_defects)
             }
 
-            cb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:cb_with_defects',
+            cb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:cb_with_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -387,8 +389,8 @@
                 map.removeLayer(cb_without_defects)
             }
 
-            cb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:cb_without_defects',
+            cb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:cb_without_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -400,27 +402,27 @@
             map.addLayer(cb_without_defects)
             cb_without_defects.bringToFront()
 
-             
+
             addGroupOverLays()
 
         }
 
 
         // add group overlayes
-        function addGroupOverLays() 
+        function addGroupOverLays()
         {
-            if (layerControl != '') 
+            if (layerControl != '')
             {
                 map.removeControl(layerControl);
             }
 
-          
+
             groupedOverlays = {
                 "POI": {
-                    'BA': boundary, 
-                    'Pano': pano_layer, 
+                    'BA': boundary,
+                    'Pano': pano_layer,
                     'Surveyed with defects' : cb_with_defects,
-                    'Surveyed Without defects' : cb_without_defects, 
+                    'Surveyed Without defects' : cb_without_defects,
                     'Work Package':work_package
 
                 }
@@ -441,34 +443,34 @@
 
 
 
-        function showModalData(data, id) 
+        function showModalData(data, id)
         {
             $('#set-iframe').html('');
             $('#set-iframe').html(
                 `<iframe src="/{{ app()->getLocale() }}/get-cable-bridge-edit/${data.id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
             )
-           
+
         }
 
-       
+
     </script>
 
     <script>
         var lang = "{{ app()->getLocale() }}";
         var url = "cable-bridge"
         var auth_ba = "{{ Auth::user()->ba }}"
-      
-       
+
+
 
 
         $(document).ready(function() {
 
-          
+
             // ADD DEFECTS  IN SLECT OPTIONS
             $('#choices-multiple-remove-button').append(`
                 <option value="vandalism_status">vandalism_status</option>
                 <option value="pipe_staus">pipe_staus</option>
-                <option value="rust_status">rust_status</option> 
+                <option value="rust_status">rust_status</option>
                 <option value="bushes_status">bushes_status</option>
                 <option value="collapsed_status">collapsed_status</option>
             `);
@@ -479,19 +481,19 @@
             maxItemCount:44,
             searchResultLimit:44,
             renderChoiceLimit:44 });
-   
 
-     
-                // DEFINE TABLE  COLUMNS 
+
+
+                // DEFINE TABLE  COLUMNS
                 var columns = [
                     { data:"cable_bridge_id", name:"cable_bridge_id" },
                     { data: 'zone', name: 'zone' },
-                    { data: 'ba', name: 'ba', orderable: true }, 
+                    { data: 'ba', name: 'ba', orderable: true },
                     { data: 'visit_date', name: 'visit_date' },
                     { data: 'total_defects', name: 'total_defects' },
                     { data: null, render: renderDropDownActions }
                 ];
-            
+
 
 
              table = $('.data-table').DataTable({
@@ -499,20 +501,21 @@
                 serverSide: true,
                 stateSave: true,
 
-                ajax: 
+                ajax:
                 {
                     url: '{{ route('cable-bridge.index', app()->getLocale()) }}',
                     type: "GET",
-                    data: function(d) 
+                    data: function(d)
                     {
                         if (from_date) { d.from_date = from_date }
                         if (excel_ba)  { d.ba        = excel_ba }
                         if (to_date)   { d.to_date   = to_date }
                         if (filters)   { d.arr       = filters }
                         if (qa_status) { d.qa_status = qa_status }
-                        if (f_status) 
-                        { 
-                            d.status = f_status; 
+                        if (cycle)     { d.cycle     = cycle }
+                        if (f_status)
+                        {
+                            d.status = f_status;
                             d.image = 'cable_bridge_image_1';
                         }
                     }
@@ -528,7 +531,7 @@
 
 
 
- 
+
 
 
     </script>

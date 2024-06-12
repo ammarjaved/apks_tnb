@@ -60,7 +60,9 @@ class AdminDashboard extends Controller
                     // Sum total_defects
                     $data[$key . '_defect'] = $query->where('total_defects', '>', 0)->sum('total_defects');
                 }
+                // return $request->cycle;
 
+                $request['cycle'] = '';
                 $data['total_km'] = $this->filterWithOutAccpet(Patroling::select(DB::raw('sum(km)')), 'vist_date', $request)->first()->sum;
                 $data['total_notice'] = $this->filterWithOutAccpet(ThirdPartyDiging::where('notice', 'yes'), 'survey_date', $request)->count();
                 $data['total_supervision'] = $this->filterWithOutAccpet(ThirdPartyDiging::where('supervision', 'yes'), 'survey_date', $request)->count();
@@ -99,6 +101,7 @@ class AdminDashboard extends Controller
         }
         $from_date  = $request->from_date;
         $to_date    = $request->to_date;
+        $cycle      = $request->cycle;
         $data = [];
 
         foreach($bas as $key => $ba){
@@ -109,18 +112,18 @@ class AdminDashboard extends Controller
             select '$ba' as ba,
                     (select count(*) from tbl_substation where total_defects is not null
                      and substation_image_1 is not null and substation_image_2 is not null  and ba='$ba' and visit_date >= '$from_date'
-                     AND visit_date <=  ' $to_date' and  qa_status='Accept') as substation,
+                     AND visit_date <=  ' $to_date' and  qa_status='Accept' and cycle = '$cycle') as substation,
                     (select count(*) from tbl_feeder_pillar where feeder_pillar_image_1 is not null and
                      feeder_pillar_image_2 is not null  and ba='$ba' and visit_date >= '$from_date'
-                     AND visit_date <=  ' $to_date'  and  qa_status='Accept' ) as feeder_pillar,
+                     AND visit_date <=  ' $to_date'  and  qa_status='Accept' and cycle = '$cycle' ) as feeder_pillar,
                     (select count(*) from tbl_savr  where ba='$ba' and pole_image_1 is not null and review_date is not null  and review_date >= '$from_date'
-                    AND review_date <=  ' $to_date' and   qa_status='Accept') as tiang,
+                    AND review_date <=  ' $to_date' and   qa_status='Accept' and cycle = '$cycle') as tiang,
                     (select count(*) from tbl_link_box  where ba='$ba' and link_box_image_1 is not null and visit_date is not null  and visit_date >= '$from_date'
-                    AND visit_date <=  ' $to_date'  and  qa_status='Accept') as link_box,
+                    AND visit_date <=  ' $to_date'  and  qa_status='Accept' and cycle = '$cycle') as link_box,
                     (select count(*) from tbl_cable_bridge   where ba='$ba' and cable_bridge_image_1 is not null and visit_date is not null  and visit_date >= '$from_date'
-                    AND visit_date <=  ' $to_date' and  qa_status='Accept') as cable_bridge,
+                    AND visit_date <=  ' $to_date' and  qa_status='Accept' and cycle = '$cycle') as cable_bridge,
                     (select round(sum(km),2) from patroling  where ba='$ba' and vist_date is not null  and vist_date >= '$from_date'
-                    AND vist_date <=  ' $to_date' ) as km) as stats";
+                    AND vist_date <=  ' $to_date'  and cycle = '$cycle' ) as km) as stats";
                 $res = DB::select($query);
 
                    $data[] =$res[0];

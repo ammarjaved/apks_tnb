@@ -24,9 +24,9 @@ class FPController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) 
+        if ($request->ajax())
         {
-            if ($request->filled('arr')) 
+            if ($request->filled('arr'))
             {
                 $getIds = DB::table('feeder_pillar_all_defects');
                 foreach($request->arr as $res)
@@ -38,26 +38,25 @@ class FPController extends Controller
 
             $result = $this->filter(FeederPillar::query(),'visit_date',$request);
 
-            if ($request->filled('arr')){  $result->whereIn('id',$ids);  }
+            if ($request->filled('arr')){  $result->whereIn('tbl_feeder_pillar.id',$ids);  }
 
 
             $result->when(true, function ($query) {
-                return $query->select(
-                    'id',
-                    'ba',
-                    'visit_date',
-                    DB::raw("st_x(geom) as x,st_y(geom) as y"),
-                    DB::raw("CASE WHEN (gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
-                    DB::raw("CASE WHEN (gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
-                    DB::raw("CASE WHEN (gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
-                    DB::raw("st_x(geom) as x,st_y(geom) as y"),
-                    'vandalism_status',
-                    'leaning_status',
-                    'rust_status',
-                    'advertise_poster_status',
-                    'total_defects',
-                    'qa_status',
-                    'qa_status' , 'reject_remarks',
+                return $query->leftJoin('tbl_feeder_pillar_geom', 'tbl_feeder_pillar.geom_id', '=', 'tbl_feeder_pillar_geom.id')->select(
+                    'tbl_feeder_pillar.id',
+                    'tbl_feeder_pillar.ba',
+                    'tbl_feeder_pillar.visit_date',
+                    DB::raw("ST_X(tbl_feeder_pillar_geom.geom::geometry) as x, ST_Y(tbl_feeder_pillar_geom.geom::geometry) as y"),
+                    DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
+                    DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
+                    DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
+                    'tbl_feeder_pillar.vandalism_status',
+                    'tbl_feeder_pillar.leaning_status',
+                    'tbl_feeder_pillar.rust_status',
+                    'tbl_feeder_pillar.advertise_poster_status',
+                    'tbl_feeder_pillar.total_defects',
+                    'tbl_feeder_pillar.qa_status',
+                    'tbl_feeder_pillar.qa_status' , 'tbl_feeder_pillar.reject_remarks',
                 );
             });
 
@@ -99,7 +98,7 @@ class FPController extends Controller
     public function show($language,$id)
     {
         $data = FeederPillar::find($id);
-        if ($data) 
+        if ($data)
         {
             $data->gate_status = json_decode($data->gate_status);
             return view('feeder-pillar.show', ['data' => $data ,'disabled'=>true]);
@@ -131,14 +130,14 @@ class FPController extends Controller
     {
         try {
             $data = FeederPillar::find($id);
-            if ($data  && $data->repair_date == '' ) 
+            if ($data  && $data->repair_date == '' )
             {
                 $data->repair_date = $request->repair_date;
                 $data->update();
             }
             Session::flash('success', 'Request Success');
-        } 
-        catch (\Throwable $th) 
+        }
+        catch (\Throwable $th)
         {
             Session::flash('failed', 'Request Failed');
         }

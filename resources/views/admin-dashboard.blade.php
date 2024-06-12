@@ -86,6 +86,14 @@
                         <input type="date" name="excel_to_date" id="excel_to_date" onchange="setMaxDate(this.value)"
                             class="form-control">
                     </div>
+                    <div class=" col-md-2 form-input">
+                        <label for="cycle">Cycle : </label>
+                        <select name="cycle" id="cycle" class="form-control">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+
+                    </div>
                     <div class="col-md-2 pt-2">
                         <br>
                         <button class="btn btn-secondary  " type="button" onclick="resetDashboard()">Reset</button>
@@ -495,6 +503,7 @@
         var from_date = $('#excel_from_date').val();
         var to_date = $('#excel_to_date').val();
         var excel_ba = $('#search_ba').val();
+        var cycle = $('#cycle').val();
 
         zoom = 9;
 
@@ -510,7 +519,8 @@
                 baFilter = "station ='" + param + "' "
                 q_cql =  "ba ='" + param + "' "
             }
-             
+            q_cql = q_cql +  ` AND cycle = ${cycle} `
+
             var t_cql = q_cql;
             var p_cql = q_cql;
             if (from_date != '') {
@@ -878,16 +888,24 @@
            // if ('{{ Auth::user()->ba }}' == '') {
                 getAllStats()
            // }
+           showLoader()
 
-            $('#excel_from_date , #excel_to_date').on('change', function() {
-                var ff_ba = $('#excelBa').val() ?? '';
-                from_date = $('#excel_from_date').val() ?? null;
-                to_date = $('#excel_to_date').val() ?? null;
+            $('#excel_from_date , #excel_to_date, #cycle').on('change', function() {
+                showLoader()
 
-                onChangeBA();
-                // getAllStats();
-                callLayers(ff_ba)
+                setTimeout(() => {
 
+
+                    var ff_ba = $('#excelBa').val() ?? '';
+                    from_date = $('#excel_from_date').val() ?? null;
+                    to_date = $('#excel_to_date').val() ?? null;
+                    cycle = $('#cycle').val() ?? null;
+
+
+                    onChangeBA();
+                    // getAllStats();
+                    callLayers(ff_ba)
+            }, 1000);
             })
 
 
@@ -994,7 +1012,7 @@
 
 
             $.ajax({
-                url: `/{{ app()->getLocale() }}/patrol_graph?ba=${cu_ba}&from_date=${from_datee}&to_date=${to_datee}`,
+                url: `/{{ app()->getLocale() }}/patrol_graph?ba=${cu_ba}&from_date=${from_datee}&to_date=${to_datee}&cycle=${cycle}`,
 
                 dataType: 'JSON',
                 method: 'GET',
@@ -1055,7 +1073,7 @@
 
 
             $.ajax({
-                url: `/{{ app()->getLocale() }}/admin-get-all-counts?ba=${cu_ba}&from_date=${from_datee}&to_date=${to_datee}`,
+                url: `/{{ app()->getLocale() }}/admin-get-all-counts?ba=${cu_ba}&from_date=${from_datee}&to_date=${to_datee}&cycle=${cycle}`,
                 dataType: 'JSON',
                 method: 'GET',
                 async: false,
@@ -1064,6 +1082,7 @@
                     for (var key in data) {
                         $("#" + key).html(data[key]);
                     }
+                    hideLoader()
                 }
             });
 
@@ -1152,6 +1171,7 @@
 
     <script>
         function getAllStats() {
+
             let todaydate = '{{ date('Y-m-d') }}';
 
 
@@ -1169,7 +1189,7 @@
             }
 
             $.ajax({
-                url: `/{{ app()->getLocale() }}/admin-statsTable?ba_name=${cu_ba}&from_date=${from_datee}&to_date=${to_datee}`,
+                url: `/{{ app()->getLocale() }}/admin-statsTable?ba_name=${cu_ba}&from_date=${from_datee}&to_date=${to_datee}&cycle=${cycle}`,
                 dataType: 'JSON',
                 method: 'GET',
                 async: false,
@@ -1211,7 +1231,7 @@
                     for (var key in totals) {
                         if (key == 'patroling') {
                         str2 += '<th>' + parseFloat(totals[key]).toFixed(2) + '</th>';
-                            
+
                         }else{
                         str2 += '<th>' + parseFloat(totals[key]) + '</th>';
 
@@ -1231,7 +1251,7 @@
 
 
                 }
-
+                // hideLoader()
             });
         }
 
@@ -1260,6 +1280,16 @@
         setTimeout(() => {
             getDateCounts();
         }, 1000);
+
+        function showLoader() {
+            document.getElementById('overlay2').style.display = 'block';
+            document.getElementById('loader').style.display = 'block';
+        }
+
+        function hideLoader() {
+            document.getElementById('overlay2').style.display = 'none';
+            document.getElementById('loader').style.display = 'none';
+        }
     </script>
 
     {{-- COUNTS END --}}

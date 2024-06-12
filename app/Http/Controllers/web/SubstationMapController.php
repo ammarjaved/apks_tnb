@@ -45,7 +45,7 @@ class SubstationMapController extends Controller
         }
     }
 
-    public function seacrh($lang, $q)
+    public function seacrh($lang, $q, $cycle)
     {
         $ba = \Illuminate\Support\Facades\Auth::user()->ba;
 
@@ -53,7 +53,7 @@ class SubstationMapController extends Controller
         if (!empty($ba)) {
             $data->where('ba',  $ba );
         }
-        $data =    $data->where('id', 'LIKE', '%' . $q . '%')->select('id') ->limit(10)->get();
+        $data =    $data->where('id', 'LIKE', '%' . $q . '%')->where('cycle',$cycle)->select('id') ->limit(10)->get();
 
         return response()->json($data, 200);
     }

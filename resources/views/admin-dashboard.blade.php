@@ -543,8 +543,8 @@
                 map.removeLayer(boundary)
             }
 
-            boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ba',
+            boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:ba_2',
                 format: 'image/png',
                 cql_filter: baFilter,
                 maxZoom: 21,
@@ -570,8 +570,8 @@
             }
 
 
-            patroling = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:patroling_lines',
+            patroling = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:patroling_lines_2',
                 format: 'image/png',
                 cql_filter: p_cql,
                 maxZoom: 21,
@@ -587,8 +587,8 @@
             if (pano_layer !== '') {
                 map.removeLayer(pano_layer)
             }
-            pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:pano_apks',
+            pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:pano_apks_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -606,8 +606,8 @@
                 map.removeLayer(work_package);
             }
 
-            work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:tbl_workpackage',
+            work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:tbl_workpackage_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -624,8 +624,8 @@
                 map.removeLayer(substation_with_defects)
             }
 
-            substation_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:surved_with_defects',
+            substation_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:sub_with_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -644,8 +644,8 @@
             if (substation_without_defects != '') {
                 map.removeLayer(substation_without_defects)
             }
-            substation_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:substation_without_defects',
+            substation_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:sub_without_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -671,8 +671,8 @@
                 map.removeLayer(fp_with_defects)
             }
 
-            fp_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:fp_with_defects',
+            fp_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:fp_with_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -689,8 +689,8 @@
                 map.removeLayer(fp_without_defects)
             }
 
-            fp_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:fp_without_defects',
+            fp_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:fp_without_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -706,8 +706,8 @@
                 map.removeLayer(road)
             }
 
-            road = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:tbl_roads',
+            road = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:tbl_roads_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -725,8 +725,8 @@
                 map.removeLayer(ts_with_defects)
             }
 
-            ts_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ts_with_defects',
+            ts_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:ts_with_defects_2',
                 format: 'image/png',
                 cql_filter: t_cql,
                 maxZoom: 21,
@@ -742,8 +742,8 @@
                 map.removeLayer(ts_without_defects)
             }
 
-            ts_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ts_without_defects',
+            ts_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:ts_without_defects_2',
                 format: 'image/png',
                 cql_filter: t_cql,
                 maxZoom: 21,
@@ -760,8 +760,8 @@
                 map.removeLayer(lb_with_defects)
             }
 
-            lb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:lb_with_defects',
+            lb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:lb_with_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -778,8 +778,8 @@
                 map.removeLayer(lb_without_defects)
             }
 
-            lb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:lb_without_defects',
+            lb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:lb_without_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -796,8 +796,8 @@
                 map.removeLayer(cb_without_defects)
             }
 
-            cb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:cb_without_defects',
+            cb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:cb_without_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -814,8 +814,8 @@
                 map.removeLayer(cb_with_defects)
             }
 
-            cb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:cb_with_defects',
+            cb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:cb_with_defects_2',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,

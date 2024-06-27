@@ -83,9 +83,19 @@ class LinkBoxMapController extends Controller
     public function seacrhCoordinated($lang , $name)
     {
         $name = urldecode($name);
-        $data = LinkBox::where('id' ,$name )->select('id', \DB::raw('ST_X(geom) as x'),\DB::raw('ST_Y(geom) as y'),)->first();
+        $data = LinkBox::where('id' ,$name )
+                        ->pluck('geom_id')
+                        ->first();
 
-        return response()->json($data, 200);
+
+        $geom = \DB::table('tbl_link_box_geom')
+                    ->where('id',$data)
+                    ->select(
+                        \DB::raw('ST_X(geom) as x'),
+                        \DB::raw('ST_Y(geom) as y')
+                    )->first();
+
+        return response()->json($geom, 200);
     }
 
 }

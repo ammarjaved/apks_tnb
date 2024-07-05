@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class LinkBoxController extends Controller
@@ -44,28 +45,28 @@ class LinkBoxController extends Controller
                 $result->whereIn('tbl_link_box.id', $ids);
             }
 
-            $result->when(true, function ($query) {
-                return $query->leftJoin('tbl_link_box_geom', 'tbl_link_box.geom_id', '=', 'tbl_link_box_geom.id')
-                             ->select(
-                                        'tbl_link_box.id',
-                                        'tbl_link_box.qa_status' ,
-                                        'tbl_link_box.reject_remarks',
-                                        'tbl_link_box.ba',
-                                        'tbl_link_box.zone',
-                                        'tbl_link_box.team',
-                                        'tbl_link_box.visit_date',
-                                        'tbl_link_box.total_defects' ,
-                                        'tbl_link_box.qa_status',
-                                        DB::raw("st_x(tbl_link_box_geom.geom) as x,st_y(tbl_link_box_geom.geom) as y")
-                                    );
-                                });
+            $result->leftJoin('tbl_link_box_geom', 'tbl_link_box.geom_id', '=', 'tbl_link_box_geom.id')
+                    ->orderByRaw('visit_date IS NULL, visit_date DESC')
+                    ->select(
+                            'tbl_link_box.id',
+                            'tbl_link_box.qa_status' ,
+                            'tbl_link_box.reject_remarks',
+                            'tbl_link_box.ba',
+                            'tbl_link_box.zone',
+                            'tbl_link_box.team',
+                            'tbl_link_box.visit_date',
+                            'tbl_link_box.total_defects' ,
+                            'tbl_link_box.qa_status',
+                            DB::raw("st_x(tbl_link_box_geom.geom) as x,st_y(tbl_link_box_geom.geom) as y")
+                        );
 
-            return datatables()
-                ->of($result->get())->addColumn('link_box_id', function ($row) {
+            return DataTables::eloquent($result)
+            ->addColumn('link_box_id', function ($row) {
+                return "LB-" . $row->id;
+            })
+            ->make(true);
 
-                    return "LB-" .$row->id;
-                })
-                ->make(true);
+
         }
         return view('link-box.index');
     }

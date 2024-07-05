@@ -69,9 +69,24 @@ class TiangMapController extends Controller
 
     public function seacrhCoordinated($lang , $name)
     {
-        $name = urldecode($name);
-        $data = Tiang::where('tiang_no' ,$name )->select('tiang_no', \DB::raw('ST_X(geom) as x'),\DB::raw('ST_Y(geom) as y'),)->first();
 
-        return response()->json($data, 200);
+        $name = urldecode($name);
+        $data = Tiang::query();
+
+
+        $data =  $data->where('tiang_no' ,$name );
+
+        $geomId = $data->pluck('geom_id')->first();
+
+        $geom =  \DB::table('tbl_savr_geom')
+                    ->where('id',$geomId)
+                    ->select(
+                        \DB::raw('ST_X(geom) as x'),
+                        \DB::raw('ST_Y(geom) as y')
+                    )->first();
+
+
+        return response()->json($geom, 200);
     }
+
 }

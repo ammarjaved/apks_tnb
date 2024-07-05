@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\Session;
-
+use Yajra\DataTables\Facades\DataTables;
 
 class TiangContoller extends Controller
 {
@@ -56,26 +56,27 @@ class TiangContoller extends Controller
                     $result->where('tiang_no' , $request->searchTH);
             }
 
-            $result->when(true, function ($query) {
-                return $query->leftJoin('tbl_savr_geom', 'tbl_savr.geom_id', '=', 'tbl_savr_geom.id')
-                ->select(
-                            'tbl_savr.id',
-                            'tbl_savr.ba' ,
-                            'tbl_savr.qa_status' ,
-                            'tbl_savr.reject_remarks',
-                            'tbl_savr.review_date',
-                            'tbl_savr.tiang_no',
-                            'tbl_savr.total_defects',
-                            DB::raw("ST_X(tbl_savr_geom.geom::geometry) as x, ST_Y(tbl_savr_geom.geom::geometry) as y"),
-                        );
-            });
 
-            return datatables()
-                ->of($result->get())
-                ->addColumn('tiang_id', function ($row) {
-                    return "SAVR-" .$row->id;
-                })
-                ->make(true);
+            $result->leftJoin('tbl_savr_geom', 'tbl_savr.geom_id', '=', 'tbl_savr_geom.id')
+            ->orderByRaw('review_date IS NULL, review_date DESC')
+            ->select(
+                    'tbl_savr.id',
+                    'tbl_savr.ba' ,
+                    'tbl_savr.qa_status' ,
+                    'tbl_savr.reject_remarks',
+                    'tbl_savr.review_date',
+                    'tbl_savr.tiang_no',
+                    'tbl_savr.total_defects',
+                    DB::raw("ST_X(tbl_savr_geom.geom::geometry) as x, ST_Y(tbl_savr_geom.geom::geometry) as y"),
+                );
+
+
+            return DataTables::eloquent($result)
+                            ->addColumn('tiang_id', function ($row) {
+                                return "SAVR-" . $row->id;
+                            })
+                            ->make(true);
+
         }
 
         return view('Tiang.index');

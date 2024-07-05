@@ -61,10 +61,18 @@ class SubstationMapController extends Controller
     public function seacrhCoordinated($lang, $name)
     {
         $name = urldecode($name);
-        $data = Substation::where('id', $name)
-            ->select('name', DB::raw('ST_X(geom) as x'), DB::raw('ST_Y(geom) as y'))
-            ->first();
+        $data = Substation::where('id',  $name )
+                            ->pluck('geom_id')->first();
 
-        return response()->json($data, 200);
+
+        $geom = DB::table('tbl_substation_geom')
+                    ->where('id',$data)
+                    ->select(
+                            DB::raw('ST_X(geom) as x'),
+                            DB::raw('ST_Y(geom) as y')
+                        )->first();
+
+
+        return response()->json($geom, 200);
     }
 }

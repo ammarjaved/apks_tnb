@@ -346,7 +346,7 @@ var sub_reject = '';
     }
 
 
-    function addRemoveBundary(param, paramY, paramX) 
+    function addRemoveBundary(param, paramY, paramX)
         {
             var baBoundaryFilter = '';
             var baFilter = '';
@@ -358,31 +358,31 @@ var sub_reject = '';
                 baFilter = "ba ILIKE '%" + param + "%' "
             }
 
-            // WORK PACKAGE 
+            // WORK PACKAGE
             if (work_package) {
                 map.removeLayer(work_package);
             }
 
-            work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:tbl_workpackage',
+            work_package = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:tbl_workpackage_2',
                 format: 'image/png',
                 cql_filter: baFilter,
                 maxZoom: 21,
                 transparent: true
             }, { buffer: 10 })
 
-            map.addLayer(work_package) 
+            map.addLayer(work_package)
             // END WORKPACKAGE
 
 
-            // BOUNDARY 
-            if (boundary !== '') 
+            // BOUNDARY
+            if (boundary !== '')
             {
                 map.removeLayer(boundary)
             }
 
-            boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:ba',
+            boundary = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:ba_2',
                 format: 'image/png',
                 cql_filter: baBoundaryFilter,
                 maxZoom: 21,
@@ -392,21 +392,21 @@ var sub_reject = '';
             map.addLayer(boundary)
             boundary.bringToFront()
             // END BOUNDARY
-            
+
 
             // PANO LAYER
-            if (pano_layer !== '') 
+            if (pano_layer !== '')
             {
                 map.removeLayer(pano_layer)
             }
 
-            pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/cite/wms", {
-                layers: 'cite:pano_apks',
+            pano_layer = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:pano_apks_2',
                 format: 'image/png',
                 cql_filter: baFilter,
                 maxZoom: 21,
                 transparent: true
-            }, { buffer: 10 }); 
+            }, { buffer: 10 });
 
             // END PANO LAYER
 
@@ -421,7 +421,7 @@ var sub_reject = '';
         }
 
 
-        
+
 var marker = '';
         function zoomToLoc(x,y)
         {
@@ -432,9 +432,9 @@ var marker = '';
                 if (marker != '') {
                     map.removeLayer(marker);
                 }
-           marker =  L.marker([parseFloat(y), parseFloat(x)]);      
-           map.addLayer(marker);      
-        }                
+           marker =  L.marker([parseFloat(y), parseFloat(x)]);
+           map.addLayer(marker);
+        }
 
 
 
@@ -702,8 +702,8 @@ var marker = '';
             if (marker != '') {
                 map.removeLayer(marker)
             }
-            searchTH = '';    
+            searchTH = '';
             $('.typeahead').val('');
             // table.ajax.reload();
-        } 
+        }
 </script>

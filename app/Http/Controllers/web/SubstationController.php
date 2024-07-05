@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Traits\Filter;
 use App\Repositories\SubstationRepository;
 use Illuminate\Support\Facades\Session;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class SubstationController extends Controller
 {
@@ -25,29 +26,6 @@ class SubstationController extends Controller
     }
 
 
-
-     public function get_defects_data($request){
-
-        $input_req=explode(',',$request);
-
-        $getIds = DB::table('substation_all_defects');
-
-        foreach($input_req as $res){
-
-            $getIds->orWhere($res,'Yes');
-
-       }
-
-        $ids = $getIds->pluck('id');
-
-
-
-
-
-
-     }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -55,26 +33,20 @@ class SubstationController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            // return $request->arr;
+        if ($request->ajax())
+        {
 
-            if ($request->filled('arr')) {
-                # code...
-
-                // $input_req=explode(',',$request);
-
+            if ($request->filled('arr'))
+            {
                 $getIds = DB::table('substation_all_defects');
 
-                foreach($request->arr as $res){
-
+                foreach($request->arr as $res)
+                {
                     $getIds->orWhere($res,'Yes');
 
-               }
-
+                }
                 $ids = $getIds->pluck('id');
              }
-
-
 
 
             $result = Substation::query();
@@ -85,49 +57,40 @@ class SubstationController extends Controller
                $result->whereIn('tbl_substation.id',$ids);
             }
 
-            $result->when(true, function ($query) {
-                return $query->leftJoin('tbl_substation_geom', 'tbl_substation.geom_id', '=', 'tbl_substation_geom.id')
-                             ->select(
-                                        'tbl_substation.id',
-                                        'tbl_substation.updated_at',
-                                        DB::raw("ST_X(tbl_substation_geom.geom::geometry) as x, ST_Y(tbl_substation_geom.geom::geometry) as y"),
-                                        'name',
-                                        DB::raw("CASE WHEN (tbl_substation.gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
-                                        DB::raw("CASE WHEN (tbl_substation.gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
-                                        DB::raw("CASE WHEN (tbl_substation.gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
-                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_roof')::text='true' THEN 'Yes' ELSE 'No' END as broken_roof"),
-                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_gutter')::text='true' THEN 'Yes' ELSE 'No' END as broken_gutter"),
-                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_base')::text='true' THEN 'Yes' ELSE 'No' END as broken_base"),
-                                        DB::raw("CASE WHEN (tbl_substation.building_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as building_other"),
-                                        'tbl_substation.grass_status',
-                                        'tbl_substation.tree_branches_status',
-                                        'tbl_substation.advertise_poster_status',
-                                        'tbl_substation.total_defects',
-                                        'tbl_substation.visit_date',
-                                        'tbl_substation.substation_image_1',
-                                        'tbl_substation.substation_image_2',
-                                        'tbl_substation.qa_status' ,
-                                        'tbl_substation.reject_remarks'
-                                    );
-                                });
-
-            return datatables()
-                ->of($result->get())
-                ->addColumn('substation_id', function ($row) {
-
-                    return "SUB-" .$row->id;
-                })
-                ->make(true);
-
-                // $result->orderBy('visit_date', 'desc');
+            $result->leftJoin('tbl_substation_geom', 'tbl_substation.geom_id', '=', 'tbl_substation_geom.id')
+                ->orderByRaw('visit_date IS NULL, visit_date DESC')
+                ->select(
+                    'tbl_substation.id',
+                    'tbl_substation.updated_at',
+                    DB::raw("ST_X(tbl_substation_geom.geom::geometry) as x, ST_Y(tbl_substation_geom.geom::geometry) as y"),
+                    'name',
+                    DB::raw("CASE WHEN (tbl_substation.gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
+                    DB::raw("CASE WHEN (tbl_substation.gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
+                    DB::raw("CASE WHEN (tbl_substation.gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
+                    DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_roof')::text='true' THEN 'Yes' ELSE 'No' END as broken_roof"),
+                    DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_gutter')::text='true' THEN 'Yes' ELSE 'No' END as broken_gutter"),
+                    DB::raw("CASE WHEN (tbl_substation.building_status->>'broken_base')::text='true' THEN 'Yes' ELSE 'No' END as broken_base"),
+                    DB::raw("CASE WHEN (tbl_substation.building_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as building_other"),
+                    'tbl_substation.grass_status',
+                    'tbl_substation.tree_branches_status',
+                    'tbl_substation.advertise_poster_status',
+                    'tbl_substation.total_defects',
+                    'tbl_substation.visit_date',
+                    'tbl_substation.substation_image_1',
+                    'tbl_substation.substation_image_2',
+                    'tbl_substation.qa_status' ,
+                    'tbl_substation.reject_remarks'
+                    );
 
 
-                // $result->orderBy('created_at', 'desc');
-                // $dataTable = new DataTables;
+            return DataTables::eloquent($result)
+                    ->addColumn('substation_id', function ($row) {
+                        return "SUB-" . $row->id;
+                    })
+                    ->make(true);
 
-                // $dataTable = $dataTable->eloquent($result)
-                //     ->make(true);
-                //     return $dataTable;
+
+
 
         }
 

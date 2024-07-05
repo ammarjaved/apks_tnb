@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\FeederPillarRepo;
+use Yajra\DataTables\Facades\DataTables;
 
 class FPController extends Controller
 {
@@ -41,24 +42,30 @@ class FPController extends Controller
             if ($request->filled('arr')){  $result->whereIn('tbl_feeder_pillar.id',$ids);  }
 
 
-            $result->when(true, function ($query) {
-                return $query->leftJoin('tbl_feeder_pillar_geom', 'tbl_feeder_pillar.geom_id', '=', 'tbl_feeder_pillar_geom.id')->select(
-                    'tbl_feeder_pillar.id',
-                    'tbl_feeder_pillar.ba',
-                    'tbl_feeder_pillar.visit_date',
-                    DB::raw("ST_X(tbl_feeder_pillar_geom.geom::geometry) as x, ST_Y(tbl_feeder_pillar_geom.geom::geometry) as y"),
-                    DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
-                    DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
-                    DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
-                    'tbl_feeder_pillar.vandalism_status',
-                    'tbl_feeder_pillar.leaning_status',
-                    'tbl_feeder_pillar.rust_status',
-                    'tbl_feeder_pillar.advertise_poster_status',
-                    'tbl_feeder_pillar.total_defects',
-                    'tbl_feeder_pillar.qa_status',
-                    'tbl_feeder_pillar.qa_status' , 'tbl_feeder_pillar.reject_remarks',
-                );
-            });
+            $result->leftJoin('tbl_feeder_pillar_geom', 'tbl_feeder_pillar.geom_id', '=', 'tbl_feeder_pillar_geom.id')
+                    ->orderByRaw('visit_date IS NULL, visit_date DESC')
+                    ->select(
+                            'tbl_feeder_pillar.id',
+                            'tbl_feeder_pillar.ba',
+                            'tbl_feeder_pillar.visit_date',
+                            DB::raw("ST_X(tbl_feeder_pillar_geom.geom::geometry) as x, ST_Y(tbl_feeder_pillar_geom.geom::geometry) as y"),
+                            DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'unlocked')::text='true' THEN 'Yes' ELSE 'No' END as unlocked"),
+                            DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'demaged')::text='true' THEN 'Yes' ELSE 'No' END as demaged"),
+                            DB::raw("CASE WHEN (tbl_feeder_pillar.gate_status->>'other')::text='true' THEN 'Yes' ELSE 'No' END as other_gate"),
+                            'tbl_feeder_pillar.vandalism_status',
+                            'tbl_feeder_pillar.leaning_status',
+                            'tbl_feeder_pillar.rust_status',
+                            'tbl_feeder_pillar.advertise_poster_status',
+                            'tbl_feeder_pillar.total_defects',
+                            'tbl_feeder_pillar.qa_status',
+                            'tbl_feeder_pillar.qa_status' , 'tbl_feeder_pillar.reject_remarks',
+                        );
+
+                        return DataTables::eloquent($result)
+                        ->addColumn('feeder_pillar_id', function ($row) {
+                            return "FP-" . $row->id;
+                        })
+                        ->make(true);
 
             return datatables()->of($result->get())->addColumn('feeder_pillar_id', function ($row) {
 

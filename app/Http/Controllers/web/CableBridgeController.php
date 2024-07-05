@@ -8,6 +8,7 @@ use App\Traits\Filter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class CableBridgeController extends Controller
@@ -40,27 +41,27 @@ class CableBridgeController extends Controller
                 $result->whereIn('tbl_cable_bridge.id',$ids);
             }
 
-            $result->when(true, function ($query) {
-                return $query->leftJoin('tbl_cable_bridge_geom', 'tbl_cable_bridge.geom_id', '=', 'tbl_cable_bridge_geom.id')
-                             ->select(
-                                'tbl_cable_bridge.id',
-                                'tbl_cable_bridge.ba',
-                                'tbl_cable_bridge.zone',
-                                'tbl_cable_bridge.team',
-                                'tbl_cable_bridge.visit_date',
-                                'tbl_cable_bridge.total_defects',
-                                'tbl_cable_bridge.qa_status',
-                                'tbl_cable_bridge.qa_status' ,
-                                'tbl_cable_bridge.reject_remarks',
-                                DB::raw("st_x(tbl_cable_bridge_geom.geom) as x,st_y(tbl_cable_bridge_geom.geom) as y")
-                            );
-            });
+            $result->leftJoin('tbl_cable_bridge_geom', 'tbl_cable_bridge.geom_id', '=', 'tbl_cable_bridge_geom.id')
+                    ->orderByRaw('visit_date IS NULL, visit_date DESC')
+                    ->select(
+                        'tbl_cable_bridge.id',
+                        'tbl_cable_bridge.ba',
+                        'tbl_cable_bridge.zone',
+                        'tbl_cable_bridge.team',
+                        'tbl_cable_bridge.visit_date',
+                        'tbl_cable_bridge.total_defects',
+                        'tbl_cable_bridge.qa_status',
+                        'tbl_cable_bridge.qa_status' ,
+                        'tbl_cable_bridge.reject_remarks',
+                        DB::raw("st_x(tbl_cable_bridge_geom.geom) as x,st_y(tbl_cable_bridge_geom.geom) as y")
+                    );
 
-            return datatables()
-                ->of($result->get())
-                ->addColumn('cable_bridge_id', function ($row) {
-                    return 'CB-' . $row->id;
-                })->make(true);
+            return DataTables::eloquent($result)
+            ->addColumn('cable_bridge_id', function ($row) {
+                return "CB-" . $row->id;
+            })
+            ->make(true);
+ 
         }
         return view('cable-bridge.index');
     }

@@ -198,7 +198,7 @@
 
                 <li class="nav-item ">
                     <a href="{{route('cable-bridge.index', app()->getLocale())}}" class="nav-link">
-                        <i class="fas fa-road"></i>
+                       <i class="fas fa-bolt"></i>
                         <p>
                             {{__('messages.cable_bridge')}}
                             {{-- <i class="right fas fa-angle-left"></i> --}}
@@ -216,11 +216,22 @@
 
                         <li class="nav-item">
                             <a href="{{route('cable-bridge.index', app()->getLocale())}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                               <i class="fas fa-bolt"></i>
                                 <p>{{__('messages.index')}}</p>
                             </a>
                         </li>
                     </ul> --}}
+                </li>
+				
+				
+				 <li class="nav-item ">
+                    <a href="{{route('ffa.index', app()->getLocale())}}" class="nav-link">
+                        <i class="fas fa-road"></i>
+                        <p>
+                            {{__('messages.ffa')}}
+                            {{-- <i class="right fas fa-angle-left"></i> --}}
+                        </p>
+                    </a>
                 </li>
 
 

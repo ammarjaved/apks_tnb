@@ -5,9 +5,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\web\admin\TeamController;
 use App\Http\Controllers\web\admin\TeamUsersController;
 use App\Http\Controllers\web\CableBridgeController;
+use App\Http\Controllers\web\SavrFfaController;
 use App\Http\Controllers\web\CableBridgeMapController;
 use App\Http\Controllers\web\Dashboard;
 use App\Http\Controllers\web\excel\CableBridgeExcelController;
+
+use App\Http\Controllers\web\excel\FFAExcelController;
+
 use App\Http\Controllers\web\excel\DigingExcelController;
 use App\Http\Controllers\web\excel\FeederPillarExcelController;
 use App\Http\Controllers\web\excel\LinkBoxExcelController;
@@ -191,7 +195,8 @@ Route::group(
 
 
 
-
+                Route::resource('ffa', SavrFfaController::class);
+				Route::post('generate-ffa-excel', [FFAExcelController::class, 'generateFFAExcel'])->name('generate-ffa-excel');
 
 
                 Route::view('/map-2', 'map')->name('map-2');

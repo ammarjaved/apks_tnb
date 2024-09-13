@@ -70,6 +70,7 @@ var substation_with_defects = '';
 var substation_without_defects ='';
 var sub_pending = '';
 var sub_reject = '';
+var sub_ffa = '';
 
 
 
@@ -221,6 +222,8 @@ var sub_reject = '';
             }
             else if(param == 'ts_reject'){
                 sel_lyr =  ts_reject;
+            }else if(param == 'sub_ffa'){
+                sel_lyr =  sub_ffa;
             }
             callSelfLayer(param);
         }

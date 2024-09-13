@@ -251,16 +251,12 @@
            
                                 <span class="text-danger" id="er-select-layer"></span>
                                 <div class="d-sm-flex">
-                                    <div class="d-flex">
-                                        <input type="radio" name="select_layer" id="select_layer_main" class="with_defects"
-                                            value="cb_with_defects" onchange="selectLayer(this.value)">
-                                        <label for="select_layer_main">Defects</label>
-                                    </div>
+                                   
 
                                     <div class="mx-4 d-flex">
                                         <input type="radio" name="select_layer" id="substation_without_defects"
-                                            value="cb_without_defects" class="without_defects" onchange="selectLayer(this.value)">
-                                        <label for="substation_without_defects">Without defects</label>
+                                            value="sub_ffa" class="without_defects" onchange="selectLayer(this.value)">
+                                        <label for="substation_without_defects">FFA</label>
                                     </div>
 
                                     <div class="  d-flex">
@@ -285,7 +281,7 @@
                     <div class="card" style="position: relative; left: 0px; top: 0px;">
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
 
-                            <h3 class="card-title">{{ __('messages.cable_bridge') }} Detail</h3>
+                            <h3 class="card-title">{{ __('messages.ffa') }} Detail</h3>
 
                             <div class="card-tools">
                               <ul class="nav nav-pills ml-auto">
@@ -404,6 +400,10 @@
                         if (from_date) {
                             d.from_date = from_date;
                         }
+						
+						 if (to_date) {
+                            d.to_date = to_date;
+                        }
 
                         if (excel_ba) {
                             d.ba = excel_ba;
@@ -448,22 +448,22 @@
 
             if (from_date != '')
             {
-                q_cql += "AND visit_date >=" + from_date;
+                q_cql += "AND savr_review_date >=" + from_date;
             }
 
             if (to_date !=  '')
             {
-                q_cql +=  "AND visit_date <=" + to_date;
+                q_cql +=  "AND savr_review_date <=" + to_date;
             }
 
 
 
-            if (cb_with_defects != '') {
-                map.removeLayer(cb_with_defects)
+            if (sub_ffa != '') {
+                map.removeLayer(sub_ffa)
             }
 
-            cb_with_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
-                layers: 'apks:cb_with_defects_2',
+            sub_ffa = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
+                layers: 'apks:tbl_savr_ffa_sub1',
                 format: 'image/png',
                 cql_filter: q_cql,
                 maxZoom: 21,
@@ -472,25 +472,12 @@
                 buffer: 10
             })
 
-            map.addLayer(cb_with_defects)
-            cb_with_defects.bringToFront()
+            map.addLayer(sub_ffa)
+            sub_ffa.bringToFront()
 
-            if (cb_without_defects != '') {
-                map.removeLayer(cb_without_defects)
-            }
+           
 
-            cb_without_defects = L.tileLayer.wms("http://121.121.232.54:7090/geoserver/apks/wms", {
-                layers: 'apks:cb_without_defects_2',
-                format: 'image/png',
-                cql_filter: q_cql,
-                maxZoom: 21,
-                transparent: true
-            }, {
-                buffer: 10
-            })
-
-            map.addLayer(cb_without_defects)
-            cb_without_defects.bringToFront()
+           
 
 
             addGroupOverLays()
@@ -511,8 +498,7 @@
                 "POI": {
                     'BA': boundary,
                     'Pano': pano_layer,
-                    'Surveyed with defects' : cb_with_defects,
-                    'Surveyed Without defects' : cb_without_defects,
+                    'FFA' : sub_ffa,
                     'Work Package':work_package
 
                 }
@@ -537,7 +523,7 @@
         {
             $('#set-iframe').html('');
             $('#set-iframe').html(
-                `<iframe src="/{{ app()->getLocale() }}/get-cable-bridge-edit/${data.id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
+                `<iframe src="/{{ app()->getLocale() }}/ffa-edit/${data.id}" frameborder="0" style="height:50vh; width:100%" ></iframe>`
             )
 
         }

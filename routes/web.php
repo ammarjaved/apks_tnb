@@ -197,6 +197,7 @@ Route::group(
 
                 Route::resource('ffa', SavrFfaController::class);
 				Route::post('generate-ffa-excel', [FFAExcelController::class, 'generateFFAExcel'])->name('generate-ffa-excel');
+				 Route::get('ffa-edit/{id}', [SavrFfaController::class, 'tnbShow'])->name('ffa-edit');
 
 
                 Route::view('/map-2', 'map')->name('map-2');

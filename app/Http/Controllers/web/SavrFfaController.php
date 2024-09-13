@@ -28,12 +28,13 @@ class SavrFfaController extends Controller
 	
         if ($request->ajax()) {
             // if($request->filled('ba')){
-            // $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
+           // $ba = $request->filled('ba') ? $request->ba : Auth::user()->ba;
             // $result = SavrFfa::where('ba',$ba);
             // }else{
                  $result = SavrFfa::query();
             // }
-            $result = $this->filter($result , 'updated_at' , $request);
+			//return 'hi';
+            $result = $this->filter($result , 'savr_review_date' , $request);
 
             $result->when(true, function ($query) {
                 return $query->select(
@@ -43,7 +44,7 @@ class SavrFfaController extends Controller
                                 'pole_id',
                                 'pole_no',
                                 'reject_remarks',
-                                'updated_at'
+                                'savr_review_date'
                             );
             });
 
@@ -53,7 +54,7 @@ class SavrFfaController extends Controller
             //         return "FFA-" .$row->id;
             //     })
             //     ->make(true);
-
+               // return $result;
                 return DataTables::eloquent($result)
                 ->addColumn('ffa_id', function ($row) {
                     return "FFA-" . $row->id;
@@ -100,6 +101,18 @@ class SavrFfaController extends Controller
         if ($data)
         {
             return view("ffa.show",['data'=>$data, 'disabled' => true]);
+        }
+        return abort(404);
+    }
+	
+	
+	   public function tnbShow($lang, $id)
+    {
+        $data = SavrFfa::find($id);
+		
+        if ($data)
+        {
+            return view("ffa.detail",['data'=>$data, 'disabled' => true]);
         }
         return abort(404);
     }
